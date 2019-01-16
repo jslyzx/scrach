@@ -8,14 +8,14 @@
 			</swiper>
 		</div>
 		<v-nav></v-nav>
-		<travel-list :travel-lists="travelListIndex"></travel-list>
+		<!-- <travel-list :travel-lists="travelListIndex"></travel-list> -->
 	</div>
 </template>
 
 <script>
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import nav from '@/components/nav'
-import travelList from '@/components/travelList'
+// import travelList from '@/components/travelList'
 
 import { mapGetters } from 'vuex'
 
@@ -25,7 +25,7 @@ export default {
 		swiper,
 		swiperSlide,
 		'v-nav': nav,
-		travelList
+		// travelList
 	},
 	data() {
 		return {
@@ -38,16 +38,6 @@ export default {
 				loop: true
 			}
 		}
-	},
-	created() {
-        if (this.travelListIndex.length == 0) {
-            this.$store.dispatch('getTravelsList')
-        }
-    },
-	computed: {
-		...mapGetters([
-			'travelListIndex'
-		])
 	},
 	mounted(){
 		
