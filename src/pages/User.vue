@@ -98,14 +98,6 @@ export default {
 			pubTosportNum: 0
 		}
 	},
-	created() {
-		if (this.loginStatus) {
-			api.getPubTotravelNum(this.userInfo.objectId)
-				.then(res => {
-					this.pubTotravelNum = res.data
-				})
-		}
-	},
 	computed: {
 		...mapGetters([
 			'loginStatus',

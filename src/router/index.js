@@ -13,6 +13,7 @@ import Set from '../pages/Set'
 import Post from '../pages/Post'
 import UserMsg from '../pages/UserMsg'
 import Navbar from '../pages/Navbar'
+import Life from '../pages/Life'
 import NotFound from '../pages/NotFound'
 
 Vue.use(Router)
@@ -79,6 +80,10 @@ export default new Router({
 			path: '/user/navbar',
 			component: Navbar
 		},
+    {
+      path: '/life',
+      component: Life
+    },
     {
       path: '*',
       name: 'notfound',

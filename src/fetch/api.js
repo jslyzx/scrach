@@ -6,7 +6,7 @@ import * as _ from '../util/tool'
 // axios 配置
 axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-axios.defaults.baseURL = 'http://localhost:8080/';
+axios.defaults.baseURL = 'http://106.14.96.37:83/';
 
 //POST传参序列化
 axios.interceptors.request.use((config) => {
@@ -21,7 +21,7 @@ axios.interceptors.request.use((config) => {
 
 //返回状态判断
 axios.interceptors.response.use((res) =>{
-    if(!res.data.success){
+    if(res.status !== 200){
         // _.toast(res.data.msg);
         return Promise.reject(res);
     }
@@ -50,21 +50,21 @@ export default {
      * 用户登录
      */
     Login(params) {
-        return fetch('/users/api/userLogin', params)
+        return fetch('/api/User/login', params)
     },
     
     /**
      * 用户注册
      */
     Regist(params) {
-        return fetch('/users/api/userRegist', params)
+        return fetch('/api/User/register', params)
     },
 
     /**
      * 发送注册验证码
      */
-     RegistVerifiCode(tellphone) {
-         return fetch('/users/api/registVerifiCode', {tellphone: tellphone})
+     RegistVerifiCode(params) {
+         return fetch('/api/User/Sendyzm', params)
      },
 
     /**

@@ -3,26 +3,22 @@
 		<div class="tab">
 			<div class="tab-item">
 				<router-link to="/home">
-					<div class="tab-icon"><img src="../assets/images/tab_home.png" alt=""></div>
-					<div class="tab-text">首页</div>
+					
 				</router-link>
 			</div>
 			<div class="tab-item">
 				<router-link to="/sport">
-					<div class="tab-icon"><img src="../assets/images/tab_running.png" alt=""></div>
-					<div class="tab-text">约跑</div>
+					
 				</router-link>
 			</div>
 			<div class="tab-item">
-				<router-link to="/travel">
-					<div class="tab-icon"><img src="../assets/images/tab_travel.png" alt=""></div>
-					<div class="tab-text">约行</div>
+				<router-link to="/life">
+					
 				</router-link>
 			</div>
 			<div class="tab-item">
 				<router-link to="/user">
-					<div class="tab-icon"><img src="../assets/images/tab_user.png" alt=""></div>
-					<div class="tab-text">我的</div>
+					
 				</router-link>
 			</div>
 		</div>
@@ -55,8 +51,8 @@ export default {
 		left: 0;
 	    display: flex;
 	    width: 100%;
-	    height: px2rem(120px);
-	    line-height: px2rem(120px);
+	    height: px2rem(98px);
+	    line-height: px2rem(98px);
 	    background: #fff;
 		box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
 	    &:after{
@@ -73,27 +69,37 @@ export default {
 	    	text-align: center;
 			a{
 				display: block;
-				font-size: 14px;
-					color: rgb(77, 85, 93);
-					&.active{
-						color: #76D49B;
-						text-decoration: none;
-					}
-				.tab-icon{
-					width: px2rem(50px);
-					height: px2rem(50px);
-					margin: 0 auto;
-					img{
-						width: 100%;
-					}
-				}
-				.tab-text{
-					height: px2rem(80px);
-					line-height: px2rem(80px);
-				}
+				height: 100%;
+				background-repeat: no-repeat;
+				background-size: auto px2rem(73px);
+		    	background-position: center center;
 			}
-			
+			&:nth-child(1) a{
+		    	background-image: url(../assets/images/tab-home.png);
+		    	&.active{
+					background-image: url(../assets/images/tab-home-active.png);
+		    	}
+		    }
+		    &:nth-child(2) a{
+		    	background-image: url(../assets/images/tab-zf.png);
+		    	&.active{
+					background-image: url(../assets/images/tab-zf-active.png);
+		    	}
+		    }
+		    &:nth-child(3) a{
+		    	background-image: url(../assets/images/tab-sh.png);
+		    	//&.active{
+					//background-image: url(../assets/images/tab-sh-active.png);
+		    	//} 
+		    }
+		    &:nth-child(4) a{
+		    	background-image: url(../assets/images/tab-my.png);
+		    	&.active{
+					background-image: url(../assets/images/tab-my-active.png);
+		    	}
+		    }
 	    }
+
 	}
 }
 </style>

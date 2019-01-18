@@ -59,15 +59,16 @@ export default {
                 username: this.username,
                 password: this.password
             }
+            //loading效果
             this.$store.dispatch('setLoadingState', true)
             api.Login(data)
                 .then(res => {
-                    console.log(res)
-                    if(res.success) {
-                        // let userInfo = Object.assign()
-                        this.$store.dispatch('setLoadingState', false)
-                        this.setUserInfo(res.data)
-                        this.$router.replace('/home')
+                    this.$store.dispatch('setLoadingState', false)
+                    if(res.Code === 0){//成功
+                        this.setUserInfo(res.numberData)
+                        this.$router.replace('/home')//登录成功跳转首页
+                    }else{
+                        _.toast(res.Message)
                     }
                 })
                 .catch(error => {

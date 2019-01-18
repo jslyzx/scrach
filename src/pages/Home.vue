@@ -1,14 +1,6 @@
 <template>
 	<div class="home">
-		<div class="banner">
-			 <swiper :options="swiperOption" class="swiper-box">
-					<swiper-slide class="swiper-item"><img src="../assets/images/y-banner01.jpg" alt="..."></swiper-slide>
-					<swiper-slide class="swiper-item"><img src="../assets/images/y-banner03.jpg" alt="..."></swiper-slide>
-					<div class="swiper-pagination" slot="pagination"></div>
-			</swiper>
-		</div>
-		<v-nav></v-nav>
-		<!-- <travel-list :travel-lists="travelListIndex"></travel-list> -->
+		<!-- 下一期做 -->
 	</div>
 </template>
 
