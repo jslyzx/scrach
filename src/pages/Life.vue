@@ -2,8 +2,10 @@
   <div class="life">
     <div class="list">
       <div class="item">
-        <img src="../assets/images/bx.png">
-        <span>报修</span>
+        <router-link to='login'>
+          <img src="../assets/images/bx.png">
+          <span>报修</span>
+        </router-link>
       </div>
       <div class="item">
         <img src="../assets/images/zhangdan.png">
@@ -25,8 +27,10 @@
         <span>开门</span>
       </div>
       <div class="item">
-        <img src="../assets/images/fgy.png">
-        <span>房管员</span>
+        <router-link to='life/fgy'>
+          <img src="../assets/images/fgy.png">
+          <span>房管员</span>
+        </router-link>
       </div>
     </div>
   </div>

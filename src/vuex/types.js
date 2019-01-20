@@ -13,9 +13,10 @@ export const COM_SHOW_TIME_PICKER = 'COM_SHOW_TIME_PICKER'  //显示timepicker
 
 
 //user 用户
-export const SET_USER_INFO      = 'SETUSERINFO'      //设置用户信息
-export const SET_LOGIN_STATUS   = 'SET_LOGIN_STATUS' //设置登录状态
-export const GET_USER_DATA      = 'GET_USER_DATA'    //获取用户数据信息
+export const SET_USER_INFO      = 'SETUSERINFO'                //设置用户信息
+export const SET_LOGIN_STATUS   = 'SET_LOGIN_STATUS'           //设置登录状态
+export const GET_USER_DATA      = 'GET_USER_DATA'              //获取用户数据信息
+export const SET_USER_CONTRACT_LIST = 'SET_USER_CONTRACT_LIST' //设置用户合同列表
 
 //sports
 export const GET_SPORTS_LIST    = 'GET_SPORTS_LIST'   //获取主题列表
@@ -34,3 +35,6 @@ export const GET_SPORTS_DETAIL  = 'GET_SPORTS_DETAIL' //获取主题详情
 
 //travels 主题详情
 export const GET_TRAVELS_DETAIL  = 'GET_TRAVELS_DETAIL' //获取主题详情
+
+//获取房管员
+export const GET_FGY = 'GET_FGY'
