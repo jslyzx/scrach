@@ -98,7 +98,7 @@ a.active {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
-  background: #fff;
+  background: #eee;
   .content{
     padding-top: px2rem(100px);
   }

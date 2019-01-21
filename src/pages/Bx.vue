@@ -1,21 +1,29 @@
 <template>
-  <div v-if="this.$route.query.houseId">
-    {{$route.query.houseId}}
-    <div class="mui-input-group">
-      <div class="mui-input-row">
-        <label>报修人</label>
-        <input type="text" name="">
-      </div>
-    </div>
+  <div v-if="userContractList.length > 1">
+    <contract-list :contract-list="userContractList" :redirect-url="url"></contract-list>
   </div>
   <div v-else>
-    fd
+    <div class="mui-content-padded">
+      <div class="mui-input-group">
+        <div class="mui-input-row">
+          <label>报修人</label>
+          <input type="text" name="">
+        </div>
+        <div class="mui-input-row">
+          <label>报修人</label>
+          <input type="text" name="">
+        </div>
+        <div class="mui-input-row">
+          <label>报修人</label>
+          <input type="text" name="">
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import ContractList from '@/pages/ContractList'
-import * as _ from '../util/tool'
 
 export default {
   data() {

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../vuex/store'
 import api from '../fetch/api'
+import * as _ from '../util/tool'
 
 import Home from '../pages/Home'
 import Sport from '../pages/Sport'
@@ -129,7 +130,7 @@ router.beforeEach((to, from, next) => {
               next()
             } else {
               next(false)
-              console.log('暂无租约')
+              mui.toast('暂无租约')
             }
           })
       } else {
