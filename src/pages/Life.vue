@@ -2,7 +2,7 @@
   <div class="life">
     <div class="list">
       <div class="item">
-        <router-link to='login'>
+        <router-link to='/life/bx'>
           <img src="../assets/images/bx.png">
           <span>报修</span>
         </router-link>
@@ -51,13 +51,6 @@ export default {
 @import '../assets/css/function';
 
 .life {
-  background-color: #fff;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
   .list{
   	display: flex;
   	align-content: flex-start;

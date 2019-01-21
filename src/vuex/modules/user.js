@@ -9,7 +9,7 @@ const state = {
   // 用户数据信息
   userData: [],
   // 用户合同列表
-  userContractList: JSON.parse(localStorage.getItem('userContractList')) || []
+  userContractList: []
 }
 
 const actions = {
@@ -29,19 +29,16 @@ const actions = {
   setSignOut({ commit }) {
     localStorage.removeItem('loginStatus')
     localStorage.removeItem('userInfo')
-    localStorage.removeItem('userContractList')
     commit(types.SET_LOGIN_STATUS, false)
     commit(types.SET_USER_INFO, {})
-    commit(types.SET_USER_CONTRACT_LIST, [])
   },
   /**
-   *   设置用户合同列表
+   *   获取用户合同列表
    */
-  setUserContractList({ commit }, params) {
+  getUserContractList({ commit }, params) {
     api.getContractList(params)
       .then(res => {
-        localStorage.setItem('userContractList', JSON.stringify(res.numberData))
-        commit(types.SET_USER_CONTRACT_LIST, res.numberData)
+        commit(types.GET_USER_CONTRACT_LIST, res.numberData)
       })
   },
 }
@@ -65,7 +62,7 @@ const mutations = {
   [types.GET_USER_DATA](state, res) {
     state.userData = res
   },
-  [types.SET_USER_CONTRACT_LIST](state, res) {
+  [types.GET_USER_CONTRACT_LIST](state, res) {
     state.userContractList = res
   }
 

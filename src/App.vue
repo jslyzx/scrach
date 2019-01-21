@@ -3,6 +3,8 @@
         <v-toast v-show="showToast"></v-toast>
         <v-alert v-show="showAlert"></v-alert>
         <v-loading v-show="loading"></v-loading>
+
+        <v-header :title="title" :back-display="backDisplay"></v-header>
         <div class="content" :class="{tabar: tabar}">
             <transition name="slide-left">
                 <router-view></router-view>
@@ -58,20 +60,8 @@ export default {
       tabar () {
         return this.$route.path.split('/').length > 2 ? false : true
       },
-      menuDisplay () {
-        if (this.$route.path.split('/')[1] == 'home') {
-          return false
-        }
-        return this.$route.path.split('/').length > 2 ? false : true
-      },
       backDisplay () {
         return this.$route.path.split('/').length > 2 ? true : false
-      },
-      mapDisplay () {
-        if (this.$route.path.split('/')[1] == 'home') {
-          return true
-        }
-        return false
       }
   }
 }
@@ -108,13 +98,12 @@ a.active {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
-  background: #F5F5F5;
+  background: #fff;
   .content{
-    //padding-top: px2rem(100px);
-    background: #F5F5F5;
+    padding-top: px2rem(100px);
   }
   .tabar {
-    margin-bottom: px2rem(120px);
+    //margin-bottom: px2rem(120px);
   }
   //渐变动效
   .slide-left-enter-active,

@@ -1,17 +1,31 @@
 <template>
     <div>
         <div v-if="this.$route.query.houseId">
-            <ul v-if="fgy">
-                <li><span>姓名</span><span>{{fgy.RealName}}</span></li>
-                <li><span>电话</span><span>{{fgy.Mobile}}</span></li>
-            </ul>
-            <ul v-else>
-                <li><span>姓名</span><span>--</span></li>
-                <li><span>电话</span><span>--</span></li>
-            </ul>
+            <div v-if="fgy">
+                <img src="../assets/images/user-image.png" class="user-image">
+                <div class="item">
+                    <span class="item-t">姓名</span>
+                    <span>{{fgy.RealName}}</span>
+                </div>
+                <div class="item">
+                    <span class="item-t">电话</span>
+                    <span>{{fgy.Mobile}}</span>
+                </div>
+            </div>
+            <div v-else>
+                <img src="../assets/images/user-image.png" class="user-image">
+                <div class="item">
+                    <span class="item-t">姓名</span>
+                    <span>--</span>
+                </div>
+                <div class="item">
+                    <span class="item-t">电话</span>
+                    <span>--</span>
+                </div>
+            </div>
         </div>
         <div v-else>
-            <contract-list :contract-list="userContractList"></contract-list>
+            <contract-list :contract-list="userContractList" :redirect-url="url"></contract-list>
         </div>
     </div>
 </template>
@@ -22,6 +36,12 @@ import {
 import ContractList from '@/pages/ContractList'
 
 export default {
+    beforeRouteEnter(to, from, next) {
+        if(this.userContractList.length === 1){
+            next(false)
+            alert('fdfd')
+        }
+      },
     components: {
         ContractList
     },
@@ -29,11 +49,11 @@ export default {
         if(this.$route.query.houseId){
             this.$store.dispatch("getFgy", {access_token: this.userInfo.token, HouseId: this.$route.query.houseId})
         }
+        this.$store.dispatch("getUserContractList", { access_token: this.userInfo.token, iskaimen: 0 })
     },
     data() {
         return {
-            name: '--',
-            phone: '--'
+            url: '/life/fgy'
         }
     },
     computed: {
@@ -45,4 +65,23 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+    @import '../assets/css/function';
+    .user-image{
+        width: px2rem(136px);
+        height: px2rem(136px);
+        display: block;
+        margin: px2rem(40px) auto;
+    }
+    .item{
+        margin-left: px2rem(40px);
+        height: px2rem(30px);
+        line-height: px2rem(30px);
+        margin-bottom: px2rem(30px);
+        font-size: 14px;
+
+        .item-t{
+            margin-right: px2rem(50px);
+        }
+    }
+</style>

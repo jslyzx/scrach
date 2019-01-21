@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../vuex/store'
+import api from '../fetch/api'
 
 import Home from '../pages/Home'
 import Sport from '../pages/Sport'
@@ -18,13 +19,13 @@ import Life from '../pages/Life'
 import NotFound from '../pages/NotFound'
 import Fgy from '../pages/Fgy'
 import Contract from '../pages/Contract'
+import Bx from '../pages/Bx'
 
 Vue.use(Router)
 
 const router = new Router({
   linkActiveClass: 'active',
-  routes: [
-    {
+  routes: [{
       path: '/',
       component: Home
     },
@@ -56,39 +57,39 @@ const router = new Router({
       component: User
     },
     {
-			path: '/user/login',
-			component: Login,
+      path: '/user/login',
+      component: Login,
       meta: {
         requiresAuth: false
       }
-		},
-		{
-			path: '/user/regist',
-			component: Regist,
-      meta: {
-        requiresAuth: false
-      }
-		},
-		{
-			path: '/user/info',
-			component: UserInfo
-		},
-		{
-			path: '/user/set',
-			component: Set
-		},
-		{
-			path: '/user/post',
-			component: Post
-		},
-		{
-			path: '/user/msg',
-			component: UserMsg
-		},
+    },
     {
-			path: '/user/navbar',
-			component: Navbar
-		},
+      path: '/user/regist',
+      component: Regist,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/user/info',
+      component: UserInfo
+    },
+    {
+      path: '/user/set',
+      component: Set
+    },
+    {
+      path: '/user/post',
+      component: Post
+    },
+    {
+      path: '/user/msg',
+      component: UserMsg
+    },
+    {
+      path: '/user/navbar',
+      component: Navbar
+    },
     {
       path: '/life',
       component: Life,
@@ -104,6 +105,13 @@ const router = new Router({
       }
     },
     {
+      path: '/life/bx',
+      component: Bx,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '*',
       name: 'notfound',
       component: NotFound
@@ -112,16 +120,29 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(r => r.meta.requiresAuth)){
-    if(store.getters.loginStatus){
-      next()
-    }else{
+  if (to.matched.some(r => r.meta.requiresAuth)) {
+    if (store.getters.loginStatus) {
+      if (/\/life\/[\w]+/.test(to.path)) {
+        api.getContractList({ access_token: store.getters.userInfo.token, iskaimen: 0 })
+          .then(res => {
+            if (res.numberData.length > 0) {
+              next()
+            } else {
+              next(false)
+              console.log('暂无租约')
+            }
+          })
+      } else {
+        next()
+      }
+
+    } else {
       next({
         path: '/user/login'
       })
     }
-    
-  }else{
+
+  } else {
     next()
   }
 })

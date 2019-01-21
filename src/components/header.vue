@@ -2,8 +2,6 @@
   <div class="header">
     <div class="header-icon" v-show="backDisplay" @click="goBack"><i class="icon">&#xe622;</i></div>
     <div class="header-cont"><p>{{title}}</p></div>
-    <div class="header-icon" v-show="menuDisplay" @click="showBar"><i class="icon">&#xe634;</i></div>
-    <div class="header-icon" v-show="mapDisplay" @click="getMap"><i class="icon map-icon">&#xe600;</i></div>
   </div>
 </template>
 
@@ -11,9 +9,7 @@
   export default {
     props: {
       title: String,
-      menuDisplay: Boolean,
-      backDisplay: Boolean,
-      mapDisplay: Boolean
+      backDisplay: Boolean
     },
     data() {
       return {
@@ -23,12 +19,6 @@
     methods: {
       goBack () {
         window.history.back()
-      },
-      getMap () {
-        alert('开发中')
-      },
-      showBar () {
-        this.$store.dispatch('setNavState', true)
       }
     }
   }
@@ -44,7 +34,7 @@
   z-index: 4;
   height: px2rem(100px);
   width: 100%;
-  background: #76D49B;
+  background: #FF5252;
   display: flex;
   flex-direction: row;
   .header-icon{

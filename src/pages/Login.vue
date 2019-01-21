@@ -49,8 +49,7 @@ export default {
         },
         methods: {
             ...mapActions({
-                setUserInfo: 'setUserInfo',
-                setUserContractList: 'setUserContractList'
+                setUserInfo: 'setUserInfo'
             }),
 
             // 用户登录
@@ -70,10 +69,6 @@ export default {
                         this.$store.dispatch('setLoadingState', false)
                         if (res.Code === 0) { //成功
                             this.setUserInfo(res.numberData)
-                            this.setUserContractList({
-                                access_token: res.numberData.token,
-                                iskaimen: 0
-                            })
                             this.$router.replace('/home') //登录成功跳转首页
                         } else {
                             _.toast(res.Message)

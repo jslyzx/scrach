@@ -10,10 +10,8 @@ const actions = {
    * 获取房管员
    */
   getFgy({ commit }, params) {
-    debugger
     api.getFgy(params)
       .then(res => {
-        debugger
         commit(types.GET_FGY, res.numberData)
       })
       .catch((error) => {
