@@ -51,6 +51,12 @@ export default {
 @import '../assets/css/function';
 
 .life {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: px2rem(100px);
+  bottom: px2rem(98px);
+  background: #fff;
   .list{
   	display: flex;
   	align-content: flex-start;

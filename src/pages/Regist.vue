@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div class="title">welcome to Qu约</div>
+    <div class="title"></div>
     <div class="coordinates-icon">
       <div class="coordinates topAct">
         <img src="../assets/images/logo.png" />
@@ -152,6 +152,7 @@ export default {
   overflow: hidden;
   background-color: #323542;
   padding-bottom: px2rem(260px);
+  padding-top: px2rem(60px);
   .title {
     width: 100%;
     height: auto;
@@ -249,6 +250,8 @@ export default {
         outline: none;
         font-size: 16px;
         color: #fff;
+        width: auto;
+        margin-bottom: 0;
       }
       .verifi-code {
         display: inline-block;

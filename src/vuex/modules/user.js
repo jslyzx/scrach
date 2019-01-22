@@ -36,10 +36,13 @@ const actions = {
    *   获取用户合同列表
    */
   getUserContractList({ commit }, params) {
-    api.getContractList(params)
+    return new Promise((resolve,reject)=>{
+      api.getContractList(params)
       .then(res => {
         commit(types.GET_USER_CONTRACT_LIST, res.numberData)
+        resolve(res.numberData)
       })
+    })
   },
 }
 

@@ -89,6 +89,7 @@ export default {
     overflow: hidden;
     background-color: #323542;
     padding-bottom: px2rem(260px);
+    
     .title {
         width: 100%;
         height: auto;
@@ -186,6 +187,8 @@ export default {
                 outline: none;
                 font-size: 16px;
                 color: #fff;
+                width: auto;
+                margin-bottom: 0;
             }
         }
         .user-name,

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <contract v-for="(item,index) in contractList" :key="item.objectId" :contract="item" :redirect-url="redirectUrl"></contract>
+        <contract v-for="(item,index) in contractList" :key="item.objectId" :contract="item" :redirect-url="redirectUrl" :index="index"></contract>
     </div>
 </template>
 <script>
