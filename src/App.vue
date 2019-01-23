@@ -7,7 +7,9 @@
         <v-header :title="title" :back-display="backDisplay"></v-header>
         <div class="content" :class="{tabar: tabar}">
             <transition name="slide-left">
+              <keep-alive>
                 <router-view></router-view>
+              </keep-alive>
             </transition>  
         </div>
         <v-tabar></v-tabar>

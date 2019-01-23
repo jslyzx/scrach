@@ -38,3 +38,8 @@ export const GET_TRAVELS_DETAIL  = 'GET_TRAVELS_DETAIL' //获取主题详情
 
 //获取房管员
 export const GET_FGY = 'GET_FGY'
+
+//获取维修科目列表
+export const GET_REPAIR_SUBJECT_LIST = 'GET_REPAIR_SUBJECT_LIST'
+
+export const SET_BX_ITEM = 'SET_BX_ITEM'

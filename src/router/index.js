@@ -21,6 +21,7 @@ import NotFound from '../pages/NotFound'
 import Fgy from '../pages/Fgy'
 import Contract from '../pages/Contract'
 import Bx from '../pages/Bx'
+import BxItem from '../pages/BxItem'
 
 Vue.use(Router)
 
@@ -113,6 +114,10 @@ const router = new Router({
       }
     },
     {
+      path: '/life/bx/item',
+      component: BxItem
+    },
+    {
       path: '*',
       name: 'notfound',
       component: NotFound
@@ -130,7 +135,7 @@ router.beforeEach((to, from, next) => {
               next()
             } else {
               next(false)
-              mui.toast('暂无租约')
+              _.toast('暂无租约')
             }
           })
       } else {

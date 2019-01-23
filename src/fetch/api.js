@@ -148,7 +148,10 @@ export default {
   getContractList(params) {
     return fetch('/api/Contract/Querybyphone', params)
   },
-  getFgy(id){
-    return fetch('/api/User/Queryfgy', {HouseId: id})
+  getFgy(id) {
+    return fetch('/api/User/Queryfgy', { HouseId: id })
+  },
+  getRepairSubjectList() {
+    return fetch('/api/Repaire/subject')
   }
 }
