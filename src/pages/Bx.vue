@@ -1,45 +1,195 @@
 <template>
-  <div v-if="userContractList.length === 1 || typeof this.$route.query.index !== 'undefined'">
-    <contract-form :contract="userContractList[0]"></contract-form>
-  </div>
-  <div v-else>
-    <contract-list :contract-list="userContractList" :redirect-url="url"></contract-list>
-  </div>
+    <div v-if="userContractList.length === 1 || typeof this.$route.query.index !== 'undefined'">
+        <div class="mui-content-padded">
+            <div class="mui-input-group">
+                <div class="mui-input-row">
+                    <label>报修人</label>
+                    <input type="text" name="Name" v-model="form.Name" class="mui-input-clear">
+                </div>
+                <div class="mui-input-row">
+                    <label>联系方式</label>
+                    <input type="text" name="Phone" v-model="form.Phone" class="mui-input-clear">
+                </div>
+                <div class="mui-input-row">
+                    <label>期望上门时间</label>
+                    <el-date-picker v-model="form.AppiontTime" type="datetime" placeholder="请选择" value-format="yyyy-MM-dd HH:mm" @change="selectTime" :picker-options="pickerOptions">
+                    </el-date-picker>
+                </div>
+            </div>
+            <div class="mui-input-group">
+                <div class="mui-input-row" @click="addItem">
+                    <label>报修内容</label>
+                    <i class="add"></i>
+                </div>
+            </div>
+            <div class="mui-table-view">
+                <div class="mui-input-group mui-table-view-cell" v-for="(item,index) in form.itemList">
+                    <div class="mui-slider-right mui-disabled">
+                        <a class="mui-btn mui-btn-red">删除</a>
+                    </div>
+                    <div class="mui-slider-handle">
+                        <div class="mui-input-row">
+                            <div class="mui-navigate-right" @click="enterDetail(item, index)">
+                                <label>报修科目</label>
+                                <span class="placeholder">报修科目</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="HouseId" v-model="contract.HouseId">
+            <button type="button" @click="submit" class="submit">提交</button>
+        </div>
+    </div>
+    <div v-else>
+        <contract-list :contract-list="userContractList" :redirect-url="url"></contract-list>
+    </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import ContractList from '@/pages/ContractList'
-import ContractForm from '@/pages/ContractForm'
+import * as _ from '../util/tool'
+const REG_PHONE = /^1[34578]\d{9}$/
 
 export default {
-  data() {
-    return {
-      url: '/life/bx'
+    data() {
+            return {
+                url: '/life/bx',
+                index: typeof this.$route.query.index !== 'undefined' ? Number(this.$route.query.index) : 0,
+                form: {
+                    Name: '',
+                    Phone: '',
+                    AppiontTime: '',
+                    HouseId: 0,
+                    itemList: []
+                },
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now() - 8.64e7
+                    }
+                }
+            }
+        },
+        components: {
+            ContractList
+        },
+        created() {
+            this.$store.dispatch("getUserContractList", {
+                access_token: this.userInfo.token,
+                iskaimen: 0
+            })
+            this.$store.dispatch("getRepairSubjectList")
+        },
+        computed: {
+            ...mapGetters([
+                'userContractList',
+                'userInfo',
+                'bxItem',
+                'repairSubjectList'
+            ])
+        },
+        watch: {
+            userContractList: {
+                handler: function(newVal, oldVal) {
+                    var data = newVal[this.index]
+                    this.form.Name = data.Name
+                    this.form.Project = data.Project
+                    this.form.HouseId = data.HouseId
+                }
+            },
+            bxItem: {
+                handler: function(newVal, oldVal) {
+                    console.log(newVal)
+                    var ori = this.form.itemList[newVal.Index]
+                    ori.Project = newVal.Project
+                    ori.Image = newVal.Image
+                    ori.Remark = newVal.Remark
+                }
+            }
+        },
+        methods: {
+            submit: function() {
+
+            },
+            selectTime: function(el) {
+                var d = new Date(el);
+                if (d < new Date().getTime()) {
+                    this.time = ''
+                    _.toast('选择的时间不能小于当前时间')
+                }
+            },
+            addItem: function() {
+                this.form.itemList.push({
+                    Remark: '',
+                    Project: '',
+                    Image: ''
+                })
+            },
+            enterDetail: function(item, index) {
+                this.$router.push({
+                    path: '/life/bx/item',
+                    query: {
+                        Project: item.Project,
+                        Image: item.Image,
+                        Remark: item.Remark,
+                        index: index
+                    }
+                })
+            }
+        }
+}
+</script>
+<style lang="scss" scoped>
+@import '../assets/css/function';
+.mui-input-group {
+    margin-bottom: px2rem(20px);
+    .mui-navigate-right {
+        overflow: hidden;
+        span {
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            float: right;
+            margin-right: 30px;
+        }
+        .placeholder {
+            color: #999;
+        }
     }
-  },
-  components: {
-    ContractList,
-    ContractForm
-  },
-  created() {
-    // var that = this
-    // var index = typeof this.$route.query.index !== 'undefined' ? this.$route.query.index : 0
-    // var promise = this.$store.dispatch("getUserContractList", { access_token: this.userInfo.token, iskaimen: 0 })
-    // promise.then(function(list){
-    //   that.HouseId = list[index].HouseId,
-    //   that.Name = list[index].Name,
-    //   that.Phone = list[index].Phone
-    // })
-    this.$store.dispatch("getUserContractList", { access_token: this.userInfo.token, iskaimen: 0 })
-  },
-  computed: {
-    ...mapGetters([
-      'userContractList',
-      'userInfo',
-      'bxItem'
-    ])
-  }
+    .add {
+        background: url(../assets/images/add-icon.png) no-repeat;
+        float: right;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background-size: contain;
+        position: relative;
+        top: 11px;
+        right: 11px;
+    }
 }
 
-</script>
-<style lang="scss" scoped></style>
+.submit {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: block;
+    width: 100%;
+    height: px2rem(100px);
+    background: #FF5252;
+    color: #fff;
+    font-size: px2rem(36px);
+    line-height: px2rem(100px);
+    text-align: center;
+    letter-spacing: 20px;
+}
+
+.mui-table-view {
+    .mui-input-group {
+        margin-bottom: 0;
+    }
+}
+</style>
