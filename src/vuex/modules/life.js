@@ -24,6 +24,7 @@ const actions = {
     commit(types.SET_BX_ITEM, params)
   },
   getBillList({ commit }, params) {
+    debugger
     api.getBillList(params)
       .then(res => {
         commit(types.GET_BILL_LIST, res.numberData)

@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       url: '/life/bx',
-      index: typeof this.$route.query.index !== 'undefined' ? Number(this.$route.query.index) : 0,
+      index: Number(this.$route.query.index || 0),
       form: {
         Name: '',
         Phone: '',

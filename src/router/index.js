@@ -100,7 +100,7 @@ const router = new Router({
       component: Bill,
       meta: {
         requiresAuth: true,
-        keepAlive: true
+        keepAlive: false
       }
     },
     {

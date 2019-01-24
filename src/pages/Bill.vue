@@ -6,7 +6,7 @@
         <a href="javascript:;" :class="{active: PayStatus}" @click="changeTab($event)">历史账单</a>
       </div>
       <div class="list">
-        
+        <bill-list :status="PayStatus" :contract-id="ContractId"></bill-list>
       </div>
     </div>
     <div v-else>
@@ -24,11 +24,9 @@ export default {
   data() {
     return {
       url: '/life/bill',
-      index: typeof this.$route.query.index !== 'undefined' ? Number(this.$route.query.index) : 0,
+      index: Number(this.$route.query.index || 0),
       ContractId: 0,
-      PayStatus: 0,
-      pagesize: 10,
-      pageindex: 1
+      PayStatus: 1
     }
   },
   components: {
@@ -38,20 +36,24 @@ export default {
   computed: {
     ...mapGetters([
       'userInfo',
-      'billList',
       'userContractList'
     ])
   },
   watch: {
     userContractList: {
       handler: function(newVal, oldVal) {
+        debugger
         var data = newVal[this.index]
         this.ContractId = data.Id
       }
-    }
+    },
+    // index: {
+    //   handler(newVal, oldVal){
+    //     this.ContractId = this.userContractList[newVal].Id
+    //   }
+    // }
   },
   created() {
-    this.$store.dispatch("getBillList", { access_token: this.userInfo.token, PayStatus: 0, pageindex: 1, pagesize: 10, ContractId: 349 })
     this.$store.dispatch("getUserContractList", {
       access_token: this.userInfo.token,
       iskaimen: 0
