@@ -10,7 +10,7 @@
               <keep-alive>
                 <router-view></router-view>
               </keep-alive>
-            </transition>  
+            </transition>
         </div>
         <v-tabar></v-tabar>
   </div>

@@ -153,5 +153,11 @@ export default {
   },
   getRepairSubjectList() {
     return fetch('/api/Repaire/subject')
+  },
+  /**
+  * 保存报修
+  */
+  saveBx(params){
+    return fetch('/api/Repaire/save', params)
   }
 }

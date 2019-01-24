@@ -110,12 +110,14 @@ const router = new Router({
       path: '/life/bx',
       component: Bx,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        keepAlive: true
       }
     },
     {
       path: '/life/bx/item',
-      component: BxItem
+      component: BxItem,
+      keepAlive: true
     },
     {
       path: '*',

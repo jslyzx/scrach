@@ -25,7 +25,7 @@
       <div class="mui-table-view">
         <div class="mui-input-group mui-table-view-cell" v-for="(item,index) in form.itemList">
           <div class="mui-slider-right mui-disabled">
-            <a class="mui-btn mui-btn-red">删除</a>
+            <a class="mui-btn mui-btn-red" @click="deleteItem(index)">删除</a>
           </div>
           <div class="mui-slider-handle">
             <div class="mui-input-row">
@@ -51,6 +51,7 @@ import {
   mapGetters
 } from 'vuex'
 import ContractList from '@/pages/ContractList'
+import api from '../fetch/api'
 import * as _ from '../util/tool'
 const REG_PHONE = /^1[34578]\d{9}$/
 
@@ -96,7 +97,6 @@ export default {
       handler: function(newVal, oldVal) {
         var data = newVal[this.index]
         this.form.Name = data.Name
-        this.form.Project = data.Project
         this.form.HouseId = data.HouseId
         this.form.Phone = data.Phone
       }
@@ -141,6 +141,18 @@ export default {
         _.toast('请添加报修内容')
         return false
       }
+      api.saveBx(data)
+        .then(res => {
+          if (res.Code === 0) { //成功
+            _.toast('添加报修成功', 'success')
+            this.$router.replace('/life')
+          } else {
+            _.toast(res.Message)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     selectTime: function(el) {
       var d = new Date(el);
@@ -166,6 +178,10 @@ export default {
           index: index
         }
       })
+    },
+    deleteItem: function(index) {
+      this.form.itemList.splice(index, 1)
+      return false
     }
   }
 }
@@ -173,6 +189,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../assets/css/function';
+* {
+  touch-action: none;
+}
 .mui-input-group {
   margin-bottom: px2rem(20px);
   .mui-navigate-right {
