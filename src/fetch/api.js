@@ -155,9 +155,15 @@ export default {
     return fetch('/api/Repaire/subject')
   },
   /**
-  * 保存报修
-  */
-  saveBx(params){
+   * 保存报修
+   */
+  saveBx(params) {
     return fetch('/api/Repaire/save', params)
+  },
+  /**
+  获取账单列表,PayStatus:0未支付1已支付 2全部
+  */
+  getBillList(params) {
+    return fetch('/api/Bill/Querylist', params)
   }
 }

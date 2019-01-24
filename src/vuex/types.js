@@ -43,3 +43,5 @@ export const GET_FGY = 'GET_FGY'
 export const GET_REPAIR_SUBJECT_LIST = 'GET_REPAIR_SUBJECT_LIST'
 
 export const SET_BX_ITEM = 'SET_BX_ITEM'
+
+export const GET_BILL_LIST = 'GET_BILL_LIST'

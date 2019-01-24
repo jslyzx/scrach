@@ -8,8 +8,10 @@
         </router-link>
       </div>
       <div class="item">
-        <img src="../assets/images/zhangdan.png">
-        <span>账单</span>
+        <router-link to='/life/bill'>
+          <img src="../assets/images/zhangdan.png">
+          <span>账单</span>
+        </router-link>
       </div>
       <div class="item">
         <img src="../assets/images/cz.png">
@@ -17,7 +19,6 @@
       </div>
     </div>
     <div class="list">
-      
       <div class="item">
         <img src="../assets/images/tz.png">
         <span>退租</span>
@@ -57,24 +58,24 @@ export default {
   top: px2rem(100px);
   bottom: px2rem(98px);
   background: #fff;
-  .list{
-  	display: flex;
-  	align-content: flex-start;
-  	justify-content: space-around;
+  .list {
+    display: flex;
+    align-content: flex-start;
+    justify-content: space-around;
 
-  	.item{
-  		flex: 0 1 px2rem(155px);
-	    text-align: center;
-	    font-size: 14px;
-		margin-top: px2rem(30px);
-		margin-bottom: px2rem(60px);
+    .item {
+      flex: 0 1 px2rem(155px);
+      text-align: center;
+      font-size: 14px;
+      margin-top: px2rem(30px);
+      margin-bottom: px2rem(60px);
 
-	    img{
-	    	width: px2rem(155px);
-    		height: px2rem(155px);
-    		margin-bottom: px2rem(10px);
-	    }
-  	}
+      img {
+        width: px2rem(155px);
+        height: px2rem(155px);
+        margin-bottom: px2rem(10px);
+      }
+    }
   }
 
 }

@@ -3,7 +3,8 @@ import * as types from '../types'
 
 const state = {
   fgy: {},
-  bxItem: {}
+  bxItem: {},
+  billList: []
 }
 
 const actions = {
@@ -19,22 +20,35 @@ const actions = {
         console.log(error)
       })
   },
-  setBxItem({commit}, params){
+  setBxItem({ commit }, params) {
     commit(types.SET_BX_ITEM, params)
+  },
+  getBillList({ commit }, params) {
+    api.getBillList(params)
+      .then(res => {
+        commit(types.GET_BILL_LIST, res.numberData)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 }
 
 const getters = {
   fgy: state => state.fgy,
-  bxItem: state => state.bxItem
+  bxItem: state => state.bxItem,
+  billList: state => state.billList
 }
 
 const mutations = {
   [types.GET_FGY](state, res) {
     state.fgy = res
   },
-  [types.SET_BX_ITEM](state, res){
+  [types.SET_BX_ITEM](state, res) {
     state.bxItem = res
+  },
+  [types.GET_BILL_LIST](state, res){
+    state.billList = res
   }
 }
 

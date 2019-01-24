@@ -22,6 +22,7 @@ import Fgy from '../pages/Fgy'
 import Contract from '../pages/Contract'
 import Bx from '../pages/Bx'
 import BxItem from '../pages/BxItem'
+import Bill from '../pages/Bill'
 
 Vue.use(Router)
 
@@ -89,6 +90,14 @@ const router = new Router({
     {
       path: '/life/bx/item',
       component: BxItem,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/life/bill',
+      component: Bill,
       meta: {
         requiresAuth: true,
         keepAlive: true
