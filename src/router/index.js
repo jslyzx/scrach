@@ -29,29 +29,19 @@ const router = new Router({
   linkActiveClass: 'active',
   routes: [{
       path: '/',
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: false,
+        keepAlive: true
+      }
     },
     {
       path: '/home',
-      component: Home
-    },
-    {
-      path: '/sport',
-      name: 'sport',
-      component: Sport
-    },
-    {
-      path: '/travel',
-      name: 'travel',
-      component: Travel
-    },
-    {
-      path: '/sport/:id',
-      component: Detail
-    },
-    {
-      path: '/travel/:id',
-      component: Detail
+      component: Home,
+      meta: {
+        requiresAuth: false,
+        keepAlive: true
+      }
     },
     {
       path: '/user',
@@ -73,37 +63,19 @@ const router = new Router({
       }
     },
     {
-      path: '/user/info',
-      component: UserInfo
-    },
-    {
-      path: '/user/set',
-      component: Set
-    },
-    {
-      path: '/user/post',
-      component: Post
-    },
-    {
-      path: '/user/msg',
-      component: UserMsg
-    },
-    {
-      path: '/user/navbar',
-      component: Navbar
-    },
-    {
       path: '/life',
       component: Life,
       meta: {
-        requiresAuth: false
+        requiresAuth: false,
+        keepAlive: true
       }
     },
     {
       path: '/life/fgy',
       component: Fgy,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        keepAlive: true
       }
     },
     {
@@ -117,7 +89,10 @@ const router = new Router({
     {
       path: '/life/bx/item',
       component: BxItem,
-      keepAlive: true
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
     },
     {
       path: '*',

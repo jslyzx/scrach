@@ -92,6 +92,19 @@ export default {
       'repairSubjectList'
     ])
   },
+  beforeRouteLeave(to, from, next){
+    if(to.path === '/life/bx/item'){
+      if(!from.meta.keepAlive){
+        from.meta.keepAlive = true
+      }
+      next()
+    }else{
+      from.meta.keepAlive = false
+      to.meta.keepAlive = false
+      this.$destroy()
+      next()
+    }
+  },
   watch: {
     userContractList: {
       handler: function(newVal, oldVal) {

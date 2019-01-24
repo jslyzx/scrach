@@ -8,7 +8,12 @@
         <div class="content" :class="{tabar: tabar}">
             <transition name="slide-left">
               <keep-alive>
-                <router-view></router-view>
+                <router-view v-if="$route.meta.keepAlive"></router-view>
+              </keep-alive>
+            </transition>
+            <transition name="slide-left">
+              <keep-alive>
+                <router-view v-if="!$route.meta.keepAlive"></router-view>
               </keep-alive>
             </transition>
         </div>
