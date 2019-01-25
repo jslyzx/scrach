@@ -108,6 +108,7 @@ a.active {
   background: #eee;
   .content{
     padding-top: px2rem(100px);
+    background: #eee;
   }
   .tabar {
     //margin-bottom: px2rem(120px);

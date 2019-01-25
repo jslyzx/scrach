@@ -4,7 +4,8 @@ import * as types from '../types'
 const state = {
   fgy: {},
   bxItem: {},
-  billList: []
+  billList: [],
+  billDetail: {}
 }
 
 const actions = {
@@ -24,10 +25,19 @@ const actions = {
     commit(types.SET_BX_ITEM, params)
   },
   getBillList({ commit }, params) {
-    debugger
+    // debugger
     api.getBillList(params)
       .then(res => {
         commit(types.GET_BILL_LIST, res.numberData)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
+  getBillDetail({ commit }, params) {
+    api.getBillDetail(params)
+      .then(res => {
+        commit(types.GET_BILL_DETAIL, res.numberData)
       })
       .catch((error) => {
         console.log(error)
@@ -38,7 +48,8 @@ const actions = {
 const getters = {
   fgy: state => state.fgy,
   bxItem: state => state.bxItem,
-  billList: state => state.billList
+  billList: state => state.billList,
+  billDetail: state => state.billDetail
 }
 
 const mutations = {
@@ -48,8 +59,11 @@ const mutations = {
   [types.SET_BX_ITEM](state, res) {
     state.bxItem = res
   },
-  [types.GET_BILL_LIST](state, res){
+  [types.GET_BILL_LIST](state, res) {
     state.billList = res
+  },
+  [types.GET_BILL_DETAIL](state, res) {
+    state.billDetail = res
   }
 }
 

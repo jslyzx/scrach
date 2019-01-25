@@ -165,5 +165,8 @@ export default {
   */
   getBillList(params) {
     return fetch('/api/Bill/Querylist', params)
+  },
+  getBillDetail(params) {
+    return fetch('/api/Bill/Querybillbyid', params)
   }
 }

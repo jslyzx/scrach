@@ -26,7 +26,7 @@ export default {
       url: '/life/bill',
       index: Number(this.$route.query.index || 0),
       ContractId: 0,
-      PayStatus: 1
+      PayStatus: 0
     }
   },
   components: {
@@ -39,20 +39,6 @@ export default {
       'userContractList'
     ])
   },
-  watch: {
-    userContractList: {
-      handler: function(newVal, oldVal) {
-        debugger
-        var data = newVal[this.index]
-        this.ContractId = data.Id
-      }
-    },
-    // index: {
-    //   handler(newVal, oldVal){
-    //     this.ContractId = this.userContractList[newVal].Id
-    //   }
-    // }
-  },
   created() {
     this.$store.dispatch("getUserContractList", {
       access_token: this.userInfo.token,
@@ -64,6 +50,14 @@ export default {
       if (e.currentTarget.className !== 'active') {
         this.PayStatus = (1 - this.PayStatus)
       }
+    }
+  },
+  watch: {
+    '$route'(to, from) {
+      // 对路由变化作出响应...
+      debugger
+      this.index = Number(this.$route.query.index || 0)
+      this.ContractId = this.userContractList[this.index].Id
     }
   }
 }
@@ -93,6 +87,9 @@ export default {
     border-bottom: 1px solid #FF5252;
   }
 
+}
+.list {
+  padding-bottom: 50px;
 }
 
 </style>

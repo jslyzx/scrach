@@ -23,6 +23,8 @@ import Contract from '../pages/Contract'
 import Bx from '../pages/Bx'
 import BxItem from '../pages/BxItem'
 import Bill from '../pages/Bill'
+import BillDetail from '../pages/BillDetail'
+import Pay from '../pages/Pay'
 
 Vue.use(Router)
 
@@ -98,6 +100,22 @@ const router = new Router({
     {
       path: '/life/bill',
       component: Bill,
+      meta: {
+        requiresAuth: true,
+        keepAlive: false
+      }
+    },
+    {
+      path: '/life/bill/:id',
+      component: BillDetail,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/life/pay',
+      component: Pay,
       meta: {
         requiresAuth: true,
         keepAlive: false

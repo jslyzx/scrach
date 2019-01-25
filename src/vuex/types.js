@@ -45,3 +45,5 @@ export const GET_REPAIR_SUBJECT_LIST = 'GET_REPAIR_SUBJECT_LIST'
 export const SET_BX_ITEM = 'SET_BX_ITEM'
 
 export const GET_BILL_LIST = 'GET_BILL_LIST'
+
+export const GET_BILL_DETAIL = 'GET_BILL_DETAIL'
