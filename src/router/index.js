@@ -116,6 +116,7 @@ const router = new Router({
     {
       path: '/life/pay',
       component: Pay,
+      name: 'pay',
       meta: {
         requiresAuth: true,
         keepAlive: false

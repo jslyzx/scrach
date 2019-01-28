@@ -168,5 +168,11 @@ export default {
   },
   getBillDetail(params) {
     return fetch('/api/Bill/Querybillbyid', params)
+  },
+  invokeAliPay(params) {
+    return fetch('/api/Bill/webPay_zfb', params)
+  },
+  invokeWXPay(params) {
+    return fetch('/api/Bill/webPay_wx', params)
   }
 }
