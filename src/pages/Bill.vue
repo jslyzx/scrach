@@ -55,7 +55,6 @@ export default {
   watch: {
     '$route'(to, from) {
       // 对路由变化作出响应...
-      debugger
       this.index = Number(this.$route.query.index || 0)
       this.ContractId = this.userContractList[this.index].Id
     }
@@ -87,9 +86,6 @@ export default {
     border-bottom: 1px solid #FF5252;
   }
 
-}
-.list {
-  padding-bottom: 50px;
 }
 
 </style>

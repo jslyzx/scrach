@@ -64,15 +64,15 @@ export default {
     justify-content: space-around;
 
     .item {
-      flex: 0 1 px2rem(155px);
+      flex: 0 1 px2rem(120px);
       text-align: center;
       font-size: 14px;
       margin-top: px2rem(30px);
       margin-bottom: px2rem(60px);
 
       img {
-        width: px2rem(155px);
-        height: px2rem(155px);
+        width: px2rem(100px);
+        height: px2rem(100px);
         margin-bottom: px2rem(10px);
       }
     }

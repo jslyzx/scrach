@@ -3,14 +3,13 @@
     <div class="mui-card-header">账单周期：{{bill.BeginTime | formatDate}} ~ {{bill.EndTime | formatDate}}</div>
     <div class="mui-card-content">
       <div class="mui-checkbox mui-left">
-        <input type="checkbox" name="" @click="select">
+        <input type="checkbox" @click="select($event, bill.Id)" :checked="checkedIds.indexOf(bill.Id) > -1">
       </div>
       <router-link class="mui-card-content-inner" :to="{path: '/life/bill/' + bill.Id}">
         <p>金额：{{bill.Amount}}元</p>
         <p>应付时间：{{bill.ShouldReceive | formatDate}}</p>
         <p class="status" v-if="isYq">已逾期{{yqDate}}天</p>
         <p class="status" v-if="bill.PayStatus===1">已支付</p>
-        <p class="status" v-else>--</p>
       </router-link>
     </div>
   </div>
@@ -23,7 +22,8 @@ export default {
     }
   },
   props: {
-    bill: Object
+    bill: Object,
+    checkedIds: Array
   },
   computed: {
     yqDate() {
@@ -33,10 +33,15 @@ export default {
     },
     isYq() {
       return new Date(this.bill.ShouldReceive).getTime() < new Date().getTime()
+    },
+    checkStatus(){
+      return this.checkedIds.indexOf(this.bill.Id) > -1 ? "checked" : "-1"
     }
   },
   methods: {
-    select() {
+    select(e, billId) {
+      var t = e.currentTarget
+      this.$emit('sendData', {type: t.checked ? 0 : 1,id:billId})
       return false;
     }
   }

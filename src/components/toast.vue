@@ -49,7 +49,7 @@ export default {
         flex-direction: column;
         z-index: 1002;
         .icon {
-            font-size: px2rem(80px);
+            font-size: px2rem(60px);
         }
         .text {
             font-size: 14px;

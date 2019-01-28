@@ -4,7 +4,7 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import Mui from "vue-awesome-mui";
-import "vue-awesome-mui/mui/dist/css/mui.css"
+import "../static/css/mui.min.css"
 
 import App from './App'
 import router from './router'
