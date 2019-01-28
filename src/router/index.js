@@ -25,6 +25,7 @@ import BxItem from '../pages/BxItem'
 import Bill from '../pages/Bill'
 import BillDetail from '../pages/BillDetail'
 import Pay from '../pages/Pay'
+import PaySuccess from '../pages/PaySuccess'
 
 Vue.use(Router)
 
@@ -117,6 +118,14 @@ const router = new Router({
       path: '/life/pay',
       component: Pay,
       name: 'pay',
+      meta: {
+        requiresAuth: true,
+        keepAlive: false
+      }
+    },
+    {
+      path: '/life/pay/success',
+      component: PaySuccess,
       meta: {
         requiresAuth: true,
         keepAlive: false
