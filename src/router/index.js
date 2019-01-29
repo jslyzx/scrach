@@ -28,6 +28,7 @@ import Pay from '../pages/Pay'
 import PaySuccess from '../pages/PaySuccess'
 import Elec from '../pages/Elec'
 import IdCard from '../pages/IdCard'
+import RepairList from '../pages/RepairList'
 
 Vue.use(Router)
 
@@ -144,6 +145,14 @@ const router = new Router({
     {
       path: '/user/idcard',
       component: IdCard,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/user/repair-list',
+      component: RepairList,
       meta: {
         requiresAuth: true,
         keepAlive: true

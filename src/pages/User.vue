@@ -29,7 +29,7 @@
           </router-link>
         </li>
         <li class="mui-table-view-cell tab">
-          <router-link class="mui-navigate-right" to="/life">
+          <router-link class="mui-navigate-right" to="/user/repair-list">
             <i class="bx"></i>我的报修
           </router-link>
         </li>

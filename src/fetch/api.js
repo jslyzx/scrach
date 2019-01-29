@@ -183,5 +183,8 @@ export default {
   },
   getIdCard(token) {
     return fetch('/api/User/IdCard', { access_token: token })
+  },
+  getMyRepairList(params) {
+    return fetch('/api/Repaire/Querylist', params)
   }
 }
