@@ -174,8 +174,14 @@ export default {
   },
   invokeWXPay(params) {
     return fetch('/api/Bill/webPay_wx', params)
-  }
-  ,initchongzhi(params) {
+  },
+  initchongzhi(params) {
     return fetch('/api/Elec/Initchongzhi', params)
+  },
+  getUserData(token) {
+    return fetch('/api/User/Query', { access_token: token })
+  },
+  getIdCard(token) {
+    return fetch('/api/User/IdCard', { access_token: token })
   }
 }

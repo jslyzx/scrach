@@ -49,3 +49,5 @@ export const GET_BILL_LIST = 'GET_BILL_LIST'
 export const GET_BILL_DETAIL = 'GET_BILL_DETAIL'
 
 export const SET_PAY_RETURN_URL = 'SET_PAY_RETURN_URL'
+
+export const GET_USER_ID_CARD = 'GET_USER_ID_CARD'

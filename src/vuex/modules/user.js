@@ -7,9 +7,11 @@ const state = {
   // 用户登录信息
   userInfo: JSON.parse(localStorage.getItem('userInfo')) || {},
   // 用户数据信息
-  userData: [],
+  userData: {},
   // 用户合同列表
-  userContractList: []
+  userContractList: [],
+  // 身份认证信息
+  idCard: {}
 }
 
 const actions = {
@@ -37,35 +39,48 @@ const actions = {
    */
   getUserContractList({ commit }, params) {
     api.getContractList(params)
-    .then(res => {
-      commit(types.GET_USER_CONTRACT_LIST, res.numberData)
-    })
+      .then(res => {
+        commit(types.GET_USER_CONTRACT_LIST, res.numberData)
+      })
+  },
+  getUserData({ commit }, token) {
+    api.getUserData(token)
+      .then((res) => {
+        commit(types.GET_USER_DATA, res.numberData)
+      })
+  },
+  getIdCard({ commit }, token) {
+    api.getIdCard(token)
+      .then((res) => {
+        commit(types.GET_USER_ID_CARD, res.numberData)
+      })
   }
 }
 
 const getters = {
-  getUserData: state => state.userData,
+  userData: state => state.userData,
   loginStatus: state => state.loginStatus,
   userInfo: state => state.userInfo,
-  userContractList: state => state.userContractList
+  userContractList: state => state.userContractList,
+  idCard: state => state.idCard
 }
 
 const mutations = {
   [types.SET_USER_INFO](state, res) {
     state.userInfo = res
   },
-
   [types.SET_LOGIN_STATUS](state, status) {
     state.loginStatus = status
   },
-
+  [types.GET_USER_CONTRACT_LIST](state, res) {
+    state.userContractList = res
+  },
   [types.GET_USER_DATA](state, res) {
     state.userData = res
   },
-  [types.GET_USER_CONTRACT_LIST](state, res) {
-    state.userContractList = res
+  [types.GET_USER_ID_CARD](state, res){
+    state.idCard = res
   }
-
 }
 
 export default {
