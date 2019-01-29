@@ -175,4 +175,7 @@ export default {
   invokeWXPay(params) {
     return fetch('/api/Bill/webPay_wx', params)
   }
+  ,initchongzhi(params) {
+    return fetch('/api/Elec/Initchongzhi', params)
+  }
 }

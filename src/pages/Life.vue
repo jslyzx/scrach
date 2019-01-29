@@ -14,8 +14,10 @@
         </router-link>
       </div>
       <div class="item">
-        <img src="../assets/images/cz.png">
-        <span>电费充值</span>
+        <router-link to="/life/elec">
+          <img src="../assets/images/cz.png">
+          <span>电费充值</span>
+        </router-link>
       </div>
     </div>
     <div class="list">

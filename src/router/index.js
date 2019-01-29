@@ -26,6 +26,7 @@ import Bill from '../pages/Bill'
 import BillDetail from '../pages/BillDetail'
 import Pay from '../pages/Pay'
 import PaySuccess from '../pages/PaySuccess'
+import Elec from '../pages/Elec'
 
 Vue.use(Router)
 
@@ -103,7 +104,7 @@ const router = new Router({
       component: Bill,
       meta: {
         requiresAuth: true,
-        keepAlive: false
+        keepAlive: true
       }
     },
     {
@@ -129,6 +130,14 @@ const router = new Router({
       meta: {
         requiresAuth: true,
         keepAlive: false
+      }
+    },
+    {
+      path: '/life/elec',
+      component: Elec,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
       }
     },
     {

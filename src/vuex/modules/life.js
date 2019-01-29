@@ -5,7 +5,8 @@ const state = {
   fgy: {},
   bxItem: {},
   billList: [],
-  billDetail: {}
+  billDetail: {},
+  payReturnUrl: JSON.parse(localStorage.getItem('payReturnUrl')) || ''
 }
 
 const actions = {
@@ -42,6 +43,10 @@ const actions = {
       .catch((error) => {
         console.log(error)
       })
+  },
+  setPayReturnUrl({ commit }, res) {
+    localStorage.setItem('payReturnUrl', JSON.stringify(res))
+    commit(types.SET_PAY_RETURN_URL, true)
   }
 }
 
@@ -49,7 +54,8 @@ const getters = {
   fgy: state => state.fgy,
   bxItem: state => state.bxItem,
   billList: state => state.billList,
-  billDetail: state => state.billDetail
+  billDetail: state => state.billDetail,
+  payReturnUrl: state => state.payReturnUrl
 }
 
 const mutations = {
@@ -64,6 +70,9 @@ const mutations = {
   },
   [types.GET_BILL_DETAIL](state, res) {
     state.billDetail = res
+  },
+  [types.SET_PAY_RETURN_URL](state, url) {
+    state.payReturnUrl = url
   }
 }
 

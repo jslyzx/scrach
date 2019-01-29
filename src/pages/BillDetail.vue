@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
@@ -70,11 +70,21 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setPayReturnUrl: 'setPayReturnUrl'
+    }),
     getDetail() {
       this.$store.dispatch('getBillDetail', { access_token: this.userInfo.token, Id: this.$route.params.id })
     },
     submit() {
-    	this.$router.push({path: '/life/pay'})
+      this.setPayReturnUrl(this.$route.fullPath)
+      this.$router.push({
+        name: 'pay',
+        params: {
+          Amount: this.billDetail.Amount,
+          list: [{ Id: this.billDetail.Id, Amount: this.billDetail.Amount }]
+        }
+      })
     }
   },
   created() {

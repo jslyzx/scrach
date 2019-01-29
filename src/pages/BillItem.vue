@@ -8,8 +8,7 @@
       <router-link class="mui-card-content-inner" :to="{path: '/life/bill/' + bill.Id}">
         <p>金额：{{bill.Amount}}元</p>
         <p>应付时间：{{bill.ShouldReceive | formatDate}}</p>
-        <p class="status" v-if="isYq">已逾期{{yqDate}}天</p>
-        <p class="status" v-if="bill.PayStatus===1">已支付</p>
+        <p class="status" v-text="statusText"></p>
       </router-link>
     </div>
   </div>
@@ -34,8 +33,14 @@ export default {
     isYq() {
       return new Date(this.bill.ShouldReceive).getTime() < new Date().getTime()
     },
-    checkStatus(){
-      return this.checkedIds.indexOf(this.bill.Id) > -1 ? "checked" : "-1"
+    statusText(){
+      if(this.bill.PayStatus === 1){
+        return '已支付'
+      }else if(new Date(this.bill.ShouldReceive).getTime() < new Date().getTime()){
+        return '已逾期' + this.yqDate + '天'
+      }else{
+        return '--'
+      }
     }
   },
   methods: {
