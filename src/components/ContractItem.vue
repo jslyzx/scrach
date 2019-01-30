@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ path: redirectUrl, query:{index: index} }" class="mui-card">
+  <router-link :to="{ path: '/user/contract/detail/' + contract.Id }" class="mui-card">
     <div class="mui-table-view">
       <div class="mui-table-view-cell">
         <p><span class="item-t">合同周期:</span><span class="item-c">{{contract.BeginTime | formatDate}} ~ {{contract.EndTime | formatDate}}</span></p>
@@ -12,9 +12,7 @@
 <script>
 export default {
   props: {
-    contract: Object,
-    redirectUrl: String,
-    index: Number
+    contract: Object
   },
   data() {
     return {

@@ -34,17 +34,17 @@
           </router-link>
         </li>
         <li class="mui-table-view-cell tab">
-          <router-link class="mui-navigate-right" to="/life">
+          <router-link class="mui-navigate-right" to="/user/contract-list">
             <i class="ht"></i>我的合同
           </router-link>
         </li>
         <li class="mui-table-view-cell tab">
-          <router-link class="mui-navigate-right" to="/life">
+          <router-link class="mui-navigate-right" to="/user/tuizu">
             <i class="tz"></i>退租
           </router-link>
         </li>
         <li class="mui-table-view-cell tab">
-          <router-link class="mui-navigate-right" to="/life">
+          <router-link class="mui-navigate-right" to="/user/settings">
             <i class="sz"></i>设置
           </router-link>
         </li>

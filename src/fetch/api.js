@@ -186,5 +186,8 @@ export default {
   },
   getMyRepairList(params) {
     return fetch('/api/Repaire/Querylist', params)
+  },
+  getContractDetail(id) {
+    return fetch('/api/Contract/QuerybyId', {Id: id})
   }
 }

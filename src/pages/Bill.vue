@@ -42,7 +42,8 @@ export default {
   created() {
     this.$store.dispatch("getUserContractList", {
       access_token: this.userInfo.token,
-      iskaimen: 0
+      iskaimen: 0,
+      Status: 5
     })
   },
   methods: {

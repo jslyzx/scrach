@@ -29,6 +29,9 @@ import PaySuccess from '../pages/PaySuccess'
 import Elec from '../pages/Elec'
 import IdCard from '../pages/IdCard'
 import RepairList from '../pages/RepairList'
+import MyContractList from '../pages/MyContractList'
+import Settings from '../pages/Settings'
+import ContractDetail from '../pages/ContractDetail'
 
 Vue.use(Router)
 
@@ -153,6 +156,31 @@ const router = new Router({
     {
       path: '/user/repair-list',
       component: RepairList,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/user/contract-list',
+      component: MyContractList,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/user/settings',
+      component: Settings,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/user/contract/detail/:id',
+      name: 'ContractDetail',
+      component: ContractDetail,
       meta: {
         requiresAuth: true,
         keepAlive: true
