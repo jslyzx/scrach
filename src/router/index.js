@@ -32,6 +32,8 @@ import RepairList from '../pages/RepairList'
 import MyContractList from '../pages/MyContractList'
 import Settings from '../pages/Settings'
 import ContractDetail from '../pages/ContractDetail'
+import ModifyPhone from '../pages/ModifyPhone'
+import ModifyPassword from '../pages/ModifyPassword'
 
 Vue.use(Router)
 
@@ -181,6 +183,24 @@ const router = new Router({
       path: '/user/contract/detail/:id',
       name: 'ContractDetail',
       component: ContractDetail,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/user/settings/modify-phone',
+      name: 'ModifyPhone',
+      component: ModifyPhone,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/user/settings/modify-password',
+      name: 'ModifyPassword',
+      component: ModifyPassword,
       meta: {
         requiresAuth: true,
         keepAlive: true

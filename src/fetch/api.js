@@ -188,6 +188,12 @@ export default {
     return fetch('/api/Repaire/Querylist', params)
   },
   getContractDetail(id) {
-    return fetch('/api/Contract/QuerybyId', {Id: id})
+    return fetch('/api/Contract/QuerybyId', { Id: id })
+  },
+  updatePhone(params) {
+    return fetch('/api/Sysuser/UpdatePhone', params)
+  },
+  updatePassword(params) {
+    return fetch('/api/Sysuser/UpdatePassWord', params)
   }
 }
