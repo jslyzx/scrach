@@ -195,5 +195,8 @@ export default {
   },
   updatePassword(params) {
     return fetch('/api/Sysuser/UpdatePassWord', params)
+  },
+  getLockList(params) {
+    return fetch('/api/House/Querylocal', params)
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <div class="head">
+    <div class="head" @click="login">
       <img src="../assets/images/user-image.png">
       <div class="right">
         <p class="user-name">{{userInfo.username}}</p>
@@ -70,6 +70,12 @@ export default {
   },
   created() {
     // this.$store.dispatch('getUserData',this.userInfo.token)
+  },
+  methods: {
+    login(){
+      if(!this.loginStatus)
+        this.$router.push({path: '/user/login', query: {redirect: '/user'}})
+    }
   }
 }
 

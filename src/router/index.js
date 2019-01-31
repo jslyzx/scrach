@@ -34,6 +34,8 @@ import Settings from '../pages/Settings'
 import ContractDetail from '../pages/ContractDetail'
 import ModifyPhone from '../pages/ModifyPhone'
 import ModifyPassword from '../pages/ModifyPassword'
+import Kaimen from '../pages/Kaimen'
+import SelectContract from '../pages/SelectContract'
 
 Vue.use(Router)
 
@@ -207,6 +209,24 @@ const router = new Router({
       }
     },
     {
+      path: '/life/kaimen',
+      name: 'Kaimen',
+      component: Kaimen,
+      meta: {
+        requiresAuth: true,
+        keepAlive: false
+      }
+    },
+    {
+      path: '/life/select-contract',
+      name: 'SelectContract',
+      component: SelectContract,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
       path: '*',
       name: 'notfound',
       component: NotFound
@@ -216,24 +236,40 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(r => r.meta.requiresAuth)) {
-    if (store.getters.loginStatus) {
-      if (/\/life\/[\w]+/.test(to.path)) {
+    if (store.getters.loginStatus) { //已登录
+      if (/^\/life\/[\w]+$/.test(to.fullPath)) {
+        //loading效果
+        debugger
+        store.dispatch('setLoadingState', true)
         api.getContractList({ access_token: store.getters.userInfo.token, iskaimen: 0 })
           .then(res => {
-            if (res.numberData.length > 0) {
-              next()
-            } else {
+            store.dispatch('setLoadingState', false)
+            if (res.numberData.length === 0) { //没有合同
               next(false)
               _.toast('暂无租约')
+            } else if (res.numberData.length === 1) { //只有一个合同不需要选择，直接进相关功能页，把ContractId和HouseId带过去
+              next({
+                path: to.path,
+                query: {
+                  ContractId: res.numberData[0].Id,
+                  HouseId: res.numberData[0].HouseId
+                }
+              })
+            } else {
+              next({
+                name: 'SelectContract',
+                query: { redirect: to.path }
+              })
             }
           })
       } else {
         next()
       }
 
-    } else {
+    } else { //未登录，跳登录页面
       next({
-        path: '/user/login'
+        path: '/user/login',
+        query: { redirect: to.fullPath } //登录重定向
       })
     }
 

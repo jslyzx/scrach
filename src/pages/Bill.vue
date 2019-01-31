@@ -56,7 +56,6 @@ export default {
         watch: {
             '$route' (to, from) {
                 // 对路由变化作出响应...
-                debugger
                 if (to.path === '/life/bill') {
                     this.index = Number(this.$route.query.index || 0)
                     this.ContractId = this.userContractList[this.index].Id

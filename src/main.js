@@ -15,6 +15,7 @@ import * as filters from './util/filter'
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k])) //注册过滤器
 
 Vue.config.productionTip = false
+Vue.prototype.imgurl = process.env.imgurl
 
 Vue.use(ElementUI)
 Vue.use(Mui)

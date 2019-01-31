@@ -26,8 +26,10 @@
         <span>退租</span>
       </div>
       <div class="item">
-        <img src="../assets/images/km.png">
-        <span>开门</span>
+        <router-link to="/life/kaimen">
+          <img src="../assets/images/km.png">
+          <span>开门</span>
+        </router-link>
       </div>
       <div class="item">
         <router-link to='life/fgy'>

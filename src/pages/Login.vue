@@ -69,8 +69,7 @@ export default {
           this.$store.dispatch('setLoadingState', false)
           if (res.Code === 0) { //成功
             this.setUserInfo(res.numberData)
-            // this.$router.replace(this.$route.query.redirect || '/home') //登录成功跳转首页
-            this.$router.go(-1);
+            this.$router.replace(this.$route.query.redirect || '/home') //登录成功跳转首页
           } else {
             _.toast(res.Message)
           }
