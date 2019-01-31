@@ -36,6 +36,7 @@ import ModifyPhone from '../pages/ModifyPhone'
 import ModifyPassword from '../pages/ModifyPassword'
 import Kaimen from '../pages/Kaimen'
 import SelectContract from '../pages/SelectContract'
+import ContractSign from '../pages/ContractSign'
 
 Vue.use(Router)
 
@@ -227,6 +228,15 @@ const router = new Router({
       }
     },
     {
+      path: '/user/contract/sign/:id',
+      name: 'ContractSign',
+      component: ContractSign,
+      meta: {
+        requiresAuth: true,
+        keepAlive: false
+      }
+    },
+    {
       path: '*',
       name: 'notfound',
       component: NotFound
@@ -239,7 +249,6 @@ router.beforeEach((to, from, next) => {
     if (store.getters.loginStatus) { //已登录
       if (/^\/life\/[\w]+$/.test(to.fullPath)) {
         //loading效果
-        debugger
         store.dispatch('setLoadingState', true)
         api.getContractList({ access_token: store.getters.userInfo.token, iskaimen: 0 })
           .then(res => {

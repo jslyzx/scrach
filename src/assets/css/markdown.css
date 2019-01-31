@@ -1,0 +1,9 @@
+.md-wrap{
+	padding: 20px 15px;
+}
+.md-wrap h1 {
+  font-size: 26px;
+}
+.md-wrap em{
+	text-decoration: underline;
+}

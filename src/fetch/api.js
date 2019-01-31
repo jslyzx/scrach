@@ -198,5 +198,11 @@ export default {
   },
   getLockList(params) {
     return fetch('/api/House/Querylocal', params)
+  },
+  getContractTemplate(params) {
+    return fetch('/api/template/morenQuery', params)
+  },
+  signContract(params) {
+    return fetch('/api/Contract/qianyue', params)
   }
 }
