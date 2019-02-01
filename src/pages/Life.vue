@@ -22,8 +22,10 @@
     </div>
     <div class="list">
       <div class="item">
-        <img src="../assets/images/tz.png">
-        <span>退租</span>
+        <router-link to="/life/tuizu">
+          <img src="../assets/images/tz.png">
+          <span>退租</span>
+        </router-link>
       </div>
       <div class="item">
         <router-link to="/life/kaimen">

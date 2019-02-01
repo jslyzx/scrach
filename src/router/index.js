@@ -38,6 +38,7 @@ import Kaimen from '../pages/Kaimen'
 import SelectContract from '../pages/SelectContract'
 import ContractSign from '../pages/ContractSign'
 import ContractSignSuccess from '../pages/ContractSignSuccess'
+import Tuizu from '../pages/Tuizu'
 
 Vue.use(Router)
 
@@ -245,6 +246,14 @@ const router = new Router({
         requiresAuth: true,
         keepAlive: false,
         other: true
+      }
+    },
+    {
+      path: '/life/tuizu',
+      component: Tuizu,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
       }
     },
     {

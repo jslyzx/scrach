@@ -6,7 +6,8 @@ const state = {
   bxItem: {},
   billList: [],
   billDetail: {},
-  payReturnUrl: JSON.parse(localStorage.getItem('payReturnUrl')) || ''
+  payReturnUrl: JSON.parse(localStorage.getItem('payReturnUrl')) || '',
+  contract: {}
 }
 
 const actions = {
@@ -47,7 +48,16 @@ const actions = {
   setPayReturnUrl({ commit }, res) {
     localStorage.setItem('payReturnUrl', JSON.stringify(res))
     commit(types.SET_PAY_RETURN_URL, true)
-  }
+  },
+  getContract({ commit }, id) {
+    api.getContractDetail(id)
+      .then(res => {
+        commit(types.GET_CONTRACT, res.numberData)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
 }
 
 const getters = {
@@ -55,7 +65,8 @@ const getters = {
   bxItem: state => state.bxItem,
   billList: state => state.billList,
   billDetail: state => state.billDetail,
-  payReturnUrl: state => state.payReturnUrl
+  payReturnUrl: state => state.payReturnUrl,
+  contract: state => state.contract
 }
 
 const mutations = {
@@ -73,6 +84,9 @@ const mutations = {
   },
   [types.SET_PAY_RETURN_URL](state, url) {
     state.payReturnUrl = url
+  },
+  [types.GET_CONTRACT](state, res){
+    state.contract = res
   }
 }
 

@@ -207,5 +207,17 @@ export default {
   },
   getkeyboardPwd(params) {
     return fetch('/api/kjx/getkeyboardPwd', params)
+  },
+  verifyYzm(params) {
+    return fetch('/api/User/Verification', params)
+  },
+  queryTuizu(params) {
+    return fetch('/api/Contract/Querytuizu', params)
+  },
+  queryBankList() {
+    return fetch('/api/bankcard/Query')
+  },
+  approveTuizu(params) {
+    return fetch('/api/Contract/tuizu', params)
   }
 }

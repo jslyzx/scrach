@@ -15,7 +15,8 @@ const state = {
   alertMsg: '退出登录',
   showAlert: false,
   //维修科目列表
-  repairSubjectList: []
+  repairSubjectList: [],
+  bankList: []
 }
 
 const actions = {
@@ -54,15 +55,21 @@ const actions = {
       .then(res => {
         commit(types.GET_REPAIR_SUBJECT_LIST, res.numberData)
       })
+  },
+  queryBankList({ commit }) {
+    api.queryBankList()
+      .then(res => {
+        commit(types.GET_BANK_LIST, res.numberData)
+      })
   }
-
 }
 
 const getters = {
   loading: state => state.loading,
   showToast: state => state.showToast,
   showAlert: state => state.showAlert,
-  repairSubjectList: state => state.repairSubjectList
+  repairSubjectList: state => state.repairSubjectList,
+  bankList: state => state.bankList
 }
 
 
@@ -101,8 +108,11 @@ const mutations = {
   [types.COM_ALERT_MSG](state, str) {
     state.alertMsg = str
   },
-  [types.GET_REPAIR_SUBJECT_LIST](state, status){
+  [types.GET_REPAIR_SUBJECT_LIST](state, status) {
     state.repairSubjectList = status
+  },
+  [types.GET_BANK_LIST](state, res) {
+    state.bankList = res
   }
 }
 

@@ -51,3 +51,7 @@ export const GET_BILL_DETAIL = 'GET_BILL_DETAIL'
 export const SET_PAY_RETURN_URL = 'SET_PAY_RETURN_URL'
 
 export const GET_USER_ID_CARD = 'GET_USER_ID_CARD'
+
+export const GET_CONTRACT = 'GET_CONTRACT'
+
+export const GET_BANK_LIST = 'GET_BANK_LIST'
