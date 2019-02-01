@@ -1,53 +1,55 @@
 <template>
-  <div v-if="userContractList.length === 1 || typeof this.$route.query.index !== 'undefined'">
-    <scroll ref="scroll" :data="lockList" :direction="horizontal" :scrollbar="{fade:true}">
-      <div class="list-content" v-for="(item) in lockList">
+  <div>
+    <el-carousel type="card" height="130px" :autoplay="autoplay" @change="changeLock">
+      <el-carousel-item v-for="item in lockList" :key="item.LocalId">
         <div class="item">
-          {{item.Name}}
+          <img src="../assets/images/lock-close.png">
+          <h3>{{ item.Name }}</h3>
         </div>
+      </el-carousel-item>
+    </el-carousel>
+    <div class="type-wrap">
+      <button type="button" @click="changeType(1)" :class="{active: selected}">短期</button>
+      <button type="button" @click="changeType(2)" :class="{active: !selected}">长期</button>
+    </div>
+    <div class="main">
+      <p>获取房间密码</p>
+      <div class="pwd-wrap">
+        <input type="text" v-model="password" readonly="readonly">
+        <span @click="getPassword">获取动态密码</span>
       </div>
-    </scroll>
-  </div>
-  <div v-else>
-    <contract-list :contract-list="userContractList" :redirect-url="url"></contract-list>
+      <p class="desc" v-show="type === 1">密码有效期24小时</p>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import api from '../fetch/api'
-import ContractList from '@/pages/ContractList'
 import Scroll from '@/components/scroll'
 export default {
   data() {
     return {
       lockList: [],
-      url: '/life/kaimen',
       ContractId: 0,
       HouseId: 0,
-      index: undefined
+      autoplay: false,
+      lockId: 0,
+      type: 1,
+      password: ''
     }
   },
   computed: {
-    ...mapGetters(['userInfo', 'userContractList'])
+    ...mapGetters(['userInfo']),
+    selected() {
+      return this.type === 1
+    }
   },
   components: {
-    ContractList,
     Scroll
   },
   created() {
-    this.$store.dispatch("getUserContractList", {
-      access_token: this.userInfo.token,
-      iskaimen: 0,
-      Status: 5
-    })
-  },
-  beforeRouteEnter(to, from, next) {
-    debugger
-    next(vm => {
-      //因为当钩子执行前，组件实例还没被创建
-      // vm 就是当前组件的实例相当于上面的 this，所以在 next 方法里你就可以把 vm 当 this 来用了。
-      console.log(vm.userContractList); //当前组件的实例
-    });
+    this.HouseId = Number(this.$route.query.HouseId)
+    this.getLockList(this.HouseId)
   },
   methods: {
     getLockList(id) {
@@ -61,43 +63,90 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-    }
-  },
-  watch: {
-    '$route'(to, from) {
-      // 对路由变化作出响应...
-      if (to.path === '/life/kaimen' && from.path === '/life/kaimen' && (typeof to.query.index !== 'undefined' || this.userContractList.length === 1)) {
-        this.index = Number(to.query.index || 0)
-        this.ContractId = this.userContractList[this.index].Id
-        this.HouseId = this.userContractList[this.index].HouseId
-        this.getLockList(this.HouseId)
-      } else {
-        this.index = undefined
-        this.ContractId = 0
-        this.HouseId = 0
-        this.lockList = []
-      }
+    },
+    changeLock(e) {
+      this.lockId = this.lockList[e].LocalId
+    },
+    changeType(type) {
+      this.type = type
+    },
+    getPassword() {
+      api.getkeyboardPwd({
+          access_token: this.userInfo.token,
+          lockId: this.lockId,
+          UserName: this.userInfo.username,
+          Type: this.type
+        })
+        .then((res) => {
+          this.password = res.numberData.keyboardPwd
+        })
+        .catch((error) => {
+          mui.alert('获取失败，请重新获取')
+        })
     }
   }
 }
 
 </script>
 <style lang="scss" scoped>
-@import '../assets/css/function';
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
+.item {
+  img {
+    display: block;
+    margin: 10px auto;
+  }
+  h3 {
+    font-size: 14px;
+    text-align: center;
+  }
 }
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+.type-wrap {
+  padding-top: 8px;
+  height: 40px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.16);
+  button {
+    width: 56px;
+    height: 24px;
+    border: none;
+    line-height: 24px;
+    padding: 0;
+    margin-left: 40px;
+    &~button {
+      margin-left: 20px;
+    }
+    &.active {
+      border: 2px solid rgba(255, 82, 82, 1);
+      border-radius: 11px;
+    }
+  }
 }
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
+.main {
+  padding: 44px 0 0 25px;
+  p {
+    color: #333;
+  }
+  .pwd-wrap {
+    position: relative;
+    input {
+      width: 320px;
+      height: 40px;
+    }
+    span {
+      position: absolute;
+      right: 26px;
+      top: 1px;
+      display: inline-block;
+      width: 80px;
+      height: 38px;
+      background-color: #FF5252;
+      color: #fff;
+      line-height: 38px;
+      text-align: center;
+    }
+  }
+  .desc {
+    color: #999;
+  }
 }
 
 </style>

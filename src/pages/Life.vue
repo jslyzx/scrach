@@ -32,7 +32,7 @@
         </router-link>
       </div>
       <div class="item">
-        <router-link to='life/fgy'>
+        <router-link to='/life/fgy'>
           <img src="../assets/images/fgy.png">
           <span>房管员</span>
         </router-link>

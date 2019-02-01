@@ -204,5 +204,8 @@ export default {
   },
   signContract(params) {
     return fetch('/api/Contract/qianyue', params)
+  },
+  getkeyboardPwd(params) {
+    return fetch('/api/kjx/getkeyboardPwd', params)
   }
 }
