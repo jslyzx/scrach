@@ -39,7 +39,7 @@
           </router-link>
         </li>
         <li class="mui-table-view-cell tab">
-          <router-link class="mui-navigate-right" to="/user/tuizu">
+          <router-link class="mui-navigate-right" to="/life/tuizu">
             <i class="tz"></i>退租
           </router-link>
         </li>

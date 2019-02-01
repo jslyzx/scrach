@@ -39,6 +39,7 @@ import SelectContract from '../pages/SelectContract'
 import ContractSign from '../pages/ContractSign'
 import ContractSignSuccess from '../pages/ContractSignSuccess'
 import Tuizu from '../pages/Tuizu'
+import Remark from '../pages/Remark'
 
 Vue.use(Router)
 
@@ -257,6 +258,14 @@ const router = new Router({
       }
     },
     {
+      path: '/user/settings/remark',
+      component: Remark,
+      meta: {
+        requiresAuth: true,
+        keepAlive: false
+      }
+    },
+    {
       path: '*',
       name: 'notfound',
       component: NotFound
@@ -270,7 +279,7 @@ router.beforeEach((to, from, next) => {
       if (/^\/life\/[\w]+$/.test(to.fullPath)) {
         //loading效果
         store.dispatch('setLoadingState', true)
-        api.getContractList({ access_token: store.getters.userInfo.token, iskaimen: 0 })
+        api.getContractList({ access_token: store.getters.userInfo.token, iskaimen: 0, Status: 5 })
           .then(res => {
             store.dispatch('setLoadingState', false)
             if (res.numberData.length === 0) { //没有合同

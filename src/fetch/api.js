@@ -219,5 +219,8 @@ export default {
   },
   approveTuizu(params) {
     return fetch('/api/Contract/tuizu', params)
+  },
+  saveFeeback(content) {
+    return fetch('/api/feeback/save', content)
   }
 }
