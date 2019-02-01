@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <h1>支付金额：<span class="money">{{$route.params.Amount || 720}}</span>元</h1>
+        <h1>支付金额：<span class="money">{{$route.params.Amount || 0}}</span>元</h1>
         <div class="pay-zfb pay-type">
             <img src="../assets/images/zhifubao.png" alt="">
             <p class="cn">支付宝支付</p>

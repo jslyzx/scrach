@@ -69,7 +69,7 @@ export default {
   created() {
     this.$store.dispatch("getRepairSubjectList")
     this.form.Phone = this.userInfo.username
-    this.HouseId = Number(this.$route.query.HouseId)
+    this.form.HouseId = Number(this.$route.query.HouseId)
   },
   computed: {
     ...mapGetters([

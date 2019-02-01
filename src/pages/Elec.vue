@@ -1,102 +1,91 @@
 <template>
   <div>
-    <div v-if="userContractList.length === 1 || typeof this.$route.query.index !== 'undefined'">
-      <div class="addr">地址：{{this.HouseName || ''}}</div>
-      <div class="remain">
-        <p>当前剩余</p>
-        <p>{{this.Elec.surplus}}度</p>
-      </div>
-      <div class="mui-content">
-        <div class="mui-card">
-          <ul class="mui-table-view">
-            <li class="mui-table-view-cell mui-collapse">
-              <a class="mui-navigate-right" href="javascript:;">
-  					度数
-  					<span class="degree" v-text="degree"></span>
-				</a>
-              <div class="mui-collapse-content">
-                <button type="button" class="mui-btn mui-btn-outlined" @click="changeDegree(50)">50度</button>
-                <button type="button" class="mui-btn mui-btn-outlined" @click="changeDegree(100)">100度</button>
-                <button type="button" class="mui-btn mui-btn-outlined" @click="changeDegree(150)">150度</button>
-                <button type="button" class="mui-btn mui-btn-outlined" @click="changeDegree(200)">200度</button>
-              </div>
-            </li>
-            <li class="mui-table-view-cell">
-              单价
-              <span>{{this.Elec.Price}}</span>
-            </li>
-            <li class="mui-table-view-cell">
-              金额
-              <span>{{this.totalPrice}}</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <button class="pay">充值</button>
+    <div class="addr">地址：{{HouseName || ''}}</div>
+    <div class="remain">
+      <p>当前剩余</p>
+      <p>{{Elec.surplus}}度</p>
     </div>
-    <div v-else>
-      <contract-list :contract-list="userContractList" :redirect-url="url"></contract-list>
+    <div class="mui-content">
+      <div class="mui-card">
+        <ul class="mui-table-view">
+          <li class="mui-table-view-cell mui-collapse">
+            <a class="mui-navigate-right" href="javascript:;">
+            度数
+            <span class="degree" v-text="degree"></span>
+        </a>
+            <div class="mui-collapse-content">
+              <button type="button" class="mui-btn mui-btn-outlined" @click="changeDegree(50)">50度</button>
+              <button type="button" class="mui-btn mui-btn-outlined" @click="changeDegree(100)">100度</button>
+              <button type="button" class="mui-btn mui-btn-outlined" @click="changeDegree(150)">150度</button>
+              <button type="button" class="mui-btn mui-btn-outlined" @click="changeDegree(200)">200度</button>
+            </div>
+          </li>
+          <li class="mui-table-view-cell">
+            单价
+            <span>{{Elec.Price}}</span>
+          </li>
+          <li class="mui-table-view-cell">
+            金额
+            <span>{{totalPrice}}</span>
+          </li>
+        </ul>
+      </div>
     </div>
+    <button class="pay" @click="pay">充值</button>
   </div>
 </template>
 <script>
 import {
-  mapGetters
+  mapGetters,
+  mapActions
 } from 'vuex'
-import ContractList from '@/pages/ContractList'
 import api from '../fetch/api'
 export default {
   data() {
     return {
-      url: '/life/elec',
-      index: Number(this.$route.query.index || 0),
       HouseId: 0,
       HouseName: '',
       Elec: {
-      	Price: 0,
-      	surplus: 0
+        Price: 0,
+        surplus: 0
       },
       degree: 50
     }
   },
-  components: {
-    ContractList
-  },
   computed: {
     ...mapGetters([
-      'userInfo',
-      'userContractList'
+      'userInfo'
     ]),
     totalPrice: function() {
       return _.round(this.Elec.Price * this.degree, 2)
     }
   },
   created() {
-    this.$store.dispatch("getUserContractList", {
-      access_token: this.userInfo.token,
-      iskaimen: 0
-    })
+    this.initData()
   },
   watch: {
     '$route'(to, from) {
       // 对路由变化作出响应...
-      if (typeof to.query.index !== 'undefined' && to.path === '/life/elec') {
-        this.index = Number(this.$route.query.index || 0)
-        this.HouseId = this.userContractList[this.index].HouseId
-        this.HouseName = this.userContractList[this.index].HouseName
-        this.initchongzhi()
+      if (to.path === '/life/elec') {
+        this.initData()
       }
-
     }
   },
   methods: {
+    ...mapActions({
+      setPayReturnUrl: 'setPayReturnUrl'
+    }),
+    initData() {
+      this.HouseId = Number(this.$route.query.HouseId)
+      this.HouseName = this.$route.query.HouseName
+      this.initchongzhi()
+    },
     initchongzhi() {
       api.initchongzhi({
           access_token: this.userInfo.token,
           HouseId: this.HouseId
         })
         .then((res) => {
-          console.log(res)
           if (res.Code === 1) {
             mui.toast(res.Message)
           } else {
@@ -109,6 +98,17 @@ export default {
     },
     changeDegree(val) {
       this.degree = val
+    },
+    pay() {
+      this.setPayReturnUrl(this.$route.fullPath)
+      this.$router.push({
+        name: 'pay',
+        params: {
+          Amount: this.totalPrice,
+          HouseId: this.HouseId,
+          value: this.degree
+        }
+      })
     }
   }
 }

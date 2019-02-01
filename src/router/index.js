@@ -127,7 +127,7 @@ const router = new Router({
       }
     },
     {
-      path: '/life/pay',
+      path: '/life/pay/a',
       component: Pay,
       name: 'pay',
       meta: {

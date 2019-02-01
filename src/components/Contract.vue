@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ path: redirectUrl, query:{ContractId: contract.Id, HouseId: contract.HouseId} }" class="mui-card">
+  <router-link :to="{ path: redirectUrl, query:{ContractId: contract.Id, HouseId: contract.HouseId, HouseName: contract.HouseName} }" class="mui-card">
     <div class="mui-table-view">
       <div class="mui-table-view-cell">
         <p><span class="item-t">合同周期:</span><span class="item-c">{{contract.BeginTime | formatDate}} ~ {{contract.EndTime | formatDate}}</span></p>

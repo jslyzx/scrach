@@ -24,6 +24,11 @@ export default {
   created() {
     this.getContractList()
   },
+  beforeRouteEnter(to, from, next) {
+    next((vm)=>{
+      vm.redirectUrl = to.query.redirect
+    })
+  },
   methods: {
     getContractList() {
       api.getContractList({
@@ -32,7 +37,7 @@ export default {
           Status: 5
         })
         .then((res) => {
-            this.contractList = res.numberData
+          this.contractList = res.numberData
         })
         .catch((error) => {
           console.log(error)
