@@ -37,6 +37,7 @@ import ModifyPassword from '../pages/ModifyPassword'
 import Kaimen from '../pages/Kaimen'
 import SelectContract from '../pages/SelectContract'
 import ContractSign from '../pages/ContractSign'
+import ContractSignSuccess from '../pages/ContractSignSuccess'
 
 Vue.use(Router)
 
@@ -233,7 +234,17 @@ const router = new Router({
       component: ContractSign,
       meta: {
         requiresAuth: true,
-        keepAlive: false
+        keepAlive: false,
+        other: true
+      }
+    },
+    {
+      path: '/contract/sign/success',
+      component: ContractSignSuccess,
+      meta: {
+        requiresAuth: true,
+        keepAlive: false,
+        other: true
       }
     },
     {

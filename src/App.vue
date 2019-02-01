@@ -4,7 +4,7 @@
         <v-alert v-show="showAlert"></v-alert>
         <v-loading v-show="loading"></v-loading>
 
-        <v-header :title="title" :back-display="backDisplay"></v-header>
+        <v-header :title="title" :back-display="backDisplay" :show-head="showHead"></v-header>
         <div class="content" :class="{tabar: tabar}">
             <transition name="slide-left">
               <keep-alive>
@@ -69,6 +69,9 @@ export default {
       },
       backDisplay () {
         return this.$route.path.split('/').length > 2 ? true : false
+      },
+      showHead() {
+        return this.$route.meta.other ? false : true
       }
   }
 }

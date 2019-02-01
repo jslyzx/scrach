@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" v-if="showHead">
     <div class="header-icon" v-show="backDisplay" @click="goBack"><i class="icon">&#xe622;</i></div>
     <div class="header-cont"><p>{{title}}</p></div>
   </div>
@@ -9,7 +9,8 @@
   export default {
     props: {
       title: String,
-      backDisplay: Boolean
+      backDisplay: Boolean,
+      showHead: Boolean
     },
     data() {
       return {
