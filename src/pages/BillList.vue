@@ -2,7 +2,7 @@
   <div>
     <scroll ref="scroll" :data="billList" :scrollbar="scrollbarObj" :pullDownRefresh="pullDownRefreshObj" :pullUpLoad="pullUpLoadObj" :startY="parseInt(startY)" @pullingDown="onPullingDown" @pullingUp="onPullingUp">
       <div class="list-content">
-        <bill-item v-for="(item,index) in billList" :key="item.objectId" :bill="item" :checkedIds="checkedIds" v-on:sendData="getData"></bill-item>
+        <bill-item v-for="(item,index) in billList" :key="item.objectId" :bill="item" :checkedIds="checkedIds" v-on:sendData="getData" :status="status"></bill-item>
       </div>
     </scroll>
     <div class="total" v-if="status === 0">
