@@ -1,10 +1,30 @@
 <template>
-  <div class="main">
+  <!-- <div class="main">
     <div>
       <img src="../assets/images/user-image.png">
       <span>{{idCard.Name}}</span>
     </div>
     <p>身份证号 <span>{{idCard.Document}}</span></p>
+  </div> -->
+  <div class="mui-card">
+    <ul class="mui-table-view">
+      <li class="mui-table-view-cell">
+        姓名
+        <span>{{idCard.Name}}</span>
+      </li>
+      <li class="mui-table-view-cell">
+        证件类型
+        <span>身份证</span>
+      </li>
+      <li class="mui-table-view-cell">
+        证件编号
+        <span>{{idCard.Document}}</span>
+      </li>
+      <li class="mui-table-view-cell">
+        性别
+        <span>{{sexText}}</span>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -20,7 +40,10 @@ export default {
     ...mapGetters([
       'userInfo',
       'idCard'
-    ])
+    ]),
+    sexText() {
+      return this.idCard.Sex === 0 ? '男' : '女'
+    }
   },
   created() {
     this.$store.dispatch('getIdCard', this.userInfo.token)
@@ -30,29 +53,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../assets/css/function';
-.main {
-  padding: px2rem(30px);
-  div {
-    line-height: px2rem(100px);
-    img {
-      width: px2rem(100px);
-      height: px2rem(100px);
-      vertical-align: top;
-    }
-    span {
-      color: #666;
-      font-size: px2rem(36px);
-      margin-left: px2rem(20px);
-    }
-  }
-  p {
-  	font-size: px2rem(48px);
-  	color: #333;
-  	margin-top: px2rem(40px);
-  	span{
-  		margin-left: px2rem(10px);
-  	}
-  }
+span{
+  float: right;
 }
 
 </style>

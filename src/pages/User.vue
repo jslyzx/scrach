@@ -8,18 +8,18 @@
       </div>
     </div>
     <div class="links">
-      <router-link class="item" to="/life/">
+      <a class="item" href="javascript:;" @click="todo">
         <p class="num">10</p>
         <p class="name">我的预约</p>
-      </router-link>
-      <router-link class="item" to="/life/">
+      </a>
+      <a class="item" href="javascript:;"  @click="todo">
         <p class="num">0.00</p>
         <p class="name">我的优惠券</p>
-      </router-link>
-      <router-link class="item" to="/life/">
+      </a>
+      <a class="item" href="javascript:;"  @click="todo">
         <p class="num">10</p>
         <p class="name">我的收藏</p>
-      </router-link>
+      </a>
     </div>
     <div class="tabs mui-content">
       <ul class="mui-table-view">
@@ -75,6 +75,9 @@ export default {
     login(){
       if(!this.loginStatus)
         this.$router.push({path: '/user/login', query: {redirect: '/user'}})
+    },
+    todo() {
+      mui.toast('待开发')
     }
   }
 }
