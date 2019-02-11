@@ -308,7 +308,7 @@ export default {
   left: 0;
   right: 0;
   top: px2rem(200px);
-  bottom: px2rem(120px);
+  bottom: 0;
   overflow: hidden;
   background: #fff;
   .scroll-content {

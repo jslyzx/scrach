@@ -59,4 +59,9 @@ export default {
 
 </script>
 <style scoped lang="scss">
+button{
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 0;
+}
 </style>
