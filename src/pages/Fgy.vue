@@ -8,7 +8,7 @@
       </div>
       <div class="item">
         <span class="item-t">电话</span>
-        <span>{{fgy.Mobile}}</span>
+        <a :href="tel"><i></i>{{fgy.Mobile}}</a>
       </div>
     </div>
     <div v-else>
@@ -44,7 +44,10 @@ export default {
     ...mapGetters([
       'fgy',
       'userInfo'
-    ])
+    ]),
+    tel() {
+      return 'tel:' + this.fgy.Mobile
+    }
   }
 }
 
@@ -68,5 +71,15 @@ export default {
     margin-right: px2rem(50px);
   }
 }
-
+a{
+  i{
+    background: url(../assets/images/tel-icon.png) no-repeat left center;
+    display: inline-block;
+    width: px2rem(40px);
+    height: px2rem(40px);
+    background-size: cover;
+    vertical-align: bottom;
+  }
+  
+}
 </style>
