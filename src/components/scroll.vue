@@ -4,6 +4,9 @@
       <div ref="listWrapper">
         <slot>
         </slot>
+        <div class="mui-table-view-cell mui-collapse" v-if="needShowMore">
+          <a class="mui-navigate-right show-more" @click="showmore">查看未来账单</a>
+        </div>
       </div>
       <slot name="pullup" :pullUpLoad="pullUpLoad" :isPullUpLoad="isPullUpLoad">
         <div class="pullup-wrapper" v-if="pullUpLoad">
@@ -107,6 +110,10 @@ export default {
     },
     zoom: {
       default: false
+    },
+    needShowMore: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -198,6 +205,7 @@ export default {
       if (this.pullUpLoad) {
         this._initPullUpLoad()
       }
+
     },
     disable() {
       this.scroll && this.scroll.disable()
@@ -285,6 +293,9 @@ export default {
         this.isRebounding = false
         this.refresh()
       }, this.scroll.options.bounceTime)
+    },
+    showmore() {
+      this.$emit('showmore')
     }
   },
   watch: {
@@ -350,5 +361,11 @@ export default {
   align-items: center;
   padding: 16px 0;
 }
-
+.show-more{
+  text-align: center;
+  &:after{
+    right: auto;
+    margin-left: 10px;
+  }
+}
 </style>

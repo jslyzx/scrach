@@ -1,8 +1,8 @@
 <template>
   <div>
-    <scroll ref="scroll" :data="billList" :scrollbar="scrollbarObj" :pullDownRefresh="pullDownRefreshObj" :pullUpLoad="pullUpLoadObj" :startY="parseInt(startY)" @pullingDown="onPullingDown" @pullingUp="onPullingUp">
+    <scroll ref="scroll" :data="billList" :scrollbar="scrollbarObj" :pullDownRefresh="pullDownRefreshObj" :pullUpLoad="pullUpLoadObj" :startY="parseInt(startY)" @pullingDown="onPullingDown" @pullingUp="onPullingUp" :needShowMore="needShowMore" @showmore="onShowMore">
       <div class="list-content">
-        <bill-item v-for="(item,index) in billList" :key="item.objectId" :bill="item" :checkedIds="checkedIds" v-on:sendData="getData" :status="status"></bill-item>
+        <bill-item v-for="(item,index) in billList" :key="item.objectId" :bill="item" :checkedIds="checkedIds" v-on:sendData="getData" :status="status" :showMore="showMore"></bill-item>
       </div>
     </scroll>
     <div class="total" v-if="status === 0">
@@ -56,7 +56,9 @@ export default {
       scrollToEasingOptions: ['bounce', 'swipe', 'swipeBounce'],
       pullUpLoadMoreTxt: '加载更多',
       pullUpLoadNoMoreTxt: '没有更多数据了',
-      checkedIds: []
+      checkedIds: [],
+      needShowMore: true,
+      showMore: false
     }
   },
   computed: {
@@ -117,6 +119,7 @@ export default {
       this.billList = []
       this.pageindex = 0
       this.getBillList()
+      this.needShowMore = val === 0
     },
     scrollbarObj: {
       handler() {
@@ -237,6 +240,9 @@ export default {
       } else {
         this.checkedIds = []
       }
+    },
+    onShowMore() {
+      this.showMore = !this.showMore
     }
   }
 }
