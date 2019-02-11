@@ -223,7 +223,11 @@ export default {
         params: {
           Amount: this.totalAmount,
           list: this.list
+        },
+        query: {
+          type: 'bill'
         }
+
       })
     },
     getData(data) {

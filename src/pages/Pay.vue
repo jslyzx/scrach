@@ -37,29 +37,55 @@ export default {
       }
       if (this.payType === 'ali') { //支付宝支付
         const newTab = window.open()
-        api.invokeAliPay(this.$route.params)
-          .then((res) => {
-            console.log(res.numberData)
-            const div = document.createElement('div');
-            div.innerHTML = res.numberData; // html code
-            newTab.document.body.appendChild(div);
-            newTab.document.forms.alipaysubmit.submit();
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+        if (this.$route.query.type === 'bill') {
+          api.billAliPay(this.$route.params)
+            .then((res) => {
+              console.log(res.numberData)
+              const div = document.createElement('div');
+              div.innerHTML = res.numberData; // html code
+              newTab.document.body.appendChild(div);
+              newTab.document.forms.alipaysubmit.submit();
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        } else if (this.$route.query.type === 'elec') {
+          api.elecAliPay(this.$route.params)
+            .then((res) => {
+              console.log(res.numberData)
+              const div = document.createElement('div');
+              div.innerHTML = res.numberData; // html code
+              newTab.document.body.appendChild(div);
+              newTab.document.forms.alipaysubmit.submit();
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        }
+
       } else { //微信支付
-        api.invokeWXPay(this.$route.params)
-          .then((res) => {
-            console.log(res.numberData)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+        if (this.$route.query.type === 'bill') {
+          api.billWXPay(this.$route.params)
+            .then((res) => {
+              console.log(res.numberData)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        } else if (this.$route.query.type === 'elec') {
+          api.elecWXPay(this.$route.params)
+            .then((res) => {
+              console.log(res.numberData)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        }
+
       }
     },
     choose(type) {
-        this.payType = type
+      this.payType = type
     }
   }
 }
