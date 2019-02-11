@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="tab-wrap">
-      <a href="javascript:;" :class="{active: undone}" @click="changeTab($event, 0)">未付账单</a>
-      <a href="javascript:;" :class="{active: !undone}" @click="changeTab($event, 1)">历史账单</a>
+      <a href="javascript:;" :class="{active: undone}" @click="changeTab($event, 0)">未租合同</a>
+      <a href="javascript:;" :class="{active: !undone}" @click="changeTab($event, 1)">历史合同</a>
     </div>
     <scroll ref="scroll" :data="contractList" :scrollbar="scrollbarObj" :pullDownRefresh="pullDownRefreshObj" :pullUpLoad="pullUpLoadObj" :startY="parseInt(startY)">
       <div class="list-content">
