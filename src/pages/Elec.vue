@@ -87,6 +87,7 @@ export default {
         })
         .then((res) => {
           if (res.Code === 1) {
+            this.$router.push('/life')
             mui.toast(res.Message)
           } else {
             this.Elec = res.numberData
@@ -107,6 +108,9 @@ export default {
           Amount: this.totalPrice,
           HouseId: this.HouseId,
           value: this.degree
+        },
+        query: {
+          type: 'elec'
         }
       })
     }

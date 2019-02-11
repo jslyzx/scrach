@@ -169,11 +169,17 @@ export default {
   getBillDetail(params) {
     return fetch('/api/Bill/Querybillbyid', params)
   },
-  invokeAliPay(params) {
+  billAliPay(params) {
     return fetch('/api/Bill/webPay_zfb', params)
   },
-  invokeWXPay(params) {
+  billWXPay(params) {
     return fetch('/api/Bill/webPay_wx', params)
+  },
+  elecAliPay(params) {
+    return fetch('/api/PCElec/chongzhi', params)
+  },
+  elecWXPay(params) {
+    return fetch('/api/PCElec/wxchongzhi', params)
   },
   initchongzhi(params) {
     return fetch('/api/Elec/Initchongzhi', params)

@@ -47,7 +47,7 @@ const router = new Router({
   linkActiveClass: 'active',
   routes: [{
       path: '/',
-      component: Home,
+      component: Life,
       meta: {
         requiresAuth: false,
         keepAlive: true
@@ -91,6 +91,7 @@ const router = new Router({
     {
       path: '/life/fgy',
       component: Fgy,
+      name: 'fgy',
       meta: {
         requiresAuth: true,
         keepAlive: true
@@ -99,6 +100,7 @@ const router = new Router({
     {
       path: '/life/bx',
       component: Bx,
+      name: 'repair',
       meta: {
         requiresAuth: true,
         keepAlive: true
@@ -107,6 +109,7 @@ const router = new Router({
     {
       path: '/life/bx/item',
       component: BxItem,
+      name: 'repairItem',
       meta: {
         requiresAuth: true,
         keepAlive: true
@@ -115,6 +118,7 @@ const router = new Router({
     {
       path: '/life/bill',
       component: Bill,
+      name: 'billList',
       meta: {
         requiresAuth: true,
         keepAlive: true
@@ -148,6 +152,7 @@ const router = new Router({
     {
       path: '/life/elec',
       component: Elec,
+      name: 'elec',
       meta: {
         requiresAuth: true,
         keepAlive: true
@@ -156,6 +161,7 @@ const router = new Router({
     {
       path: '/user/idcard',
       component: IdCard,
+      name: 'IdCard',
       meta: {
         requiresAuth: true,
         keepAlive: true
@@ -164,6 +170,7 @@ const router = new Router({
     {
       path: '/user/repair-list',
       component: RepairList,
+      name: 'myRepairList',
       meta: {
         requiresAuth: true,
         keepAlive: true
@@ -172,6 +179,7 @@ const router = new Router({
     {
       path: '/user/contract-list',
       component: MyContractList,
+      name: 'MyContractList',
       meta: {
         requiresAuth: true,
         keepAlive: true
@@ -180,6 +188,7 @@ const router = new Router({
     {
       path: '/user/settings',
       component: Settings,
+      name: 'settings',
       meta: {
         requiresAuth: true,
         keepAlive: true
@@ -252,6 +261,7 @@ const router = new Router({
     {
       path: '/life/tuizu',
       component: Tuizu,
+      name: 'tuizu',
       meta: {
         requiresAuth: true,
         keepAlive: true
@@ -260,6 +270,7 @@ const router = new Router({
     {
       path: '/user/settings/remark',
       component: Remark,
+      name: 'remark',
       meta: {
         requiresAuth: true,
         keepAlive: false

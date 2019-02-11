@@ -2,16 +2,6 @@
 	<div class="tabar" v-show="isShowTabbar">
 		<div class="tab">
 			<div class="tab-item">
-				<router-link to="/home">
-					
-				</router-link>
-			</div>
-			<div class="tab-item">
-				<router-link to="/sport">
-					
-				</router-link>
-			</div>
-			<div class="tab-item">
 				<router-link to="/life">
 					
 				</router-link>
@@ -74,25 +64,13 @@ export default {
 				background-size: auto px2rem(73px);
 		    	background-position: center center;
 			}
-			&:nth-child(1) a{
-		    	background-image: url(../assets/images/tab-home.png);
-		    	&.active{
-					background-image: url(../assets/images/tab-home-active.png);
-		    	}
-		    }
-		    &:nth-child(2) a{
-		    	background-image: url(../assets/images/tab-zf.png);
-		    	&.active{
-					background-image: url(../assets/images/tab-zf-active.png);
-		    	}
-		    }
-		    &:nth-child(3) a{
+		    &:nth-child(1) a{
 		    	background-image: url(../assets/images/tab-sh.png);
 		    	//&.active{
 					//background-image: url(../assets/images/tab-sh-active.png);
 		    	//} 
 		    }
-		    &:nth-child(4) a{
+		    &:nth-child(2) a{
 		    	background-image: url(../assets/images/tab-my.png);
 		    	&.active{
 					background-image: url(../assets/images/tab-my-active.png);

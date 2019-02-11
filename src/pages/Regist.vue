@@ -129,7 +129,7 @@ export default {
           this.$store.dispatch('setLoadingState', false)
           if (res.Code === 0) { //成功
             this.setUserInfo(res.numberData)
-            this.$router.replace('/home') //登录成功跳转首页
+            this.$router.replace('/life') //登录成功跳转首页
           } else {
             _.toast(res.Message)
           }

@@ -83,6 +83,9 @@ export default {
         params: {
           Amount: this.billDetail.Amount,
           list: [{ Id: this.billDetail.Id, Amount: this.billDetail.Amount }]
+        },
+        query: {
+          type: 'bill'
         }
       })
     }

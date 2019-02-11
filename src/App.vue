@@ -51,6 +51,39 @@ export default {
           'showAlert'
       ]),
       title () {
+        if(this.$route.name === 'SelectContract')
+          return '选择合同'
+        if(this.$route.name === 'billList')
+          return '账单列表'
+        if(this.$route.name === 'elec')
+          return '电费充值'
+        if(this.$route.name === 'repair')
+          return '报修'
+        if(this.$route.name === 'repairItem')
+          return '报修科目维护'
+        if(this.$route.name === 'Kaimen')
+          return '开门'
+        if(this.$route.name === 'fgy')
+          return '房管员'
+        if(this.$route.name === 'tuizu')
+          return '退租'
+        if(this.$route.name === 'IdCard')
+          return '身份认证'
+        if(this.$route.name === 'myRepairList')
+          return '我的报修'
+        if(this.$route.name === 'MyContractList')
+          return '我的合同'
+        if(this.$route.name === 'settings')
+          return '设置'
+        if(this.$route.name === 'ContractDetail')
+          return '合同详情'
+        if(this.$route.name === 'ModifyPhone')
+          return '修改手机号'
+        if(this.$route.name === 'ModifyPassword')
+          return '修改密码'
+        if(this.$route.name === 'remark')
+          return '意见反馈'
+
         switch (this.$route.path.split('/')[1]) {
             case '':
               return "飞鸟快租"
