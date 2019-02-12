@@ -2,12 +2,11 @@
   <div>
     <el-date-picker v-model="month" type="month" @change="selectMonth">
     </el-date-picker>
-    <div class="item" v-for="item in list">
-      {{item.Date}}
-    </div>
-    <div class="mui-card">
+    <div class="mui-card" v-for="item in list">
       <div class="mui-card-header">
         <i></i>
+        <span class="title">时间</span>
+        <span class="con">{{item.Date}}</span>
       </div>
     </div>
   </div>
@@ -81,6 +80,7 @@ export default {
 }
 .mui-card {
   .mui-card-header {
+  	font-size: px2rem(32px);
     i {
       display: inline-block;
       float: left;
@@ -88,6 +88,12 @@ export default {
       height: px2rem(36px);
       background: url(../assets/images/time.png) no-repeat;
       background-size: contain;
+    }
+    .title{
+		color: #333;
+    }
+    .con{
+		color: #999;
     }
   }
 }
