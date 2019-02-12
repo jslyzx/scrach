@@ -83,6 +83,8 @@ export default {
           return '修改密码'
         if(this.$route.name === 'remark')
           return '意见反馈'
+        if(this.$route.name === 'tuizuDetail')
+          return '退租详情'
 
         switch (this.$route.path.split('/')[1]) {
             case '':

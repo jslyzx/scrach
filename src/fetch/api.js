@@ -228,5 +228,8 @@ export default {
   },
   saveFeeback(content) {
     return fetch('/api/feeback/save', content)
+  },
+  queryTuizuDetail(params) {
+    return fetch('/api/tuizu/Query', params)
   }
 }

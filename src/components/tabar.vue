@@ -66,9 +66,9 @@ export default {
 			}
 		    &:nth-child(1) a{
 		    	background-image: url(../assets/images/tab-sh.png);
-		    	//&.active{
-					//background-image: url(../assets/images/tab-sh-active.png);
-		    	//} 
+		    	&.active{
+					background-image: url(../assets/images/tab-sh-active.png);
+		    	} 
 		    }
 		    &:nth-child(2) a{
 		    	background-image: url(../assets/images/tab-my.png);

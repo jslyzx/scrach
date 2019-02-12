@@ -40,6 +40,7 @@ import ContractSign from '../pages/ContractSign'
 import ContractSignSuccess from '../pages/ContractSignSuccess'
 import Tuizu from '../pages/Tuizu'
 import Remark from '../pages/Remark'
+import TuizuDetail from '../pages/TuizuDetail'
 
 Vue.use(Router)
 
@@ -271,6 +272,15 @@ const router = new Router({
       path: '/user/settings/remark',
       component: Remark,
       name: 'remark',
+      meta: {
+        requiresAuth: true,
+        keepAlive: false
+      }
+    },
+    {
+      name: 'tuizuDetail',
+      component: TuizuDetail,
+      path: '/life/tuizu/:id',
       meta: {
         requiresAuth: true,
         keepAlive: false

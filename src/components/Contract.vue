@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ path: redirectUrl, query:{ContractId: contract.Id, HouseId: contract.HouseId, HouseName: contract.HouseName} }" class="mui-card">
+  <div class="mui-card" @click="redirect">
     <div class="mui-table-view">
       <div class="mui-table-view-cell">
         <p><span class="item-t">合同周期:</span><span class="item-c">{{contract.BeginTime | formatDate}} ~ {{contract.EndTime | formatDate}}</span></p>
@@ -8,7 +8,7 @@
         <p class="status">{{statusText}}</p>
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 <script>
 export default {
@@ -47,6 +47,35 @@ export default {
           break
       }
     }
+  },
+  methods: {
+    redirect() {
+      if (this.redirectUrl === '/life/tuizu') {
+        if (this.contract.Status === 9 || this.contract.Status === 7) {
+          this.$router.push({
+            path: '/life/tuizu/' + this.contract.Id
+          })
+        } else {
+          this.$router.push({
+            path: this.redirectUrl,
+            query: {
+              ContractId: this.contract.Id,
+              HouseId: this.contract.HouseId,
+              HouseName: this.contract.HouseName
+            }
+          })
+        }
+      } else {
+        this.$router.push({
+          path: this.redirectUrl,
+          query: {
+            ContractId: this.contract.Id,
+            HouseId: this.contract.HouseId,
+            HouseName: this.contract.HouseName
+          }
+        })
+      }
+    }
   }
 }
 
@@ -56,11 +85,11 @@ export default {
 a {
   display: block;
 }
-.item-t{
+.item-t {
   color: #333;
   font-size: px2rem(32px);
 }
-.item-c{
+.item-c {
   color: #999;
   font-size: px2rem(32px);
   margin-left: px2rem(10px);
@@ -71,4 +100,5 @@ a {
   right: 20px;
   color: #FF5252;
 }
+
 </style>
