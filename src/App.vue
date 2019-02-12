@@ -85,6 +85,8 @@ export default {
           return '意见反馈'
         if(this.$route.name === 'tuizuDetail')
           return '退租详情'
+        if(this.$route.name === 'ElecQuery')
+          return '电费查询'
 
         switch (this.$route.path.split('/')[1]) {
             case '':

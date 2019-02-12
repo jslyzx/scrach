@@ -231,5 +231,8 @@ export default {
   },
   queryTuizuDetail(params) {
     return fetch('/api/tuizu/Query', params)
+  },
+  queryElecByMonth(params) {
+    return fetch('/api/house/zkaddupmonth', params)
   }
 }

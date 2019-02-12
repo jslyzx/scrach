@@ -1,9 +1,10 @@
 <template>
   <div>
+    <a href="javascript:;" class="query" @click="queryElec">电费查询</a>
     <div class="addr">地址：{{HouseName || ''}}</div>
     <div class="remain">
       <p>当前剩余</p>
-      <p>{{Elec.surplus}}度</p>
+      <p>{{surplus}}度</p>
     </div>
     <div class="mui-content">
       <div class="mui-card">
@@ -58,6 +59,9 @@ export default {
     ]),
     totalPrice: function() {
       return _.round(this.Elec.Price * this.degree, 2)
+    },
+    surplus() {
+      return this.Elec.surplus.toFixed(2)
     }
   },
   created() {
@@ -90,6 +94,7 @@ export default {
             this.$router.push('/life')
             mui.toast(res.Message)
           } else {
+            console.log(res.numberData)
             this.Elec = res.numberData
           }
         })
@@ -113,6 +118,11 @@ export default {
           type: 'elec'
         }
       })
+    },
+    queryElec() {
+      this.$router.push({
+        path: '/life/elec/query/' + this.HouseId
+      })
     }
   }
 }
@@ -120,6 +130,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../assets/css/function';
+.query{
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: #fff;
+  font-size: 16px;
+  z-index: 999;
+}
 .addr {
   background: rgba(255, 255, 255, 1);
   box-shadow: 0px 5px 2px 0px rgba(252, 130, 130, 0.14);

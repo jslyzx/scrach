@@ -41,6 +41,7 @@ import ContractSignSuccess from '../pages/ContractSignSuccess'
 import Tuizu from '../pages/Tuizu'
 import Remark from '../pages/Remark'
 import TuizuDetail from '../pages/TuizuDetail'
+import ElecQuery from '../pages/ElecQuery'
 
 Vue.use(Router)
 
@@ -281,6 +282,15 @@ const router = new Router({
       name: 'tuizuDetail',
       component: TuizuDetail,
       path: '/life/tuizu/:id',
+      meta: {
+        requiresAuth: true,
+        keepAlive: false
+      }
+    },
+    {
+      name: 'ElecQuery',
+      path: '/life/elec/query/:id',
+      component: ElecQuery,
       meta: {
         requiresAuth: true,
         keepAlive: false
