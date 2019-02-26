@@ -73,17 +73,20 @@ export default {
     getOpenId() {
       if (!this.openId) {
         let urlSearch = new URLSearchParams(location.search)
-        const appid = 'wxa55542ec5d3441a1'
+        const appid = 'wxefbdaa822fa01af4'
         if (!urlSearch.has('code')) {
           var url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(location.href)}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`
           location.href = url
         } else {
           const code = urlSearch.get('code')
+          alert(code)
           api.queryOpenId(code)
             .then(res => {
               this.setOpenId(res.numberData)
+              alert(res.numberData)
             })
             .catch((error) => {
+              alert('error:' + error)
               console.log(error)
             })
         }

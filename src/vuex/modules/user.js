@@ -59,6 +59,7 @@ const actions = {
   },
   setOpenId({ commit }, res) {
     localStorage.setItem('openId', JSON.stringify(res))
+    commit(types.SET_OPEN_ID, res)
   }
 }
 
