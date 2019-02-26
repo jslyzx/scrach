@@ -75,7 +75,7 @@ export default {
         let urlSearch = new URLSearchParams(location.search)
         const appid = 'wx673bf32303eb686b'
         if (!urlSearch.has('code')) {
-          var url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_url=${encodeURIComponent(location.href)}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`
+          var url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(location.href)}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`
           location.href = url
         } else {
           const code = urlSearch.get('code')
