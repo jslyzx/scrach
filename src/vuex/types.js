@@ -55,3 +55,5 @@ export const GET_USER_ID_CARD = 'GET_USER_ID_CARD'
 export const GET_CONTRACT = 'GET_CONTRACT'
 
 export const GET_BANK_LIST = 'GET_BANK_LIST'
+
+export const SET_OPEN_ID = 'SET_OPEN_ID'

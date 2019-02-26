@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import * as _ from '../util/tool'
 import api from '../fetch/api'
 export default {
@@ -28,6 +29,11 @@ export default {
     return {
       payType: ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'openId'
+    ])
   },
   methods: {
     submit() {
@@ -65,12 +71,11 @@ export default {
 
       } else { //微信支付
         if (this.$route.query.type === 'bill') {
-          api.billWXPay(this.$route.params)
+          var params = this.$route.params
+          params.openId = this.openId
+          api.billWXPay(params)
             .then((res) => {
-              console.log(res.numberData)
-
               function onBridgeReady(e, d) {
-                alert(d.timestamp)
                 WeixinJSBridge.invoke(
                   'getBrandWCPayRequest', {
                     "appId": d.appid, //公众号名称，由商户传入     
@@ -93,10 +98,10 @@ export default {
                 var d = res.numberData
                 if (typeof WeixinJSBridge == "undefined") {
                   if (document.addEventListener) {
-                    document.addEventListener('WeixinJSBridgeReady', function(e,d){onBridgeReady(e,d)}, false);
+                    document.addEventListener('WeixinJSBridgeReady', function(e, d) { onBridgeReady(e, d) }, false);
                   } else if (document.attachEvent) {
-                    document.attachEvent('WeixinJSBridgeReady', function(e,d){onBridgeReady(e,d)});
-                    document.attachEvent('onWeixinJSBridgeReady', function(e,d){onBridgeReady(e,d)});
+                    document.attachEvent('WeixinJSBridgeReady', function(e, d) { onBridgeReady(e, d) });
+                    document.attachEvent('onWeixinJSBridgeReady', function(e, d) { onBridgeReady(e, d) });
                   }
                 } else {
                   onBridgeReady(undefined, d)

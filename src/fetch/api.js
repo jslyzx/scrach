@@ -234,5 +234,8 @@ export default {
   },
   queryElecByMonth(params) {
     return fetch('/api/house/zkaddupmonth', params)
+  },
+  queryOpenId(code) {
+    return fetch('/api/User/queryopenid', {code: code})
   }
 }

@@ -11,7 +11,9 @@ const state = {
   // 用户合同列表
   userContractList: [],
   // 身份认证信息
-  idCard: {}
+  idCard: {},
+  // openid
+  openId: JSON.parse(localStorage.getItem('openId')) || ''
 }
 
 const actions = {
@@ -54,6 +56,9 @@ const actions = {
       .then((res) => {
         commit(types.GET_USER_ID_CARD, res.numberData)
       })
+  },
+  setOpenId({ commit }, res) {
+    localStorage.setItem('openId', JSON.stringify(res))
   }
 }
 
@@ -62,7 +67,8 @@ const getters = {
   loginStatus: state => state.loginStatus,
   userInfo: state => state.userInfo,
   userContractList: state => state.userContractList,
-  idCard: state => state.idCard
+  idCard: state => state.idCard,
+  openId: state => state.openId
 }
 
 const mutations = {
@@ -80,6 +86,9 @@ const mutations = {
   },
   [types.GET_USER_ID_CARD](state, res){
     state.idCard = res
+  },
+  [types.SET_OPEN_ID](state, res) {
+    state.openId = res
   }
 }
 
