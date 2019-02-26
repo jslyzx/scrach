@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="main elec">
         <el-date-picker v-model="month" type="month" @change="selectMonth">
         </el-date-picker>
         <div class="mui-card" v-for="item in list">

@@ -1,12 +1,12 @@
-.el-input__inner {
+.elec .el-input__inner {
   background-color: transparent !important;
   border: none !important;
   font-size: 0;
 }
-.el-input__suffix{
+.elec .el-input__suffix{
 	display: none;
 }
-.el-input__prefix{
+.elec .el-input__prefix{
 	color: #fff;
 	font-size: 20px;
 }

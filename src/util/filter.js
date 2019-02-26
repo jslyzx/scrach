@@ -6,6 +6,9 @@
  */
 export const formatDate = (str, fmt = "yyyy-MM-dd") => {
   if (!str) return ''
+  if(typeof str === 'string'){
+    str = str.replace(/-/g, '/')
+  }
   var date = new Date(str)
   var o = {
     "M+": date.getMonth() + 1, //月份   

@@ -313,28 +313,35 @@ router.beforeEach((to, from, next) => {
         api.getContractList({ access_token: store.getters.userInfo.token, iskaimen: 0, Status: 5 })
           .then(res => {
             store.dispatch('setLoadingState', false)
-            if (res.numberData.length === 0) { //没有合同
-              next(false)
-              _.toast('暂无租约')
-            } else if (res.numberData.length === 1) { //只有一个合同不需要选择，直接进相关功能页，把ContractId和HouseId带过去
+            if (res.Code === 1002) {
+              store.dispatch('setSignOut')
               next({
-                path: to.path,
-                query: {
-                  ContractId: res.numberData[0].Id,
-                  HouseId: res.numberData[0].HouseId
-                }
+                path: '/user/login',
+                query: { redirect: to.fullPath } //登录重定向
               })
             } else {
-              next({
-                name: 'SelectContract',
-                query: { redirect: to.path }
-              })
+              if (res.numberData.length === 0) { //没有合同
+                next(false)
+                _.toast('暂无租约')
+              } else if (res.numberData.length === 1) { //只有一个合同不需要选择，直接进相关功能页，把ContractId和HouseId带过去
+                next({
+                  path: to.path,
+                  query: {
+                    ContractId: res.numberData[0].Id,
+                    HouseId: res.numberData[0].HouseId
+                  }
+                })
+              } else {
+                next({
+                  name: 'SelectContract',
+                  query: { redirect: to.path }
+                })
+              }
             }
           })
       } else {
         next()
       }
-
     } else { //未登录，跳登录页面
       next({
         path: '/user/login',
