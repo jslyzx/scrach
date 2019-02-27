@@ -33,8 +33,10 @@ const actions = {
   setSignOut({ commit }) {
     localStorage.removeItem('loginStatus')
     localStorage.removeItem('userInfo')
+    localStorage.removeItem('openId')
     commit(types.SET_LOGIN_STATUS, false)
     commit(types.SET_USER_INFO, {})
+    commit(types.SET_OPEN_ID, '')
   },
   /**
    *   获取用户合同列表

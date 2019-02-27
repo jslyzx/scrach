@@ -73,11 +73,11 @@ export default {
         if (this.$route.query.type === 'bill') {
           var params = this.$route.params
           params.openId = this.openId
-          alert('openid=' + params.openId)
+          // alert('openid=' + params.openId)
           api.billWXPay(params)
             .then((res) => {
               function onBridgeReady(e, d) {
-                alert('d.appid=' + d.appid)
+                // alert('d.appid=' + d.appid)
                 WeixinJSBridge.invoke(
                   'getBrandWCPayRequest', {
                     "appId": d.appid, //公众号名称，由商户传入     
@@ -93,7 +93,7 @@ export default {
                       //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
 
                     }
-                    alert(res.err_msg)
+                    // alert(res.err_msg)
                   });
               }
               if (res.Code === 0) {
@@ -111,7 +111,7 @@ export default {
               }
             })
             .catch((error) => {
-              alert('error:' + error)
+              // alert('error:' + error)
               console.log(error)
             })
         } else if (this.$route.query.type === 'elec') {
