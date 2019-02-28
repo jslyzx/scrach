@@ -55,7 +55,7 @@ export default {
   watch: {
     '$route'(to, from) {
       // 如果没有openId就获取openId
-      this.getOpenId()
+      // this.getOpenId()
     }
   },
   computed: {
@@ -64,7 +64,7 @@ export default {
     ])
   },
   created() {
-    this.getOpenId()
+    // this.getOpenId()
   },
   methods: {
     ...mapActions({
@@ -79,7 +79,6 @@ export default {
           location.href = url
         } else {
           const code = urlSearch.get('code')
-          alert(code)
           api.queryOpenId(code)
             .then(res => {
               this.setOpenId(res.numberData)

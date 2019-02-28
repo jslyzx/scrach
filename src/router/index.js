@@ -42,10 +42,12 @@ import Tuizu from '../pages/Tuizu'
 import Remark from '../pages/Remark'
 import TuizuDetail from '../pages/TuizuDetail'
 import ElecQuery from '../pages/ElecQuery'
+import PayMask from '../pages/PayMask'
 
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   linkActiveClass: 'active',
   routes: [{
       path: '/',
@@ -293,6 +295,15 @@ const router = new Router({
       component: ElecQuery,
       meta: {
         requiresAuth: true,
+        keepAlive: false
+      }
+    },
+    {
+      name: 'PayMask',
+      path: '/pay/pay-mask',
+      component: PayMask,
+      meta: {
+        requiresAuth: false,
         keepAlive: false
       }
     },
