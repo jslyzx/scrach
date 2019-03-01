@@ -47,6 +47,7 @@ import PayMask from '../pages/PayMask'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   linkActiveClass: 'active',
   routes: [{
       path: '/',

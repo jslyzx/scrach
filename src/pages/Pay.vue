@@ -24,16 +24,12 @@
 import { mapGetters } from 'vuex'
 import * as _ from '../util/tool'
 import api from '../fetch/api'
+import ap from '../util/ap'
 export default {
   data() {
     return {
       payType: ''
     }
-  },
-  computed: {
-    ...mapGetters([
-      'openId'
-    ])
   },
   methods: {
     submit() {
@@ -42,27 +38,21 @@ export default {
         return false
       }
       if (this.payType === 'ali') { //支付宝支付
-        // const newTab = window.open()
         if (this.$route.query.type === 'bill') {
           api.billAliPay(this.$route.params)
             .then((res) => {
-              // console.log(res.numberData)
               const div = document.createElement('div');
               div.innerHTML = res.numberData; // html code
               document.body.appendChild(div);
               var queryParam = '';
 
               Array.prototype.slice.call(document.querySelectorAll("input")).forEach(function(ele) {
-                if(ele.name && ele.name !== 'pay-type'){
+                if (ele.name && ele.name !== 'pay-type') {
                   queryParam += '&' + ele.name + "=" + encodeURIComponent(ele.value);
                 }
               });
               debugger;
               var gotoUrl = document.querySelector("#alipaysubmit").getAttribute('action') + queryParam;
-              // // newTab.document.body.appendChild(div);
-              // // newTab.document.forms.alipaysubmit.submit();
-              // document.body.appendChild(div);
-              // document.forms[0].submit();
               _AP.pay(gotoUrl);
             })
             .catch((error) => {
@@ -86,7 +76,6 @@ export default {
         if (this.$route.query.type === 'bill') {
           var params = this.$route.params
           params.openId = this.openId
-          // alert('openid=' + params.openId)
           api.billWXPay(params)
             .then((res) => {
               function onBridgeReady(e, d) {
@@ -102,11 +91,7 @@ export default {
                     "paySign": d.sign //微信签名 
                   },
                   function(res) {
-                    if (res.err_msg == "get_brand_wcpay_request:ok") {
-                      // 使用以上方式判断前端返回,微信团队郑重提示：
-                      //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-
-                    }
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {}
                     alert(res.err_msg)
                   });
               }
@@ -125,7 +110,6 @@ export default {
               }
             })
             .catch((error) => {
-              // alert('error:' + error)
               console.log(error)
             })
         } else if (this.$route.query.type === 'elec') {
