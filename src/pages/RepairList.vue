@@ -109,18 +109,22 @@ export default {
         },
         methods: {
             getRepairList(type) {
-                this.pageindex++
-                    var params = {
-                        pageindex: this.pageindex,
-                        pagesize: 10,
-                        Phone: this.userInfo.username
-                    }
+                if (type === 'up') {
+                    this.pageindex = 1
+                } else {
+                    this.pageindex++
+                }
+                var params = {
+                    pageindex: this.pageindex,
+                    pagesize: 30,
+                    Phone: this.userInfo.username
+                }
                 api.getMyRepairList(params).then((res) => {
                     if (res.numberData && res.numberData.length > 0) {
                         if (type === 'down') {
-                            this.repairList.unshift(...res.numberData)
-                        } else {
                             this.repairList = this.repairList.concat(res.numberData)
+                        } else {
+                            this.repairList = res.numberData
                         }
                     } else {
                         if (type) {
@@ -170,11 +174,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../assets/css/function';
-	.list-wrapper{
-		top: px2rem(100px);
-		bottom: px2rem(40px);
-		.list-content{
-			background: #eee;
-		}
-	}
+.list-wrapper {
+    top: px2rem(100px);
+    bottom: px2rem(40px);
+    .list-content {
+        background: #eee;
+    }
+}
 </style>
