@@ -80,7 +80,7 @@ export default {
             .then((res) => {
               function onBridgeReady(e, d) {
                 // alert('d.appid=' + d.appid)
-                alert('appid=' + d.appid + ',noncestr=' + d.noncestr + ',sign=' + d.sign + ',package=' + d.package)
+                // alert('appid=' + d.appid + ',noncestr=' + d.noncestr + ',sign=' + d.sign + ',package=' + d.package)
                 WeixinJSBridge.invoke(
                   'getBrandWCPayRequest', {
                     "appId": d.appid, //公众号名称，由商户传入     

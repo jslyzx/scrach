@@ -6,7 +6,7 @@ import * as _ from '../util/tool'
 // axios 配置
 axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-axios.defaults.baseURL = 'http://106.14.96.37:83/';
+axios.defaults.baseURL = window.g.ApiUrl;
 
 //POST传参序列化
 axios.interceptors.request.use((config) => {
