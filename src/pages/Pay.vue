@@ -31,6 +31,11 @@ export default {
       payType: ''
     }
   },
+  computed: {
+    ...mapGetters([
+      'openId'
+    ])
+  },
   methods: {
     submit() {
       if (!this.payType) {
@@ -51,7 +56,6 @@ export default {
                   queryParam += '&' + ele.name + "=" + encodeURIComponent(ele.value);
                 }
               });
-              debugger;
               var gotoUrl = document.querySelector("#alipaysubmit").getAttribute('action') + queryParam;
               _AP.pay(gotoUrl);
             })
@@ -79,8 +83,6 @@ export default {
           api.billWXPay(params)
             .then((res) => {
               function onBridgeReady(e, d) {
-                // alert('d.appid=' + d.appid)
-                // alert('appid=' + d.appid + ',noncestr=' + d.noncestr + ',sign=' + d.sign + ',package=' + d.package)
                 WeixinJSBridge.invoke(
                   'getBrandWCPayRequest', {
                     "appId": d.appid, //公众号名称，由商户传入     
@@ -92,7 +94,9 @@ export default {
                   },
                   function(res) {
                     if (res.err_msg == "get_brand_wcpay_request:ok") {}
-                    alert(res.err_msg)
+                    if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                      mui.alert('支付已取消')
+                    }
                   });
               }
               if (res.Code === 0) {
