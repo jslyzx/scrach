@@ -1,72 +1,71 @@
 <template>
-	<div class="home">
-		<!-- 下一期做 -->
-	</div>
+  <div class="home">
+    <div class="banner">
+      <swiper :options="swiperOption" class="swiper-box">
+        <swiper-slide class="swiper-item"><img src="../assets/images/a4.jpg" alt="..."></swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+      </swiper>
+    </div>
+  </div>
 </template>
-
 <script>
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import nav from '@/components/nav'
-// import travelList from '@/components/travelList'
-
 import { mapGetters } from 'vuex'
+import { swiper, swiperSlide } from "vue-awesome-swiper";
+import "swiper/dist/css/swiper.css";
 
 export default {
-	
-	components: {
-		swiper,
-		swiperSlide,
-		'v-nav': nav,
-		// travelList
-	},
-	data() {
-		return {
-			swiperOption: {
-				pagination: '.swiper-pagination',
-				slidesPerView: 1,
-				autoplay: 5000,
-				paginationClickable: true,
-				spaceBetween: 30,
-				loop: true
-			}
-		}
-	},
-	mounted(){
-		
-    },
-	methods: {
-		
-	}
-}
-</script>
+  components: {
+    swiper,
+    swiperSlide,
+  },
+  data() {
+    return {
+      swiperOption: {
+        pagination: {
+          el: ".swiper-pagination"
+        },
+        autoplay: 5000,
+        loop: true
+      }
+    }
+  },
+  mounted() {
 
-<style lang="css">
-	@import '../../static/css/swiper.min.css';
-</style>
+  },
+  methods: {
+
+  }
+}
+
+</script>
 <style scoped lang="scss">
 @import '../assets/css/function';
 
 .banner {
-	.swiper-box {
-		width: 100%;
-		height: 100%;
-		margin: 0 auto;
-		.swiper-item {
-			height: px2rem(380px);
-			text-align: center;
-			font-size: 18px ;
-			background: #fff;
-			display: flex;
-			-webkit-box-pack: center;
-			-ms-flex-pack: center;
-			justify-content: center;
-			align-items: center;
-			img {
-				width: 100%;
-			}
-		}
-	}
+  .swiper-box {
+    width: 100%;
+    height: px2rem(380px);
+    margin: 0 auto;
+    .swiper-item {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 100%;
+      }
+    }
+    .swiper-pagination {
+      bottom: 5px;
+      .swiper-pagination-bullet-active {
+        background: #76d49b;
+      }
+    }
+  }
 }
-
 
 </style>

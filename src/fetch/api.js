@@ -236,6 +236,9 @@ export default {
     return fetch('/api/house/zkaddupmonth', params)
   },
   queryOpenId(code) {
-    return fetch('/api/User/queryopenid', {code: code})
+    return fetch('/api/User/queryopenid', { code: code })
+  },
+  queryCity() {
+    return fetch('/api/BaseData/QueryCity')
   }
 }

@@ -43,6 +43,7 @@ import Remark from '../pages/Remark'
 import TuizuDetail from '../pages/TuizuDetail'
 import ElecQuery from '../pages/ElecQuery'
 import PayMask from '../pages/PayMask'
+import SelectCity from '../pages/SelectCity'
 
 Vue.use(Router)
 
@@ -51,7 +52,7 @@ const router = new Router({
   linkActiveClass: 'active',
   routes: [{
       path: '/',
-      component: Life,
+      component: Home,
       meta: {
         requiresAuth: false,
         keepAlive: true
@@ -305,6 +306,15 @@ const router = new Router({
       meta: {
         requiresAuth: false,
         keepAlive: false
+      }
+    },
+    {
+      name: 'SelectCity',
+      path: '/city/select',
+      component: SelectCity,
+      meta: {
+        requiresAuth: false,
+        keepAlive: true
       }
     },
     {
