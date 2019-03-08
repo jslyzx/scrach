@@ -2,14 +2,14 @@
   <div class="main">
     <img src="../assets/images/success.png">
     <p>签约成功</p>
-    <p>签约成功,关注公众号XXX进行在线缴费</p>
+    <p>签约成功,关注公众号"{{wxName}}"进行在线缴费</p>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-
+      wxName: window.g.wxName
     }
   }
 }
