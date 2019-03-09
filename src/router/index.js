@@ -52,7 +52,7 @@ const router = new Router({
   linkActiveClass: 'active',
   routes: [{
       path: '/',
-      component: Home,
+      component: Life,
       meta: {
         requiresAuth: false,
         keepAlive: true
