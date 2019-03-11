@@ -44,6 +44,7 @@ import TuizuDetail from '../pages/TuizuDetail'
 import ElecQuery from '../pages/ElecQuery'
 import PayMask from '../pages/PayMask'
 import SelectCity from '../pages/SelectCity'
+import HouseDetail from '../pages/HouseDetail'
 
 Vue.use(Router)
 
@@ -315,6 +316,16 @@ const router = new Router({
       meta: {
         requiresAuth: false,
         keepAlive: true
+      }
+    },
+    {
+      name: 'HouseDetail',
+      path: '/house/detail/:id',
+      component: HouseDetail,
+      meta: {
+        requiresAuth: false,
+        keepAlive: true,
+        other: true
       }
     },
     {

@@ -12,6 +12,7 @@ import {
 } from 'vuex'
 import marked from 'marked'
 import '../assets/css/markdown.css'
+let Base64 = require('js-base64').Base64
 
 export default {
   data() {

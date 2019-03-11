@@ -241,7 +241,10 @@ export default {
   queryCity() {
     return fetch('/api/BaseData/QueryCity')
   },
-  queryHotHouses(params) {
-    return fetch('/api/House/zkhouserm', params)
+  queryHomeData(params) {
+    return fetch('/api/app/Index', params)
+  },
+  getHouseDetail(id) {
+    return fetch('/api/House/xq', {Id: id})
   }
 }

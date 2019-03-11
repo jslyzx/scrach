@@ -161,6 +161,7 @@ export default {
             setPayReturnUrl: 'setPayReturnUrl'
         }),
         getBillList(type) {
+            debugger
             if (type === 'up') {
                 this.pageindex = 1
             } else {
