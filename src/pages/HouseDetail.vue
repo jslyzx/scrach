@@ -56,7 +56,23 @@
             <p>医疗</p>
           </div>
         </div>
-        <div class="toggle-info" v-if="nearIndex === 0"></div>
+        <div class="toggle-info" v-if="nearIndex === 0">{{transportInfo}}</div>
+        <div class="toggle-info" v-if="nearIndex === 1">{{shoppingInfo}}</div>
+        <div class="toggle-info" v-if="nearIndex === 2">{{entertainmentInfo}}</div>
+        <div class="toggle-info" v-if="nearIndex === 3">{{medicalInfo}}</div>
+      </div>
+      <div class="house-item equip">
+        <h3 class="item-head">配备</h3>
+        <div class="list">
+          <div class="item" v-for="item in house.Peipei">
+            <img :src="item.ImageUrl" alt="图片">
+            <p>{{item.Name}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="house-item addr">
+        <h3 class="item-head">地址信息</h3>
+        <p class="addr">{{house.Adress}}</p>
       </div>
     </div>
   </div>
@@ -68,7 +84,10 @@ export default {
   data() {
     return {
       house: {
-        Image: ''
+        Image: '',
+        JiaoTong: [],
+        Zhoubian: [],
+        Peipei: []
       },
       imgurl: this.imgurl,
       nearIndex: 0
@@ -78,7 +97,34 @@ export default {
     this.getHouseDetail()
   },
   computed: {
-
+    transportInfo(){
+      if(this.house.JiaoTong && this.house.JiaoTong.length > 0){
+        return '距离' + this.house.JiaoTong[0].Xian + this.house.JiaoTong[0].Zhan + this.house.JiaoTong[0].Juli + '米'
+      }else{
+        return '暂无设施'
+      }
+    },
+    shoppingInfo(){
+      if(this.house.Zhoubian && this.house.Zhoubian[0]){
+        return this.house.Zhoubian[0].Value
+      }else{
+        return '暂无设施'
+      }
+    },
+    entertainmentInfo(){
+      if(this.house.Zhoubian && this.house.Zhoubian[1]){
+        return this.house.Zhoubian[1].Value
+      }else{
+        return '暂无设施'
+      }
+    },
+    medicalInfo(){
+      if(this.house.Zhoubian && this.house.Zhoubian[2]){
+        return this.house.Zhoubian[2].Value
+      }else{
+        return '暂无设施'
+      }
+    }
   },
   methods: {
     getHouseDetail() {
@@ -241,6 +287,44 @@ export default {
               color: #FF5252;
             }
           }
+        }
+        .toggle-info{
+          width: px2rem(680px);
+          height: px2rem(80px);
+          margin: 0 auto;
+          background-color: #eee;
+          border-radius: 10px;
+          color: #333;
+          font-size: px2rem(28px);
+          padding-top: px2rem(26px);
+          padding-left: px2rem(34px);
+        }
+      }
+      &.equip{
+        .list{
+          overflow: hidden;
+          padding-left: px2rem(60px);
+          .item{
+            float: left;
+            img{
+              height: px2rem(80px);
+            }
+            p{
+              font-size: px2rem(28px);
+              color: #666;
+            }
+            & ~ .item{
+              margin-left: px2rem(90px);
+            }
+          }
+        }
+      }
+      &.addr{
+        .addr{
+          font-size: px2rem(28px);
+          color: #333;
+          margin-bottom: px2rem(35px);
+          margin-left: px2rem(53px);
         }
       }
       .item-head {
