@@ -37,7 +37,7 @@
       <div class="mui-indexed-list-inner">
         <div class="mui-indexed-list-empty-alert">没有数据</div>
         <ul class="mui-table-view">
-          <city-item v-for="(item,index) in cityList" :name="item.Name" :list="item.city" :key="index"></city-item>
+          <city-item v-for="(item,index) in cityList" :name="item.Name" :list="item.city" :key="index" :type="$route.query.type"></city-item>
         </ul>
       </div>
     </div>

@@ -31,7 +31,7 @@ export default {
       window.history.back()
     },
     locate() {
-      this.$router.push('/city/select')
+      this.$router.push('/city/select?type=home')
     }
   }
 }

@@ -87,6 +87,8 @@ export default {
         return '电费查询'
       if (this.$route.name === 'HouseAppointment')
         return '预约看房'
+      if (this.$route.name === 'TuoGuan')
+        return '房屋托管'
 
       switch (this.$route.path.split('/')[1]) {
         case '':

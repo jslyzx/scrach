@@ -48,6 +48,7 @@ import HouseDetail from '../pages/HouseDetail'
 import HouseAppointment from '../pages/HouseAppointment'
 import MyAppointmentList from '../pages/MyAppointmentList'
 import MyCollectionList from '../pages/MyCollectionList'
+import TuoGuan from '../pages/TuoGuan'
 
 Vue.use(Router)
 
@@ -353,6 +354,15 @@ const router = new Router({
       path: '/user/collection-list',
       name: 'CollectionList',
       component: MyCollectionList,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/house/tg',
+      component: TuoGuan,
+      name: 'TuoGuan',
       meta: {
         requiresAuth: true,
         keepAlive: true

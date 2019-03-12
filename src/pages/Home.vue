@@ -27,18 +27,18 @@
         <i></i>
         <p>公司附近</p>
       </div>
-      <div class="item">
+      <div class="item" @click="todo">
         <i></i>
         <p>我要发布</p>
       </div>
       <div class="item">
         <i></i>
-        <p>公司附近</p>
+        <p>我要开门</p>
       </div>
-      <div class="item">
+      <router-link class="item" :to="{path: '/house/tg'}">
         <i></i>
-        <p>我要发布</p>
-      </div>
+        <p>房屋托管</p>
+      </router-link>
     </div>
     <div class="list">
       <div class="list-head">
@@ -251,6 +251,9 @@ export default {
         this.$refs.scroll.destroy()
         this.$refs.scroll.initScroll()
       })
+    },
+    todo() {
+      mui.toast('待开发')
     }
   }
 }

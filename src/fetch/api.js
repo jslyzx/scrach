@@ -261,5 +261,11 @@ export default {
   },
   queryCollectionList(params) {
     return fetch('/api/House/collectionlist', params)
+  },
+  saveTg(params) {
+    return fetch('/api/Basic/savetuoguan', params)
+  },
+  queryTg(token) {
+    return fetch('/api/Basic/Querytg', {access_token: token})
   }
 }

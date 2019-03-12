@@ -108,6 +108,7 @@ export default {
         mui.toast('留言不能为空')
         return false
       }
+      this.form.access_token = this.userInfo.token
       api.saveAppointment(this.form)
         .then(res => {
           mui.toast('提交预约成功')
