@@ -85,6 +85,8 @@ export default {
         return '退租详情'
       if (this.$route.name === 'ElecQuery')
         return '电费查询'
+      if (this.$route.name === 'HouseAppointment')
+        return '预约看房'
 
       switch (this.$route.path.split('/')[1]) {
         case '':

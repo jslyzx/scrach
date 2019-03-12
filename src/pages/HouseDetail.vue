@@ -2,8 +2,8 @@
   <div class="detail">
     <div class="bg">
       <img :src="`${imgurl}${house.Image}`" alt="" v-if="house.Image">
-      <i class="share"></i>
-      <i class="gallery"></i>
+      <!-- <i class="share"></i> -->
+      <i class="gallery" @click="toggleGallery" :class="{active: house.IsCollection === 1}"></i>
     </div>
     <div class="main">
       <h2 class="title">{{house.Title}}</h2>
@@ -73,13 +73,19 @@
       <div class="house-item addr">
         <h3 class="item-head">地址信息</h3>
         <p class="addr">{{house.Adress}}</p>
+        <iframe :src="`https://apis.map.qq.com/tools/poimarker?type=0&marker=coord:${house.LatiTude},${house.LongiTude};title:${house.CellName};addr:${house.Adress}&key=NAFBZ-CFNHJ-5ILFQ-FSJE7-4WCYT-42FGZ&referer=myapp`"></iframe>
       </div>
+    </div>
+    <div class="btns">
+      <button class="btn" @click="appointment">预约看房</button>
+      <a class="btn" :href="`tel:${house.Phone}`">电话咨询</a>
     </div>
   </div>
 </template>
 <script>
 import api from '../fetch/api'
 import { formatDate } from '@/util/filter'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -87,7 +93,8 @@ export default {
         Image: '',
         JiaoTong: [],
         Zhoubian: [],
-        Peipei: []
+        Peipei: [],
+        IsCollection: 0
       },
       imgurl: this.imgurl,
       nearIndex: 0
@@ -97,38 +104,50 @@ export default {
     this.getHouseDetail()
   },
   computed: {
-    transportInfo(){
-      if(this.house.JiaoTong && this.house.JiaoTong.length > 0){
+    ...mapGetters(['userInfo', 'loginStatus']),
+    transportInfo() {
+      if (this.house.JiaoTong && this.house.JiaoTong.length > 0) {
         return '距离' + this.house.JiaoTong[0].Xian + this.house.JiaoTong[0].Zhan + this.house.JiaoTong[0].Juli + '米'
-      }else{
+      } else {
         return '暂无设施'
       }
     },
-    shoppingInfo(){
-      if(this.house.Zhoubian && this.house.Zhoubian[0]){
+    shoppingInfo() {
+      if (this.house.Zhoubian && this.house.Zhoubian[0]) {
         return this.house.Zhoubian[0].Value
-      }else{
+      } else {
         return '暂无设施'
       }
     },
-    entertainmentInfo(){
-      if(this.house.Zhoubian && this.house.Zhoubian[1]){
+    entertainmentInfo() {
+      if (this.house.Zhoubian && this.house.Zhoubian[1]) {
         return this.house.Zhoubian[1].Value
-      }else{
+      } else {
         return '暂无设施'
       }
     },
-    medicalInfo(){
-      if(this.house.Zhoubian && this.house.Zhoubian[2]){
+    medicalInfo() {
+      if (this.house.Zhoubian && this.house.Zhoubian[2]) {
         return this.house.Zhoubian[2].Value
-      }else{
+      } else {
         return '暂无设施'
       }
     }
   },
+  watch: {
+    '$route'(to, from) {
+      // 对路由变化作出响应...
+      if (to.name === 'HouseDetail') {
+        this.getHouseDetail()
+      }
+    },
+  },
   methods: {
     getHouseDetail() {
-      api.getHouseDetail(this.$route.params.id)
+      api.getHouseDetail({
+          access_token: this.userInfo.token,
+          Id: this.$route.params.id
+        })
         .then(res => {
           console.log(res.numberData)
           this.house = res.numberData
@@ -147,6 +166,58 @@ export default {
     changeNearItem(val) {
       if (this.nearIndex !== val) {
         this.nearIndex = val
+      }
+    },
+    toggleGallery() {
+      if (!this.loginStatus) {
+        this.$router.push({
+          path: '/user/login',
+          query: { redirect: this.$route.fullPath } //登录重定向
+        })
+      } else {
+        if (this.house.IsCollection === 0) {
+          api.collectHouse({
+              access_token: this.userInfo.token,
+              HouseId: this.$route.params.id
+            })
+            .then(res => {
+              if (res.Code === 0) {
+                this.house.IsCollection = 1
+                mui.toast('收藏成功')
+              } else {
+                mui.toast('收藏失败')
+              }
+            })
+            .catch(error => {
+              mui.toast('收藏失败')
+            })
+        } else {
+          api.cancelCollect({
+              access_token: this.userInfo.token,
+              HouseId: this.$route.params.id
+            })
+            .then(res => {
+              if (res.Code === 0) {
+                this.house.IsCollection = 0
+                mui.toast('取消收藏成功')
+              } else {
+                mui.toast('取消收藏失败')
+              }
+            })
+            .catch(error => {
+              mui.toast('取消收藏失败')
+            })
+        }
+      }
+    },
+    appointment() {
+      if (!this.loginStatus) {
+        this.$router.push({
+          path: '/user/login',
+          query: { redirect: '/house/appointment/' + this.$route.params.id } //登录重定向
+        })
+      } else {
+        this.$router.push('/house/appointment/' + this.$route.params.id)
       }
     }
   }
@@ -288,7 +359,7 @@ export default {
             }
           }
         }
-        .toggle-info{
+        .toggle-info {
           width: px2rem(680px);
           height: px2rem(80px);
           margin: 0 auto;
@@ -300,31 +371,35 @@ export default {
           padding-left: px2rem(34px);
         }
       }
-      &.equip{
-        .list{
+      &.equip {
+        .list {
           overflow: hidden;
           padding-left: px2rem(60px);
-          .item{
+          .item {
             float: left;
-            img{
+            img {
               height: px2rem(80px);
             }
-            p{
+            p {
               font-size: px2rem(28px);
               color: #666;
             }
-            & ~ .item{
+            &~.item {
               margin-left: px2rem(90px);
             }
           }
         }
       }
-      &.addr{
-        .addr{
+      &.addr {
+        .addr {
           font-size: px2rem(28px);
           color: #333;
           margin-bottom: px2rem(35px);
           margin-left: px2rem(53px);
+        }
+        iframe {
+          width: 100%;
+          height: px2rem(800px);
         }
       }
       .item-head {
@@ -336,6 +411,30 @@ export default {
       }
     }
 
+  }
+  .btns {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: px2rem(80px);
+    display: flex;
+    .btn {
+      flex: 1;
+      line-height: px2rem(80px);
+      text-align: center;
+      font-size: px2rem(28px);
+      color: #fff;
+      padding: 0;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      &:nth-child(1) {
+        background-color: #FF5252;
+      }
+      &:nth-child(2) {
+        background-color: #00B7EE;
+      }
+    }
   }
 }
 

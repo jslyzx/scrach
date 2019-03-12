@@ -115,6 +115,7 @@ export default {
                     this.pageindex++
                 }
                 var params = {
+                    access_token: this.userInfo.token,
                     pageindex: this.pageindex,
                     pagesize: 30,
                     Phone: this.userInfo.username
@@ -176,6 +177,7 @@ export default {
 @import '../assets/css/function';
 .list-wrapper {
     top: px2rem(100px);
+    background: #eee;
     bottom: px2rem(40px);
     .list-content {
         background: #eee;

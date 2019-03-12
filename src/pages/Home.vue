@@ -67,7 +67,8 @@
 </template>
 <script>
 import {
-  mapGetters
+  mapGetters,
+  mapActions
 } from 'vuex'
 import api from '../fetch/api'
 import {
@@ -109,12 +110,15 @@ export default {
       pullUpLoadMoreTxt: '加载更多',
       pullUpLoadNoMoreTxt: '没有更多数据了',
       pageindex: 0,
-      pagesize: 10,
+      pagesize: 30,
       lunbo: [],
       houseList: []
     }
   },
   computed: {
+    ...mapGetters([
+      'city'
+    ]),
     scrollbarObj: function() {
       return this.scrollbar ? {
         fade: this.scrollbarFade
@@ -134,12 +138,18 @@ export default {
           noMore: this.pullUpLoadNoMoreTxt
         }
       } : false
-    },
+    }
   },
   created() {
+    this.getLocation()
     this.getHomeData()
   },
   watch: {
+    city: {
+      handler() {
+        this.getHomeData()
+      }
+    },
     scrollbarObj: {
       handler() {
         this.rebuildScroll()
@@ -176,19 +186,32 @@ export default {
 
   },
   methods: {
+    ...mapActions([
+      'setCity'
+    ]),
+    getLocation() {
+      var that = this
+      if (this.city) return
+      var geolocation = new qq.maps.Geolocation()
+      geolocation.getIpLocation(function(position) {
+        that.$store.dispatch('setCity', position.city)
+        getFlag = true;
+      }, function() {
+        console.log('定位失败')
+      });
+    },
     getHomeData(type) {
-      if (type === 'up') {
-        this.pageindex = 1
-      } else {
+      if (type === 'down') {
         this.pageindex++
+      } else {
+        this.pageindex = 1
       }
       api.queryHomeData({
           pageindex: this.pageindex,
           pagesize: this.pagesize,
-          city: '上海市'
+          city: this.city
         })
         .then(res => {
-          console.log(res.numberData)
           const data = res.numberData
           if (this.lunbo.length === 0) {
             this.lunbo = data.lunbo
@@ -392,9 +415,9 @@ export default {
             }
           }
           .fors {
-          	margin-top: px2rem(14px);
-          	margin-bottom: px2rem(14px);
-          	overflow: hidden;
+            margin-top: px2rem(14px);
+            margin-bottom: px2rem(14px);
+            overflow: hidden;
             .for {
               padding: px2rem(10px) px2rem(16px);
               color: #EC6B66;
@@ -410,9 +433,9 @@ export default {
               margin-right: px2rem(6px);
             }
           }
-          .money{
-          	font-size: px2rem(28px);
-          	color:rgba(247,135,131,1);
+          .money {
+            font-size: px2rem(28px);
+            color: rgba(247, 135, 131, 1);
           }
         }
       }

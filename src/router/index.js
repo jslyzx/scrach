@@ -45,6 +45,9 @@ import ElecQuery from '../pages/ElecQuery'
 import PayMask from '../pages/PayMask'
 import SelectCity from '../pages/SelectCity'
 import HouseDetail from '../pages/HouseDetail'
+import HouseAppointment from '../pages/HouseAppointment'
+import MyAppointmentList from '../pages/MyAppointmentList'
+import MyCollectionList from '../pages/MyCollectionList'
 
 Vue.use(Router)
 
@@ -326,6 +329,33 @@ const router = new Router({
         requiresAuth: false,
         keepAlive: true,
         other: true
+      }
+    },
+    {
+      name: 'HouseAppointment',
+      path: '/house/appointment/:id',
+      component: HouseAppointment,
+      meta: {
+        requiresAuth: false,
+        keepAlive: false
+      }
+    },
+    {
+      path: '/user/appoint-list',
+      name: 'AppointList',
+      component: MyAppointmentList,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/user/collection-list',
+      name: 'CollectionList',
+      component: MyCollectionList,
+      meta: {
+        requiresAuth: true,
+        keepAlive: true
       }
     },
     {

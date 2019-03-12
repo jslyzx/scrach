@@ -57,3 +57,5 @@ export const GET_CONTRACT = 'GET_CONTRACT'
 export const GET_BANK_LIST = 'GET_BANK_LIST'
 
 export const SET_OPEN_ID = 'SET_OPEN_ID'
+
+export const SET_CITY = 'SET_CITY'

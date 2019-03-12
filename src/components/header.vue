@@ -4,12 +4,13 @@
     <div class="header-cont" v-if="!isHome">
       <p>{{title}}</p>
     </div>
-    <div class="header-cont" v-else>
-      <p>上海市</p><i @click="locate" class="location"></i>
+    <div class="header-cont" v-else @click="locate">
+      <p>{{city}}</p><i class="location"></i>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     title: String,
@@ -21,6 +22,9 @@ export default {
     return {
 
     }
+  },
+  computed: {
+    ...mapGetters(['city'])
   },
   methods: {
     goBack() {
@@ -64,6 +68,7 @@ export default {
       line-height: px2rem(100px);
       color: #ffffff;
       font-size: 17px;
+      float: left;
     }
     .location {
       display: inline-block;
@@ -71,10 +76,9 @@ export default {
       height: px2rem(42px);
       background: url(../assets/images/dingwei.png) no-repeat;
       background-size: contain;
-      position: absolute;
-      top: px2rem(28px);
-      left: px2rem(150px);
       cursor: pointer;
+      margin-top: px2rem(24px);
+      margin-left: px2rem(10px);
     }
   }
 }

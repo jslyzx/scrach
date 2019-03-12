@@ -60,7 +60,6 @@ export default {
     getCityList() {
       api.queryCity()
         .then(res => {
-          console.log(res.numberData)
           this.cityList = res.numberData
         })
         .catch(err => {

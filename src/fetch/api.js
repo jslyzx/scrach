@@ -244,7 +244,22 @@ export default {
   queryHomeData(params) {
     return fetch('/api/app/Index', params)
   },
-  getHouseDetail(id) {
-    return fetch('/api/House/xq', {Id: id})
+  getHouseDetail(params) {
+    return fetch('/api/House/xq', params)
+  },
+  collectHouse(params) {
+    return fetch('/api/House/collection', params)
+  },
+  cancelCollect(params) {
+    return fetch('/api/House/cancelcollection', params)
+  },
+  saveAppointment(params) {
+    return fetch('/api/Appointment/save', params)
+  },
+  queryAppointmentList(params) {
+    return fetch('/api/Appointment/list', params)
+  },
+  queryCollectionList(params) {
+    return fetch('/api/House/collectionlist', params)
   }
 }

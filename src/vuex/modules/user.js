@@ -13,7 +13,8 @@ const state = {
   // 身份认证信息
   idCard: {},
   // openid
-  openId: JSON.parse(localStorage.getItem('openId')) || ''
+  openId: JSON.parse(localStorage.getItem('openId')) || '',
+  city: JSON.parse(localStorage.getItem('city')) || ''
 }
 
 const actions = {
@@ -62,6 +63,10 @@ const actions = {
   setOpenId({ commit }, res) {
     localStorage.setItem('openId', JSON.stringify(res))
     commit(types.SET_OPEN_ID, res)
+  },
+  setCity({ commit }, res) {
+    localStorage.setItem('city', JSON.stringify(res))
+    commit(types.SET_CITY, res)
   }
 }
 
@@ -71,7 +76,8 @@ const getters = {
   userInfo: state => state.userInfo,
   userContractList: state => state.userContractList,
   idCard: state => state.idCard,
-  openId: state => state.openId
+  openId: state => state.openId,
+  city: state => state.city
 }
 
 const mutations = {
@@ -87,11 +93,14 @@ const mutations = {
   [types.GET_USER_DATA](state, res) {
     state.userData = res
   },
-  [types.GET_USER_ID_CARD](state, res){
+  [types.GET_USER_ID_CARD](state, res) {
     state.idCard = res
   },
   [types.SET_OPEN_ID](state, res) {
     state.openId = res
+  },
+  [types.SET_CITY](state, res) {
+    state.city = res
   }
 }
 
