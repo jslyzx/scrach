@@ -61,3 +61,5 @@ export const SET_OPEN_ID = 'SET_OPEN_ID'
 export const SET_CITY = 'SET_CITY'
 
 export const SET_TMP_CITY = 'SET_TMP_CITY'
+
+export const SET_SEARCH_TEXT = 'SET_SEARCH_TEXT'

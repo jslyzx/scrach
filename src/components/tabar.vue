@@ -7,7 +7,7 @@
 				</router-link>
 			</div>
 			<div class="tab-item">
-				<router-link to="/zf">
+				<router-link to="/zhaofang">
 					
 				</router-link>
 			</div>

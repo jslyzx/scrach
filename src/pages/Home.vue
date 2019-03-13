@@ -19,7 +19,7 @@
         <i></i>
         <p>品牌公寓</p>
       </div>
-      <div class="item">
+      <div class="item" @click="todo">
         <i></i>
         <p>地图找房</p>
       </div>

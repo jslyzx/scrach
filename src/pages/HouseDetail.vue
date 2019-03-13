@@ -1,6 +1,7 @@
 <template>
   <div class="detail">
     <div class="bg">
+      <i class="icon back" @click="goBack">&#xe622;</i>
       <img :src="`${imgurl}${house.Image}`" alt="" v-if="house.Image">
       <!-- <i class="share"></i> -->
       <i class="gallery" @click="toggleGallery" :class="{active: house.IsCollection === 1}"></i>
@@ -219,6 +220,9 @@ export default {
       } else {
         this.$router.push('/house/appointment/' + this.$route.params.id)
       }
+    },
+    goBack() {
+      window.history.back()
     }
   }
 }
@@ -240,6 +244,10 @@ export default {
       display: inline-block;
       position: absolute;
       background-size: contain;
+    }
+    .back{
+      top: px2rem(40px);
+      left: px2rem(36px);
     }
     .share {
       width: px2rem(30px);

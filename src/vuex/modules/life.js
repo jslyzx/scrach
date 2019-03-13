@@ -8,7 +8,8 @@ const state = {
   billDetail: {},
   payReturnUrl: JSON.parse(localStorage.getItem('payReturnUrl')) || '',
   contract: {},
-  tmpCity: ''
+  tmpCity: '',
+  search: ''
 }
 
 const actions = {
@@ -61,6 +62,9 @@ const actions = {
   },
   setTmpCity({ commit }, city) {
     commit(types.SET_TMP_CITY, city)
+  },
+  setSearchText({ commit }, search) {
+    commit(types.SET_SEARCH_TEXT, search)
   }
 }
 
@@ -71,7 +75,8 @@ const getters = {
   billDetail: state => state.billDetail,
   payReturnUrl: state => state.payReturnUrl,
   contract: state => state.contract,
-  tmpCity: state => state.tmpCity
+  tmpCity: state => state.tmpCity,
+  search: state => state.search
 }
 
 const mutations = {
@@ -95,6 +100,9 @@ const mutations = {
   },
   [types.SET_TMP_CITY](state, city){
     state.tmpCity = city
+  },
+  [types.SET_SEARCH_TEXT](state, search){
+    state.search = search
   }
 }
 

@@ -266,6 +266,12 @@ export default {
     return fetch('/api/Basic/savetuoguan', params)
   },
   queryTg(token) {
-    return fetch('/api/Basic/Querytg', {access_token: token})
+    return fetch('/api/Basic/Querytg', { access_token: token })
+  },
+  getSearchTips(Name) {
+    return fetch('/api/House/SearchTip', { Name: Name })
+  },
+  queryMetro(CityName) {
+    return fetch('/api/app/QueryMetro', {CityName: CityName})
   }
 }

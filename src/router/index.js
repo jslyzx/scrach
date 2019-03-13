@@ -49,6 +49,8 @@ import HouseAppointment from '../pages/HouseAppointment'
 import MyAppointmentList from '../pages/MyAppointmentList'
 import MyCollectionList from '../pages/MyCollectionList'
 import TuoGuan from '../pages/TuoGuan'
+import ZhaoFang from '../pages/ZhaoFang'
+import Search from '../pages/Search'
 
 Vue.use(Router)
 
@@ -57,6 +59,7 @@ const router = new Router({
   linkActiveClass: 'active',
   routes: [{
       path: '/',
+      name: 'index',
       component: Home,
       meta: {
         requiresAuth: false,
@@ -65,6 +68,7 @@ const router = new Router({
     },
     {
       path: '/home',
+      name: 'home',
       component: Home,
       meta: {
         requiresAuth: false,
@@ -366,6 +370,24 @@ const router = new Router({
       meta: {
         requiresAuth: true,
         keepAlive: true
+      }
+    },
+    {
+      name: 'ZhaoFang',
+      component: ZhaoFang,
+      path: '/zhaofang',
+      meta: {
+        requiresAuth: false,
+        keepAlive: true
+      }
+    },
+    {
+      path: '/hosue/search',
+      name: 'search',
+      component: Search,
+      meta: {
+        requiresAuth: false,
+        keepAlive: false
       }
     },
     {

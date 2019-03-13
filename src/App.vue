@@ -3,7 +3,7 @@
     <v-toast v-show="showToast"></v-toast>
     <v-alert v-show="showAlert"></v-alert>
     <v-loading v-show="loading"></v-loading>
-    <v-header :title="title" :back-display="backDisplay" :show-head="showHead" :is-home="isHome"></v-header>
+    <v-header :title="title" :back-display="backDisplay" :show-head="showHead" :type="type"></v-header>
     <div class="content" :class="{tabar: tabar}">
       <transition name="slide-left">
         <keep-alive>
@@ -112,20 +112,15 @@ export default {
     showHead() {
       return this.$route.meta.other ? false : true
     },
-    isHome() {
-      switch (this.$route.path.split('/')[1]) {
-        case '':
-          return true
-        case 'home':
-          return true
-        case 'sport':
-          return false
-        case 'life':
-          return false
-        case 'user':
-          return false
-        default:
-          return false
+    type() {
+      if (this.$route.name === 'home' || this.$route.name === 'index') {
+        return 0
+      } else if (this.$route.name === 'ZhaoFang') {
+        return 1
+      } else if (this.$route.name === 'search') {
+        return 2
+      } else {
+        return 3
       }
     }
   }
