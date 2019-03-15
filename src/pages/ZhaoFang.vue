@@ -14,21 +14,22 @@
           <section v-show="sortBy == 'location'" class="category_container sort_detail_type">
             <section class="category_left">
               <ul>
-                <li v-for="(item, index) in areas" :key="index" class="category_left_li" :class="{category_active:restaurant_category_id == item.id}" @click="selectCategoryName(item.id, index)">
+                <li v-for="(item, index) in areas" :key="index" class="category_li" @click="selectFirstCategory(item.Name, index)">
                   <section>
-                    <img :src="getImgPath(item.image_url)" v-if="index" class="category_icon">
                     <span>{{item.name}}</span>
-                  </section>
-                  <section>
-                    <span class="category_count">{{item.count}}</span>
-                    <svg v-if="index" width="8" height="8" xmlns="http://www.w3.org/2000/svg" version="1.1" class="category_arrow">
-                      <path d="M0 0 L6 4 L0 8" stroke="#bbb" stroke-width="1" fill="none" />
-                    </svg>
                   </section>
                 </li>
               </ul>
             </section>
-            <section class="category_mid"></section>
+            <section class="category_mid">
+              <ul>
+                <li v-for="(item, index) in secondCategory" :key="index" class="category_li" @click="selectSecondCategory(item.Name, index)">
+                  <section>
+                    <span>{{item.name}}</span>
+                  </section>
+                </li>
+              </ul>
+            </section>
             <section class="category_right"></section>
           </section>
         </transition>
@@ -67,7 +68,8 @@ export default {
   data() {
     return {
       sortBy: "", // 筛选的条件
-      areas: null
+      areas: null,
+      secondCategory: null
     }
   },
   computed: {
@@ -98,7 +100,12 @@ export default {
         //再次点击相同选项时收回列表
         this.sortBy = ""
       }
-    }
+    },
+    //选中Category左侧列表的某个选项时，右侧渲染相应的sub_categories列表
+    selectFirstCategory(name, index) {
+      //第一个选项 -- 全部商家 因为没有自己的列表，所以点击则默认获取选所有数据
+      this.secondCategory = this.areas[index].districts;
+    },
   }
 }
 
