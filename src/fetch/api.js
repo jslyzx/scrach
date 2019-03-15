@@ -272,6 +272,9 @@ export default {
     return fetch('/api/House/SearchTip', { Name: Name })
   },
   queryMetro(CityName) {
-    return fetch('/api/app/QueryMetro', {CityName: CityName})
+    return fetch('/api/app/QueryMetro', { CityName: CityName })
+  },
+  queryArea(name) {
+    return fetch('/api/Map/QueryArea', { name: name })
   }
 }
