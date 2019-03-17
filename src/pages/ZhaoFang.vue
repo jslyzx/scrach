@@ -18,6 +18,10 @@
                                 <li @click="changeType('area')" :class="{category_active: categoryType == 'area'}">区域</li>
                                 <li @click="changeType('subway')" :class="{category_active: categoryType == 'subway'}">地铁</li>
                             </ul>
+                            <footer class="btn-wrap">
+                                <button @click="resetCategory">重置</button>
+                                <button @click="search">确定</button>
+                            </footer>
                         </section>
                         <section class="category_mid">
                             <ul v-show="categoryType == 'distance'">
@@ -35,31 +39,69 @@
                                 <li v-for="(item, index) in subAreaList" :key="index" class="category_li" :class="{category_active: businessarea == item.name}" @click="changeBusinessArea(item.name)">{{item.name}}</li>
                             </ul>
                             <ul v-show="categoryType == 'subway' && zhanList">
-                              <li class="category_li" v-for="(item, index) in zhanList" :key="index" :class="{category_active: ParaZhan == item.name}">{{item.Name}}</li>
+                                <li class="category_li" v-for="(item, index) in zhanList" :key="index" :class="{category_active: ParaZhan == item.Name}" @click="changeZhan(item.Name)">{{item.Name}}</li>
                             </ul>
                         </section>
                     </section>
                 </transition>
             </div>
-            <div class="sort_item">
-                <div class="sort_item_container">
+            <div class="sort_item" :class="{choose_type:sortBy == 'price'}">
+                <div class="sort_item_container" @click="chooseType('price')">
                     <div class="sort_item_border">
-                        <span>价格</span>
+                        <span :class="{category_title: sortBy == 'price'}">价格</span>
                         <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" version="1.1" class="sort_icon">
                             <polygon points="0,3 10,3 5,8" />
                         </svg>
                     </div>
                 </div>
+                <transition name="showlist">
+                    <section v-show="sortBy == 'price'" class="price_container">
+                        <p>推荐价格</p>
+                        <div class="filter-wrap">
+                            <span v-for="(item, index) in priceList" class="filter" :key="index" @click="changePrice(index)" :class="{active: priceIndex == index}">{{item.name}}</span>
+                        </div>
+                        <div class="slider-wrap">
+                            <el-slider v-model="range" range :min="min" :max="max"></el-slider>
+                            <span class="indicator_left">{{indicatorLeft}}</span>
+                            <span class="indicator_right">{{indicatorRight}}</span>
+                        </div>
+                        <footer class="btn-wrap">
+                            <button @click="resetPrice">重置</button>
+                            <button @click="search">确定</button>
+                        </footer>
+                    </section>
+                </transition>
             </div>
-            <div class="sort_item">
-                <div class="sort_item_container">
+            <div class="sort_item" :class="{choose_type:sortBy == 'filter'}">
+                <div class="sort_item_container" @click="chooseType('filter')">
                     <div class="sort_item_border last">
-                        <span>筛选</span>
+                        <span :class="{category_title: sortBy == 'filter'}">筛选</span>
                         <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg" version="1.1" class="sort_icon">
                             <polygon points="0,3 10,3 5,8" />
                         </svg>
                     </div>
                 </div>
+                <transition name="showlist">
+                    <section v-show="sortBy == 'filter'" class="filter_container">
+                        <div class="filter-item">
+                            <p class="title">出租方式</p>
+                            <span class="item" v-for="(item, index) in typeList" :key="index" :class="{active: Type == item.value}" @click="changeRentType(index)">{{item.name}}</span>
+                        </div>
+                        <div class="filter-item">
+                            <p class="title">户型</p>
+                            <span class="item" v-for="(item, index) in shiList" :key="index" :class="{active: Shi == item.value}" @click="changeShi(index)">{{item.name}}</span>
+                        </div>
+                        <div class="filter-item">
+                            <p class="title">特色</p>
+                            <span class="item" :class="{active: ParaTs == ''}" @click="clearTs">不限</span>
+                            <span class="item" v-for="(item, index) in tsList" :key="index" :class="{active: ParaTs.indexOf(item) >= 0}" @click="toggleTs(item)">{{item}}</span>
+                        </div>
+                        <footer class="btn-wrap">
+                            <button @click="resetFilter">重置</button>
+                            <button @click="search">确定</button>
+                        </footer>
+                    </section>
+                </transition>
             </div>
         </section>
         <transition name="showcover">
@@ -87,14 +129,88 @@ export default {
                 subAreaList: null,
                 ParaXian: '',
                 ParaZhan: '',
-                zhanList: null
+                zhanList: null,
+                priceIndex: 0,
+                priceList: [{
+                    name: '不限',
+                    value: [0, 8050]
+                }, {
+                    name: '500以下',
+                    value: [0, 500]
+                }, {
+                    name: '500~1000',
+                    value: [500, 1000]
+                }, {
+                    name: '1000~1500',
+                    value: [1000, 1500]
+                }, {
+                    name: '1500~2000',
+                    value: [1500, 2000]
+                }, {
+                    name: '2000~2500',
+                    value: [2000, 2500]
+                }, {
+                    name: '2500~3000',
+                    value: [2500, 3000]
+                }, {
+                    name: '3000~5000',
+                    value: [3000, 5000]
+                }, {
+                    name: '5000~8000',
+                    value: [5000, 8000]
+                }, {
+                    name: '8000以上',
+                    value: [8000, 8050]
+                }],
+                range: [0, 8050],
+                min: 0,
+                max: 8050,
+                Type: '',
+                Shi: '',
+                ParaTs: '',
+                typeList: [{
+                    name: '不限',
+                    value: 0
+                }, {
+                    name: '整租',
+                    value: 1
+                }, {
+                    name: '合租',
+                    value: 2
+                }, {
+                    name: '品牌公寓',
+                    value: 3
+                }],
+                shiList: [{
+                    name: '不限',
+                    value: 0
+                }, {
+                    name: '一室',
+                    value: 1
+                }, {
+                    name: '二室',
+                    value: 2
+                }, {
+                    name: '三室',
+                    value: 3
+                }, {
+                    name: '四室及以上',
+                    value: 4
+                }],
+                tsList: ['朝南', '独卫', '带阳台']
             }
         },
         computed: {
             ...mapGetters([
                 'search',
                 'city'
-            ])
+            ]),
+            indicatorLeft() {
+                return '￥' + this.range[0]
+            },
+            indicatorRight() {
+                return this.range[1] === 8050 ? '不限' : '￥' + this.range[1]
+            }
         },
         created() {
             this.initData();
@@ -147,6 +263,49 @@ export default {
                 this.zhanList = _.concat({
                     Name: '不限'
                 }, this.subwayList[index].list)
+            },
+            changeZhan(name) {
+                this.ParaZhan = name
+            },
+            changePrice(index) {
+                this.priceIndex = index
+                this.range = this.priceList[index].value
+            },
+            changeRentType(index) {
+                this.Type = index
+            },
+            changeShi(index) {
+                this.Shi = index
+            },
+            clearTs() {
+                this.ParaTs = ''
+            },
+            toggleTs(name) {
+                name += ';'
+                if (this.ParaTs.indexOf(name) > -1) {
+                    this.ParaTs = this.ParaTs.replace(name, '')
+                } else {
+                    this.ParaTs += name
+                }
+            },
+            resetCategory() {
+                this.Distance = ''
+                this.area = ''
+                this.businessarea = ''
+                this.ParaXian = ''
+                this.ParaZhan = ''
+            },
+            resetPrice() {
+                this.priceIndex = 0
+                this.range = [0, 8050]
+            },
+            resetFilter() {
+                this.Type = 0
+                this.Shi = 0
+                this.ParaTs = ''
+            },
+            search() {
+
             }
         }
 }
@@ -195,11 +354,11 @@ export default {
         .choose_type {
             .sort_item_container {
                 .category_title {
-                    color: #3190e8;
+                    color: #ff5252;
                 }
                 .sort_icon {
                     transform: rotate(180deg);
-                    fill: #3190e8;
+                    fill: #ff5252;
                 }
             }
         }
@@ -228,6 +387,20 @@ export default {
                 background-color: #fff;
                 height: px2rem(750px);
                 overflow-y: auto;
+                .btn-wrap {
+                    position: absolute;
+                    top: px2rem(750px);
+                    left: 0;
+                    right: 0;
+                    bottom: px2rem(-100px);
+                    background-color: #fff;
+                    button {
+                        width: px2rem(250px);
+                        height: px2rem(80px);
+                        background-color: #FF5252;
+                        color: #fff;
+                    }
+                }
             }
             .category_mid {
                 flex: 1;
@@ -251,15 +424,6 @@ export default {
                 font-size: px2rem(30px);
                 height: px2rem(60px);
                 line-height: px2rem(60px);
-            }
-            button {
-                width: 40%;
-                height: px2rem(70px);
-                line-height: px2rem(70px);
-                font-size: px2rem(32px);
-                color: #fff;
-                letter-spacing: 4px;
-                background-color: #FF5252;
             }
             .confirm_filter {
                 display: flex;
@@ -285,6 +449,89 @@ export default {
                     span {
                         color: #fff;
                     }
+                }
+            }
+        }
+        .price_container {
+            width: 100%;
+            position: absolute;
+            top: px2rem(75px);
+            left: 0;
+            border-top: 1px solid #e4e4e4;
+            background-color: #fff;
+            >p {
+                width: 100%;
+                text-align: center;
+                margin-top: 10px;
+                color: #333;
+            }
+            .filter-wrap {
+                overflow: hidden;
+                .filter {
+                    padding: 5px;
+                    color: #333;
+                    font-size: 12px;
+                    border: 1px solid #aaa;
+                    float: left;
+                    margin: 10px;
+                    &.active {
+                        color: #FF5252;
+                        border-color: #FF5252;
+                    }
+                }
+            }
+            .slider-wrap {
+                width: 85%;
+                margin: px2rem(40px) auto;
+                .indicator_left {
+                    float: left;
+                }
+                .indicator_right {
+                    float: right;
+                }
+            }
+            .btn-wrap {
+                margin-top: px2rem(100px);
+                margin-bottom: px2rem(30px);
+                button {
+                    width: 3.33333rem;
+                    height: 1.06667rem;
+                    background-color: #FF5252;
+                    color: #fff;
+                }
+            }
+        }
+        .filter_container {
+            width: 100%;
+            position: absolute;
+            top: px2rem(75px);
+            left: 0;
+            border-top: 1px solid #e4e4e4;
+            background-color: #fff;
+            .filter-item {
+                margin-top: 10px;
+                overflow: hidden;
+                .item {
+                    padding: 5px;
+                    color: #333;
+                    font-size: 12px;
+                    border: 1px solid #aaa;
+                    float: left;
+                    margin: 10px;
+                    &.active {
+                        color: #FF5252;
+                        border-color: #FF5252;
+                    }
+                }
+            }
+            .btn-wrap {
+                margin-top: px2rem(100px);
+                margin-bottom: px2rem(30px);
+                button {
+                    width: 3.33333rem;
+                    height: 1.06667rem;
+                    background-color: #FF5252;
+                    color: #fff;
                 }
             }
         }
