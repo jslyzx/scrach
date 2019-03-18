@@ -193,7 +193,7 @@ export default {
       range: [0, 8050],
       min: 0,
       max: 8050,
-      Type: '',
+      Type: this.$route.query.Type || '',
       Shi: '',
       ParaTs: '',
       typeList: [{
@@ -283,6 +283,13 @@ export default {
     this.queryHouseList()
   },
   watch: {
+    '$route'(to, from) {
+      // 对路由变化作出响应...
+      if (to.path === '/zhaofang') {
+        this.Type = this.$route.query.Type
+        this.queryHouseList()
+      }
+    },
     search: {
       handler(newVal, oldVal) {
         // this.getSearchTips()

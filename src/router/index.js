@@ -51,6 +51,7 @@ import MyCollectionList from '../pages/MyCollectionList'
 import TuoGuan from '../pages/TuoGuan'
 import ZhaoFang from '../pages/ZhaoFang'
 import Search from '../pages/Search'
+import WorkNearby from '../pages/WorkNearby'
 
 Vue.use(Router)
 
@@ -385,6 +386,15 @@ const router = new Router({
       path: '/hosue/search',
       name: 'search',
       component: Search,
+      meta: {
+        requiresAuth: false,
+        keepAlive: false
+      }
+    },
+    {
+      path: '/work/nearby',
+      name: 'WorkNearby',
+      component: WorkNearby,
       meta: {
         requiresAuth: false,
         keepAlive: false

@@ -279,5 +279,8 @@ export default {
   },
   searchHouse(params) {
     return fetch('/api/House/zkhouselist', params)
+  },
+  searchWorkNear(params) {
+    return fetch('/api/Map/WorkTip', params)
   }
 }

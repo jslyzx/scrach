@@ -89,6 +89,8 @@ export default {
         return '预约看房'
       if (this.$route.name === 'TuoGuan')
         return '房屋托管'
+      if (this.$route.name === 'WorkNearby')
+        return '公司附近'
 
       switch (this.$route.path.split('/')[1]) {
         case '':

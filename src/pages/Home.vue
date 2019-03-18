@@ -7,26 +7,26 @@
       </swiper>
     </div>
     <div class="guides">
-      <div class="item">
+      <router-link class="item" to="/zhaofang?Type=2">
         <i></i>
         <p>合租</p>
-      </div>
-      <div class="item">
+      </router-link>
+      <router-link class="item" to="/zhaofang?Type=1">
         <i></i>
         <p>整租</p>
-      </div>
-      <div class="item">
+      </router-link>
+      <router-link class="item" to="/zhaofang?Type=3">
         <i></i>
         <p>品牌公寓</p>
-      </div>
+      </router-link>
       <div class="item" @click="todo">
         <i></i>
         <p>地图找房</p>
       </div>
-      <div class="item">
+      <router-link class="item" to="/work/nearby">
         <i></i>
         <p>公司附近</p>
-      </div>
+      </router-link>
       <div class="item" @click="todo">
         <i></i>
         <p>我要发布</p>
