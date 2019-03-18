@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="item" v-for="item in tipList">{{item.Name}}</div>
+    <div class="item" v-for="item in tipList" @click="research(item.Name)">{{item.Name}}</div>
   </div>
 </template>
 <script>
@@ -48,6 +48,10 @@ export default {
         .catch(err => {
 
         })
+    },
+    research(name) {
+      this.$store.dispatch('setSearchText', name)
+      this.$router.replace('/zhaofang')
     }
   }
 }

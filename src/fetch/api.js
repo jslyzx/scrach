@@ -276,5 +276,8 @@ export default {
   },
   queryArea(name) {
     return fetch('/api/Map/QueryArea', { name: name })
+  },
+  searchHouse(params) {
+    return fetch('/api/House/zkhouselist', params)
   }
 }

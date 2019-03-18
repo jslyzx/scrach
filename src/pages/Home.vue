@@ -44,7 +44,7 @@
       <div class="list-head">
         <i></i>
         <span class="title">热门房源</span>
-        <span class="more">更多<i></i></span>
+        <router-link class="more" to="/zhaofang">更多<i></i></router-link>
       </div>
       <scroll ref="scroll" :data="houseList" :scrollbar="scrollbarObj" :pullDownRefresh="pullDownRefreshObj" :pullUpLoad="pullUpLoadObj" :startY="parseInt(startY)" @pullingDown="onPullingDown" @pullingUp="onPullingUp">
         <div class="list-content">
@@ -202,9 +202,9 @@ export default {
     },
     getHomeData(type) {
       if (type === 'down') {
-        this.pageindex++
-      } else {
         this.pageindex = 1
+      } else {
+        this.pageindex++
       }
       api.queryHomeData({
           pageindex: this.pageindex,
@@ -216,7 +216,11 @@ export default {
           if (this.lunbo.length === 0) {
             this.lunbo = data.lunbo
           }
-          this.houseList = data.HouseZK
+          if(type === 'down'){
+            this.houseList = data.HouseZK
+          }else{
+            this.houseList = this.houseList.concat(data.HouseZK)
+          }
         })
     },
     scrollTo() {
