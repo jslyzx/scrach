@@ -9,7 +9,7 @@
     </div>
     <div class="links">
       <router-link class="item" :to="{path: '/user/appoint-list'}">
-        <p class="num">10</p>
+        <p class="num">{{appointmentcount}}</p>
         <p class="name">我的预约</p>
       </router-link>
       <a class="item" href="javascript:;"  @click="todo">
@@ -17,7 +17,7 @@
         <p class="name">我的优惠券</p>
       </a>
       <router-link class="item" href="javascript:;" :to="{path: '/user/collection-list'}">
-        <p class="num">10</p>
+        <p class="num">{{collectioncount}}</p>
         <p class="name">我的收藏</p>
       </router-link>
     </div>
@@ -59,7 +59,8 @@ import api from '../fetch/api.js'
 export default {
   data() {
     return {
-
+      collectioncount: 0,
+      appointmentcount: 0
     }
   },
   computed: {
@@ -69,11 +70,17 @@ export default {
     ])
   },
   created() {
-    // this.$store.dispatch('getUserData',this.userInfo.token)
-    // api.getUserData(this.userInfo.token)
-    //   .then(res => {
-    //     console.log(res.numberData)
-    //   })
+    if (this.loginStatus) {
+      api.getUserData(this.userInfo.token)
+        .then(res => {
+          const d = res.numberData
+          this.collectioncount = d.collectioncount
+          this.appointmentcount = d.appointmentcount
+        })
+        .catch(error => {
+
+        })
+    }
   },
   methods: {
     login() {

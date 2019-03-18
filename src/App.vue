@@ -91,6 +91,10 @@ export default {
         return '房屋托管'
       if (this.$route.name === 'WorkNearby')
         return '公司附近'
+      if (this.$route.name === 'AppointList')
+        return '我的预约'
+      if (this.$route.name === 'CollectionList')
+        return '我的收藏'
 
       switch (this.$route.path.split('/')[1]) {
         case '':

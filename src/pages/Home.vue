@@ -31,10 +31,10 @@
         <i></i>
         <p>我要发布</p>
       </div>
-      <div class="item">
+      <router-link class="item" to="/life/kaimen">
         <i></i>
         <p>我要开门</p>
-      </div>
+      </router-link>
       <router-link class="item" :to="{path: '/house/tg'}">
         <i></i>
         <p>房屋托管</p>

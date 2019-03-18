@@ -107,9 +107,9 @@ export default {
   methods: {
     getAppointList(type) {
       if (type === 'down') {
-        this.pageindex++
-      } else {
         this.pageindex = 1
+      } else {
+        this.pageindex++
       }
       api.queryAppointmentList({
           access_token: this.userInfo.token,
@@ -117,7 +117,11 @@ export default {
           pagesize: this.pagesize
         })
         .then(res => {
-          this.appointmentList = res.numberData
+          if (type === 'down') {
+            this.appointmentList = res.numberData
+          } else {
+            this.appointmentList = this.appointmentList.concat(res.numberData)
+          }
         })
         .catch(err => {
 
