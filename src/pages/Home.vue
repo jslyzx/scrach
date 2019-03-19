@@ -209,7 +209,8 @@ export default {
       api.queryHomeData({
           pageindex: this.pageindex,
           pagesize: this.pagesize,
-          city: this.city
+          city: this.city,
+          CompanyId: window.g.CompanyId
         })
         .then(res => {
           const data = res.numberData

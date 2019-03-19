@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       house: {
-        listview: [0, 0, 0, 0]
+        listview: [0, 0, 0, 0],
+        CompanyId: 0
       },
       form: {
         Name: '',
@@ -109,6 +110,7 @@ export default {
         return false
       }
       this.form.access_token = this.userInfo.token
+      this.form.CompanyId = this.house.CompanyId
       api.saveAppointment(this.form)
         .then(res => {
           mui.toast('提交预约成功')

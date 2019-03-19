@@ -5,7 +5,7 @@
       <a href="javascript:;" :class="{active: PayStatus}" @click="changeTab($event)">历史账单</a>
     </div>
     <div class="list">
-      <bill-list :status="PayStatus" :contract-id="ContractId"></bill-list>
+      <bill-list :status="PayStatus" :contract-id="ContractId" :company-id="CompanyId"></bill-list>
     </div>
   </div>
 </template>
@@ -18,7 +18,8 @@ export default {
   data() {
     return {
       ContractId: 0,
-      PayStatus: 0
+      PayStatus: 0,
+      CompanyId: 0
     }
   },
   components: {
@@ -31,6 +32,7 @@ export default {
   },
   created() {
     this.ContractId = Number(this.$route.query.ContractId)
+    this.CompanyId = Number(this.$route.query.CompanyId)
   },
   methods: {
     changeTab(e) {
@@ -44,6 +46,7 @@ export default {
       // 对路由变化作出响应...
       if (to.path === '/life/bill') {
         this.ContractId = Number(this.$route.query.ContractId)
+        this.CompanyId = Number(this.$route.query.CompanyId)
       }
     }
   }

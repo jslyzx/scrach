@@ -34,7 +34,8 @@ import _ from 'lodash'
 export default {
     props: {
         status: Number,
-        contractId: Number
+        contractId: Number,
+        CompanyId: Number
     },
     components: {
         BillItem,
@@ -230,7 +231,8 @@ export default {
                 name: 'pay',
                 params: {
                     Amount: this.totalAmount,
-                    list: this.list
+                    list: this.list,
+                    CompanyId: this.CompanyId
                 },
                 query: {
                     type: 'bill'

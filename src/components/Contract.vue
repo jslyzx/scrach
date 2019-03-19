@@ -61,7 +61,8 @@ export default {
             query: {
               ContractId: this.contract.Id,
               HouseId: this.contract.HouseId,
-              HouseName: this.contract.HouseName
+              HouseName: this.contract.HouseName,
+              CompanyId: this.contract.CompanyId
             }
           })
         }
@@ -71,7 +72,8 @@ export default {
           query: {
             ContractId: this.contract.Id,
             HouseId: this.contract.HouseId,
-            HouseName: this.contract.HouseName
+            HouseName: this.contract.HouseName,
+            CompanyId: this.contract.CompanyId
           }
         })
       }

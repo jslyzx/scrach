@@ -57,7 +57,8 @@ export default {
         Phone: '',
         AppiontTime: '',
         HouseId: 0,
-        itemList: []
+        itemList: [],
+        CompanyId: 0
       },
       pickerOptions: {
         disabledDate(time) {
@@ -70,6 +71,7 @@ export default {
     this.$store.dispatch("getRepairSubjectList")
     this.form.Phone = this.userInfo.username
     this.form.HouseId = Number(this.$route.query.HouseId)
+    this.form.CompanyId = Number(this.$route.query.CompanyId)
   },
   computed: {
     ...mapGetters([
@@ -96,6 +98,7 @@ export default {
       // 对路由变化作出响应...
       if (to.path === '/life/bx') {
         this.form.HouseId = this.$route.query.HouseId
+        this.form.CompanyId = this.$route.query.CompanyId
       }
     },
     bxItem: {
@@ -115,7 +118,8 @@ export default {
         Phone: this.form.Phone,
         AppiontTime: this.form.AppiontTime,
         HouseId: this.form.HouseId,
-        list: this.form.itemList
+        list: this.form.itemList,
+        CompanyId: this.form.CompanyId
       }
       console.log(data)
       if (data.Name === '') {

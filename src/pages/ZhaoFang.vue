@@ -431,7 +431,8 @@ export default {
           ParaZhan: this.ParaZhan,
           Type: this.Type,
           Shi: this.Shi,
-          ParaTs: this.ParaTs
+          ParaTs: this.ParaTs,
+          CompanyId: window.g.CompanyId
         })
         .then(res => {
           if (type === 'down') {

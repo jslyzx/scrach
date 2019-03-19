@@ -432,7 +432,8 @@ router.beforeEach((to, from, next) => {
                   path: to.path,
                   query: {
                     ContractId: res.numberData[0].Id,
-                    HouseId: res.numberData[0].HouseId
+                    HouseId: res.numberData[0].HouseId,
+                    CompanyId: res.numberData[0].CompanyId
                   }
                 })
               } else {

@@ -132,7 +132,8 @@ export default {
       list: [],
       Account: '',
       AmountName: '',
-      BankName: ''
+      BankName: '',
+      CompanyId: 0
     }
   },
   computed: {
@@ -162,6 +163,7 @@ export default {
   methods: {
     getContractDetail() {
       this.ContractId = Number(this.$route.query.ContractId)
+      this.CompanyId = Number(this.$route.query.CompanyId)
       api.getContractDetail(this.ContractId)
         .then((res) => {
           this.contract = res.numberData
@@ -260,7 +262,8 @@ export default {
         list: this.list,
         Account: this.Account,
         AmountName: this.AmountName,
-        BankName: this.BankName
+        BankName: this.BankName,
+        CompanyId: this.CompanyId
       }
       api.approveTuizu(data)
         .then(res => {

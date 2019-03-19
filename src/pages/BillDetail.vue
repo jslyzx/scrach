@@ -82,7 +82,8 @@ export default {
         name: 'pay',
         params: {
           Amount: this.billDetail.Amount,
-          list: [{ Id: this.billDetail.Id, Amount: this.billDetail.Amount }]
+          list: [{ Id: this.billDetail.Id, Amount: this.billDetail.Amount }],
+          CompanyId: this.billDetail.CompanyId
         },
         query: {
           type: 'bill'

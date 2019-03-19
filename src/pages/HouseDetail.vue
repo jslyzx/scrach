@@ -95,7 +95,8 @@ export default {
         JiaoTong: [],
         Zhoubian: [],
         Peipei: [],
-        IsCollection: 0
+        IsCollection: 0,
+        CompanyId: 0
       },
       imgurl: this.imgurl,
       nearIndex: 0
@@ -179,7 +180,8 @@ export default {
         if (this.house.IsCollection === 0) {
           api.collectHouse({
               access_token: this.userInfo.token,
-              HouseId: this.$route.params.id
+              HouseId: this.$route.params.id,
+              CompanyId: this.house.CompanyId
             })
             .then(res => {
               if (res.Code === 0) {
@@ -195,7 +197,8 @@ export default {
         } else {
           api.cancelCollect({
               access_token: this.userInfo.token,
-              HouseId: this.$route.params.id
+              HouseId: this.$route.params.id,
+              CompanyId: this.house.CompanyId
             })
             .then(res => {
               if (res.Code === 0) {
