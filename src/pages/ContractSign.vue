@@ -17,37 +17,41 @@ let Base64 = require('js-base64').Base64
 export default {
   data() {
     return {
-      contract: {}
+      contractId: Base64.decode(this.$route.params.id),
+      domain: ''
     }
   },
   computed: {
     ...mapGetters(['userInfo'])
   },
   created() {
-    api.getContractTemplate({
-        access_token: this.userInfo.token,
-        Id: this.$route.params.id
-      })
-      .then((res) => {
-        document.getElementById('content').innerHTML =
-          marked(res.numberData.content)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    api.getContractDetail(this.$route.params.id)
-      .then(res => {
-        this.contract = res.numberData
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    this.initData()
   },
   methods: {
+    async initData() {
+      const url = await api.querySignUrl(this.contractId)
+      this.domain = url.numberData.url
+      const currUrl = location.origin
+      if (this.domain === currUrl || this.domain.indexOf(currUrl) > -1) {
+        api.getContractTemplate({
+            access_token: this.userInfo.token,
+            Id: this.contractId
+          })
+          .then((res) => {
+            document.getElementById('content').innerHTML =
+              marked(res.numberData.content)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      } else {
+        location.href = this.domain + 'user/contract/sign/' + this.$route.params.id
+      }
+    },
     sign() {
       this.$store.dispatch('setLoadingState', true)
       api.signContract({
-          Id: this.$route.params.id
+          Id: this.contractId
         })
         .then((res) => {
           this.$store.dispatch('setLoadingState', false)

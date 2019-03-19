@@ -3,6 +3,8 @@ import qs from 'qs'
 
 import * as _ from '../util/tool'
 
+import store from '../vuex/store'
+
 // axios 配置
 axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
@@ -16,6 +18,7 @@ axios.interceptors.request.use((config) => {
   return config;
 }, (error) => {
   _.toast("错误的传参", 'fail');
+  store.dispatch('setLoadingState', false);
   return Promise.reject(error);
 });
 
@@ -282,5 +285,8 @@ export default {
   },
   searchWorkNear(params) {
     return fetch('/api/Map/WorkTip', params)
+  },
+  querySignUrl(id) {
+    return fetch('/api/contract/queryurl', { Id: id })
   }
 }
