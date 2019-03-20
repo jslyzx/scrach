@@ -410,7 +410,8 @@ export default {
       this.ParaTs = ''
     },
     submit() {
-      this.queryHouseList()
+      this.sortBy = ''
+      this.queryHouseList('down')
     },
     queryHouseList(type) {
       if (type === 'down') {
@@ -564,7 +565,6 @@ export default {
           top: px2rem(750px);
           left: 0;
           right: 0;
-          bottom: px2rem(-100px);
           background-color: #fff;
           button {
             width: px2rem(250px);

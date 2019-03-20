@@ -420,8 +420,7 @@ router.beforeEach((to, from, next) => {
             if (res.Code === 1002) {
               store.dispatch('setSignOut')
               next({
-                path: '/user/login',
-                query: { redirect: to.fullPath } //登录重定向
+                path: '/user/login'
               })
             } else {
               if (res.numberData.length === 0) { //没有合同
@@ -449,8 +448,7 @@ router.beforeEach((to, from, next) => {
       }
     } else { //未登录，跳登录页面
       next({
-        path: '/user/login',
-        query: { redirect: to.fullPath } //登录重定向
+        path: '/user/login'
       })
     }
 

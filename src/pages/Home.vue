@@ -2,8 +2,8 @@
   <div class="home">
     <div class="banner">
       <swiper :options="swiperOption" class="swiper-box">
-        <swiper-slide class="swiper-item"><img src="../assets/images/a4.jpg" alt="..."></swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
+        <swiper-slide class="swiper-item" v-for="(item,index) in lunbo" :key="index"><img :src="`http://${item.Image}`" alt="..."></swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
     </div>
     <div class="guides">
@@ -285,6 +285,7 @@ export default {
         align-items: center;
         img {
           width: 100%;
+          height: px2rem(380px);
         }
       }
       .swiper-pagination {
