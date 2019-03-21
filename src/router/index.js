@@ -160,7 +160,7 @@ const router = new Router({
       path: '/life/pay/success',
       component: PaySuccess,
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         keepAlive: false
       }
     },

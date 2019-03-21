@@ -31,6 +31,7 @@ axios.interceptors.response.use((res) => {
   return res;
 }, (error) => {
   _.toast("网络异常", 'fail');
+  store.dispatch('setLoadingState', false);
   return Promise.reject(error);
 });
 

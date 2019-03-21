@@ -1,4 +1,0 @@
-pageindex=1&pagesize=10&city=上海市&area=宝山区&MinPrice=0&MaxPrice=999999&businessarea=宝山城市工业园区&Distance=500m&ParaXian=1号线&ParaZhan=富锦路/不限&Type=1&Shi=2&ParaTs=朝南;&RecentTime=2019年03月18日 11时
-
-
-Type: 1整租 2合租 3品牌公寓

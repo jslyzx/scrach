@@ -52,19 +52,13 @@ export default {
 
     }
   },
-  watch: {
-    '$route'(to, from) {
-      // 如果没有openId就获取openId
-      // this.getOpenId()
-    }
-  },
   computed: {
     ...mapGetters([
       'openId'
     ])
   },
   created() {
-    // this.getOpenId()
+    this.getOpenId()
   },
   methods: {
     ...mapActions({
@@ -73,7 +67,7 @@ export default {
     getOpenId() {
       if (!this.openId) {
         let urlSearch = new URLSearchParams(location.search)
-        const appid = 'wx00b3195affdfb75c'
+        const appid = window.g.appid
         if (!urlSearch.has('code')) {
           var url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(location.href)}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`
           location.href = url
