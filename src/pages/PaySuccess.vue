@@ -2,7 +2,7 @@
   <div class="main">
     <img src="../assets/images/success.png">
     <p>支付成功</p>
-    <p v-if="typeof WeixinJSBridge == "undefined"">支付成功,请在微信中打开公众号"{{wxName}}"</p>
+    <p v-if="typeof WeixinJSBridge == 'undefined'">支付成功,请在微信中打开公众号"{{wxName}}"</p>
     <p v-else>支付成功，即将跳转</p>
   </div>
 </template>

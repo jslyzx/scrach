@@ -42,6 +42,7 @@
     "http-proxy-middleware": "^0.17.3",
     "js-base64": "^2.5.1",
     "marked": "^0.6.0",
+    "mescroll.js": "^1.4.1",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.5.0",
     "opn": "^4.0.2",
