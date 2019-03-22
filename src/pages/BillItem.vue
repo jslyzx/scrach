@@ -52,12 +52,16 @@ export default {
     timeText() {
       var today = formatDate(new Date())
       var ShouldReceive = formatDate(this.bill.ShouldReceive)
-      if (today > ShouldReceive) {
-        return ShouldReceive + '前'
-      } else if (today === ShouldReceive) {
-        return '今日支付'
+      if (this.bill.PayStatus === 1) {
+        return ShouldReceive
       } else {
-        return '未支付'
+        if (today > ShouldReceive) {
+          return '已逾期' + this.yqDate + '天'
+        } else if (today === ShouldReceive) {
+          return '今日支付'
+        } else {
+          return ShouldReceive + '前'
+        }
       }
     },
     isShow() {
