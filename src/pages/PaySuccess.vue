@@ -1,9 +1,10 @@
 <template>
   <div class="main">
     <img src="../assets/images/success.png">
-    <p>支付成功</p>
-    <p v-if="typeof WeixinJSBridge == 'undefined'">支付成功,请在微信中打开公众号"{{wxName}}"</p>
-    <p v-else>支付成功，即将跳转</p>
+    <p v-if="inWx">支付成功，即将跳转</p>
+    <p v-else>支付成功</p>
+    <button v-if="inWx" class="mui-btn mui-btn-danger mui-btn-block" @click="returnAction">确定</button>
+    <p v-else>请在微信中打开公众号"{{wxName}}"</p>
   </div>
 </template>
 <script>
@@ -13,18 +14,24 @@ import {
 export default {
   data() {
     return {
-      wxName: window.g.wxName
+      wxName: window.g.wxName,
+      inWx: typeof WeixinJSBridge !== 'undefined'
     }
   },
   created() {
-    if(typeof WeixinJSBridge !== "undefined"){
-      this.$router.replace(that.payReturnUrl)
+    if (this.inWx) {
+      setTimeout(this.returnAction, 5000)
     }
   },
   computed: {
     ...mapGetters([
       'payReturnUrl'
-    ]),
+    ])
+  },
+  methods: {
+    returnAction() {
+      this.$router.replace(this.payReturnUrl)
+    }
   }
 }
 

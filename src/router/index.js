@@ -161,7 +161,8 @@ const router = new Router({
       component: PaySuccess,
       meta: {
         requiresAuth: false,
-        keepAlive: false
+        keepAlive: false,
+        other: true
       }
     },
     {

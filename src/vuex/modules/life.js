@@ -49,7 +49,7 @@ const actions = {
   },
   setPayReturnUrl({ commit }, res) {
     localStorage.setItem('payReturnUrl', JSON.stringify(res))
-    commit(types.SET_PAY_RETURN_URL, true)
+    commit(types.SET_PAY_RETURN_URL, res)
   },
   getContract({ commit }, id) {
     api.getContractDetail(id)

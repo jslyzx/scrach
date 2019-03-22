@@ -77,6 +77,7 @@ export default {
         }
 
       } else { //微信支付
+        var that = this
         if (this.$route.query.type === 'bill') {
           var params = this.$route.params
           params.openId = this.openId
@@ -93,7 +94,11 @@ export default {
                     "paySign": d.sign //微信签名 
                   },
                   function(res) {
-                    if (res.err_msg == "get_brand_wcpay_request:ok") {}
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                      setTimeout(function() {
+                        that.$router.push('/life/pay/success')
+                      }, 500);
+                    }
                     if (res.err_msg == "get_brand_wcpay_request:cancel") {
                       mui.alert('支付已取消')
                     }
