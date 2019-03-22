@@ -1,9 +1,9 @@
 <template>
-  <mescroll-vue ref="mescroll" @init="mescrollInit" :up="mescrollUp">
+  <div class="home">
     <div class="banner">
       <swiper :options="swiperOption" class="swiper-box">
         <swiper-slide class="swiper-item" v-for="(item,index) in lunbo" :key="index"><img :src="`http://${item.Image}`" alt="..."></swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
+        <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
     </div>
     <div class="guides">
@@ -46,22 +46,24 @@
         <span class="title">热门房源</span>
         <router-link class="more" to="/zhaofang">更多<i></i></router-link>
       </div>
-      <div id="dataList" class="data-list">
-        <router-link class="item" v-for="(item,index) in houseList" :key="item.objectId" :to="`/house/detail/${item.Id}`">
-          <img :src="`${imgurl}${item.Image}`">
-          <div class="info">
-            <p class="addr">地址<span>{{item.Adress}}</span></p>
-            <p class="transport" v-if="item.JiaoTong.length > 0">距离{{item.JiaoTong[0].Xian}}{{item.JiaoTong[0].Zhan}}{{item.JiaoTong[0].Juli}}米</p>
-            <p class="transport" v-else>{{item.area}}<span>{{item.businessarea}}</span></p>
-            <div class="fors">
-              <span class="for" v-for="ts in item.Ts">{{ts}}</span>
+      <scroll ref="scroll" :data="houseList" :scrollbar="scrollbarObj" :pullDownRefresh="pullDownRefreshObj" :pullUpLoad="pullUpLoadObj" :startY="parseInt(startY)" @pullingDown="onPullingDown" @pullingUp="onPullingUp">
+        <div class="list-content">
+          <router-link class="item" v-for="(item,index) in houseList" :key="item.objectId" :to="`/house/detail/${item.Id}`">
+            <img :src="`${imgurl}${item.Image}`">
+            <div class="info">
+              <p class="addr">地址<span>{{item.Adress}}</span></p>
+              <p class="transport" v-if="item.JiaoTong.length > 0">距离{{item.JiaoTong[0].Xian}}{{item.JiaoTong[0].Zhan}}{{item.JiaoTong[0].Juli}}米</p>
+              <p class="transport" v-else>{{item.area}}<span>{{item.businessarea}}</span></p>
+              <div class="fors">
+                <span class="for" v-for="ts in item.Ts">{{ts}}</span>
+              </div>
+              <p class="money">&yen;&nbsp;&nbsp;{{item.Price}}/月</p>
             </div>
-            <p class="money">&yen;&nbsp;&nbsp;{{item.Price}}/月</p>
-          </div>
-        </router-link>
-      </div>
+          </router-link>
+        </div>
+      </scroll>
     </div>
-  </mescroll-vue>
+  </div>
 </template>
 <script>
 import {
@@ -74,38 +76,16 @@ import {
   swiperSlide
 } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
-import MescrollVue from 'mescroll.js/mescroll.vue'
+import Scroll from '@/components/scroll'
 
 export default {
   components: {
     swiper,
     swiperSlide,
-    MescrollVue
+    Scroll
   },
   data() {
     return {
-      mescroll: null, // mescroll实例对象
-      mescrollUp: {
-        callback: this.upCallback, // 上拉回调,此处可简写; 相当于 callback: function (page, mescroll) { getListData(page); }
-        page: {
-          num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
-          size: 3 // 每页数据的数量
-        },
-        noMoreSize: 3, // 如果列表已无数据,可设置列表的总数量要大于等于5条才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看
-        empty: {
-          // 列表第一页无任何数据时,显示的空提示布局; 需配置warpId才生效;
-          warpId: 'dataList', // 父布局的id;
-          icon: '../assets/mescroll-empty.png', // 图标,支持网络图
-          tip: '暂无相关数据~', // 提示
-          btntext: '去逛逛 >', // 按钮,默认""
-          btnClick() { // 点击按钮的回调,默认null
-            alert('点击了按钮,具体逻辑自行实现')
-          }
-        },
-        lazyLoad: {
-          use: true // 是否开启懒加载,默认false
-        }
-      },
       swiperOption: {
         pagination: {
           el: ".swiper-pagination"
@@ -114,6 +94,23 @@ export default {
         loop: true
       },
       imgurl: this.imgurl,
+      scrollbar: true,
+      scrollbarFade: true,
+      pullDownRefresh: true,
+      pullDownRefreshThreshold: 90,
+      pullDownRefreshStop: 40,
+      pullUpLoad: true,
+      pullUpLoadThreshold: 0,
+      startY: 0,
+      scrollToX: 0,
+      scrollToY: -200,
+      scrollToTime: 700,
+      scrollToEasing: 'bounce',
+      scrollToEasingOptions: ['bounce', 'swipe', 'swipeBounce'],
+      pullUpLoadMoreTxt: '加载更多',
+      pullUpLoadNoMoreTxt: '没有更多数据了',
+      pageindex: 0,
+      pagesize: 30,
       lunbo: [],
       houseList: []
     }
@@ -121,17 +118,68 @@ export default {
   computed: {
     ...mapGetters([
       'city'
-    ])
+    ]),
+    scrollbarObj: function() {
+      return this.scrollbar ? {
+        fade: this.scrollbarFade
+      } : false
+    },
+    pullDownRefreshObj: function() {
+      return this.pullDownRefresh ? {
+        threshold: parseInt(this.pullDownRefreshThreshold),
+        stop: parseInt(this.pullDownRefreshStop)
+      } : false
+    },
+    pullUpLoadObj: function() {
+      return this.pullUpLoad ? {
+        threshold: parseInt(this.pullUpLoadThreshold),
+        txt: {
+          more: this.pullUpLoadMoreTxt,
+          noMore: this.pullUpLoadNoMoreTxt
+        }
+      } : false
+    }
   },
   created() {
     this.getLocation()
-    // this.getHomeData()
+    this.getHomeData()
   },
   watch: {
     city: {
       handler() {
         this.getHomeData()
       }
+    },
+    scrollbarObj: {
+      handler() {
+        this.rebuildScroll()
+      },
+      deep: true
+    },
+    pullDownRefreshObj: {
+      handler(val) {
+        const scroll = this.$refs.scroll.scroll
+        if (val) {
+          scroll.openPullDown()
+        } else {
+          scroll.closePullDown()
+        }
+      },
+      deep: true
+    },
+    pullUpLoadObj: {
+      handler(val) {
+        const scroll = this.$refs.scroll.scroll
+        if (val) {
+          scroll.openPullUp()
+        } else {
+          scroll.closePullUp()
+        }
+      },
+      deep: true
+    },
+    startY() {
+      this.rebuildScroll()
     }
   },
   mounted() {
@@ -147,11 +195,10 @@ export default {
       var geolocation = new qq.maps.Geolocation()
       geolocation.getIpLocation(function(position) {
         that.$store.dispatch('setCity', position.city)
-      }, function() {});
-    },
-    // mescroll组件初始化的回调,可获取到mescroll对象
-    mescrollInit(mescroll) {
-      this.mescroll = mescroll
+        getFlag = true;
+      }, function() {
+        console.log('定位失败')
+      });
     },
     getHomeData(type) {
       if (type === 'down') {
@@ -170,47 +217,57 @@ export default {
           if (this.lunbo.length === 0) {
             this.lunbo = data.lunbo
           }
-          if (type === 'down') {
+          if(type === 'down'){
             this.houseList = data.HouseZK
-          } else {
+          }else{
             this.houseList = this.houseList.concat(data.HouseZK)
           }
         })
     },
+    scrollTo() {
+      // expect a number, not string
+      const scrollToTime = Number(this.scrollToTime)
+      const scrollToY = Number(this.scrollToY)
+      const scrollToX = Number(this.scrollToX)
+      this.$refs.scroll.scrollTo(scrollToX, scrollToY, scrollToTime, ease[this.scrollToEasing])
+    },
+    autoPullDownRefresh() {
+      this.$refs.scroll.autoPullDownRefresh()
+    },
+    onPullingDown() {
+      setTimeout(() => {
+        if (this._isDestroyed) {
+          return
+        }
+        this.getHomeData('down')
+      }, 2000)
+    },
+    onPullingUp() {
+      // 更新数据
+      setTimeout(() => {
+        if (this._isDestroyed) {
+          return
+        }
+        this.getHomeData('up')
+      }, 1500)
+    },
+    rebuildScroll() {
+      Vue.nextTick(() => {
+        this.$refs.scroll.destroy()
+        this.$refs.scroll.initScroll()
+      })
+    },
     todo() {
       mui.toast('待开发')
-    },
-    upCallback(page, mescroll) {
-      api.queryHomeData({
-          pageindex: page.num,
-          pagesize: page.size,
-          city: this.city,
-          CompanyId: window.g.CompanyId
-        })
-        .then(res => {
-          if (page.num === 1) this.houseList = []
-          this.houseList = this.houseList.concat(res.numberData.HouseZK)
-          this.lunbo = res.numberData.lunbo
-          this.$nextTick(() => {
-            mescroll.endSuccess(res.numberData.HouseZK.length)
-          })
-        })
-        .catch(error => {
-          // 联网异常,隐藏上拉和下拉的加载进度
-          mescroll.endErr()
-        })
     }
   }
 }
 
 </script>
 <style scoped lang="scss">
+@import '../assets/css/home';
 @import '../assets/css/function';
-.mescroll {
-  position: fixed;
-  top: px2rem(100px);
-  bottom: px2rem(98px);
-  height: auto;
+.home {
   background-color: #fff;
   .banner {
     .swiper-box {
@@ -246,9 +303,9 @@ export default {
     box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.35), 0px -2px 2px 0px rgba(0, 0, 0, 0.17);
     margin: 0 auto;
     position: relative;
-    z-index: 99999;
+    z-index: 100;
     background: #fff;
-    top: px2rem(-180px);
+    top: px2rem(-80px);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -306,7 +363,7 @@ export default {
     }
   }
   .list {
-    margin: px2rem(-140px) px2rem(28px) px2rem(39px) px2rem(39px);
+    margin: px2rem(-39px) px2rem(28px) px2rem(39px) px2rem(39px);
     .list-head {
       overflow: hidden;
       &>i {
@@ -340,12 +397,13 @@ export default {
         }
       }
     }
-    .data-list {
-      padding-top: px2rem(20px);
+    .list-content {
+      background-color: #fff;
+      padding-left: px2rem(20px);
+      padding-right: px2rem(29px);
       .item {
         overflow: hidden;
         margin-bottom: px2rem(20px);
-        display: block;
         img {
           width: px2rem(268px);
           height: px2rem(186px);
@@ -354,10 +412,9 @@ export default {
         }
         .info {
           float: left;
-          margin-left: px2rem(10px);
+          margin-left: px2rem(25px);
           p {
             margin-bottom: 0;
-            max-width: px2rem(400px);
             &.addr {
               color: #333;
               font-size: px2rem(28px);
@@ -391,6 +448,7 @@ export default {
           }
         }
       }
+
     }
   }
 }
