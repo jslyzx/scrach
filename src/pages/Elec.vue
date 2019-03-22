@@ -51,7 +51,8 @@ export default {
         surplus: 0
       },
       degree: 50,
-      CompanyId: 0
+      CompanyId: 0,
+      ContractId: 0
     }
   },
   computed: {
@@ -84,6 +85,7 @@ export default {
       this.HouseId = Number(this.$route.query.HouseId)
       this.CompanyId = Number(this.$route.query.CompanyId)
       this.HouseName = this.$route.query.HouseName
+      this.ContractId = Number(this.$route.query.ContractId)
       this.initchongzhi()
     },
     initchongzhi() {
@@ -115,7 +117,9 @@ export default {
           Amount: this.totalPrice,
           HouseId: this.HouseId,
           value: this.degree,
-          CompanyId: this.CompanyId
+          CompanyId: this.CompanyId,
+          ContractId: this.ContractId,
+          access_token: this.userInfo.token
         },
         query: {
           type: 'elec'

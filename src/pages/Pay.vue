@@ -65,11 +65,18 @@ export default {
         } else if (this.$route.query.type === 'elec') {
           api.elecAliPay(this.$route.params)
             .then((res) => {
-              console.log(res.numberData)
               const div = document.createElement('div');
               div.innerHTML = res.numberData; // html code
-              newTab.document.body.appendChild(div);
-              newTab.document.forms.alipaysubmit.submit();
+              document.body.appendChild(div);
+              var queryParam = '';
+
+              Array.prototype.slice.call(document.querySelectorAll("input")).forEach(function(ele) {
+                if (ele.name && ele.name !== 'pay-type') {
+                  queryParam += '&' + ele.name + "=" + encodeURIComponent(ele.value);
+                }
+              });
+              var gotoUrl = document.querySelector("#alipaysubmit").getAttribute('action') + queryParam;
+              _AP.pay(gotoUrl);
             })
             .catch((error) => {
               console.log(error)
@@ -122,9 +129,44 @@ export default {
               console.log(error)
             })
         } else if (this.$route.query.type === 'elec') {
-          api.elecWXPay(this.$route.params)
+          var params = this.$route.params
+          params.openId = this.openId
+          api.elecWXPay(params)
             .then((res) => {
-              console.log(res.numberData)
+              function onBridgeReady(e, d) {
+                WeixinJSBridge.invoke(
+                  'getBrandWCPayRequest', {
+                    "appId": d.appid, //公众号名称，由商户传入     
+                    "timeStamp": d.timestamp + '', //时间戳，自1970年以来的秒数     
+                    "nonceStr": d.noncestr, //随机串     
+                    "package": d.package,
+                    "signType": "MD5", //微信签名方式：     
+                    "paySign": d.sign //微信签名 
+                  },
+                  function(res) {
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                      setTimeout(function() {
+                        that.$router.push('/life/pay/success')
+                      }, 500);
+                    }
+                    if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                      mui.alert('支付已取消')
+                    }
+                  });
+              }
+              if (res.Code === 0) {
+                var d = res.numberData
+                if (typeof WeixinJSBridge == "undefined") {
+                  if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', function(e, d) { onBridgeReady(e, d) }, false);
+                  } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', function(e, d) { onBridgeReady(e, d) });
+                    document.attachEvent('onWeixinJSBridgeReady', function(e, d) { onBridgeReady(e, d) });
+                  }
+                } else {
+                  onBridgeReady(undefined, d)
+                }
+              }
             })
             .catch((error) => {
               console.log(error)

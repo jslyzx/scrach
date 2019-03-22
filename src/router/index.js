@@ -140,6 +140,7 @@ const router = new Router({
       }
     },
     {
+      name: 'BillDetail',
       path: '/life/bill/:id',
       component: BillDetail,
       meta: {
@@ -433,7 +434,8 @@ router.beforeEach((to, from, next) => {
                   query: {
                     ContractId: res.numberData[0].Id,
                     HouseId: res.numberData[0].HouseId,
-                    CompanyId: res.numberData[0].CompanyId
+                    CompanyId: res.numberData[0].CompanyId,
+                    HouseName: res.numberData[0].HouseName
                   }
                 })
               } else {

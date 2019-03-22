@@ -180,7 +180,7 @@ export default {
     return fetch('/api/Bill/webPay_wx', params)
   },
   elecAliPay(params) {
-    return fetch('/api/PCElec/chongzhi', params)
+    return fetch('/api/Elec/chongzhi', params)
   },
   elecWXPay(params) {
     return fetch('/api/PCElec/wxchongzhi', params)

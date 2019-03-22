@@ -28,7 +28,8 @@ export default {
     bill: Object,
     checkedIds: Array,
     status: Number,
-    showMore: Boolean
+    showMore: Boolean,
+    needShowMore: Boolean
   },
   computed: {
     yqDate() {
@@ -61,6 +62,7 @@ export default {
     },
     isShow() {
       if (this.showMore) return true
+      if (!this.needShowMore) return true
       if (formatDate(this.bill.ShouldReceive, 'yyyy-MM') > formatDate(new Date(), 'yyyy-MM')) {
         return false
       } else {
