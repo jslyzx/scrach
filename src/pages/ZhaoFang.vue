@@ -107,30 +107,28 @@
     <transition name="showcover">
       <div class="back_cover" v-show="sortBy"></div>
     </transition>
-    <section class="house_list_container">
-      <scroll ref="scroll" :data="houseList" :scrollbar="scrollbarObj" :pullDownRefresh="pullDownRefreshObj" :pullUpLoad="pullUpLoadObj" :startY="parseInt(startY)" @pullingDown="onPullingDown" @pullingUp="onPullingUp">
-        <div class="list-content">
-          <router-link class="item" v-for="(item,index) in houseList" :key="index" :to="`/house/detail/${item.Id}`">
-            <img :src="`${imgurl}${item.Image}`">
-            <div class="info">
-              <p class="addr">{{item.Adress}}</p>
-              <div class="characters">
-                <span class="character">{{item.TingWei}}</span>
-                <span class="character">{{item.Fx}}</span>
-                <span class="character">朝{{item.Cx}}</span>
-                <span class="character">{{item.Measure}}平米</span>
-              </div>
-              <p class="transport" v-if="item.JiaoTong.length > 0">距离{{item.JiaoTong[0].Xian}}{{item.JiaoTong[0].Zhan}}{{item.JiaoTong[0].Juli}}米</p>
-              <p class="transport" v-else>{{item.area}}<span>{{item.businessarea}}</span></p>
-              <div class="fors">
-                <span class="for" v-for="ts in item.Ts">{{ts}}</span>
-              </div>
-              <p class="money">&yen;&nbsp;&nbsp;{{item.Price}}元</p>
+    <mescroll-vue ref="mescroll" @init="mescrollInit" :up="mescrollUp" class="house_list_container">
+      <div id="dataList" class="data-list">
+        <router-link class="item" v-for="(item,index) in houseList" :key="index" :to="`/house/detail/${item.Id}`">
+          <img :src="`${imgurl}${item.Image}`">
+          <div class="info">
+            <p class="addr">{{item.Adress}}</p>
+            <div class="characters">
+              <span class="character">{{item.TingWei}}</span>
+              <span class="character">{{item.Fx}}</span>
+              <span class="character">朝{{item.Cx}}</span>
+              <span class="character">{{item.Measure}}平米</span>
             </div>
-          </router-link>
-        </div>
-      </scroll>
-    </section>
+            <p class="transport" v-if="item.JiaoTong.length > 0">距离{{item.JiaoTong[0].Xian}}{{item.JiaoTong[0].Zhan}}{{item.JiaoTong[0].Juli}}米</p>
+            <p class="transport" v-else>{{item.area}}<span>{{item.businessarea}}</span></p>
+            <div class="fors">
+              <span class="for" v-for="ts in item.Ts">{{ts}}</span>
+            </div>
+            <p class="money">&yen;&nbsp;&nbsp;{{item.Price}}元</p>
+          </div>
+        </router-link>
+      </div>
+    </mescroll-vue>
   </div>
 </template>
 <script>
@@ -138,11 +136,11 @@ import {
   mapGetters
 } from 'vuex'
 import api from '../fetch/api'
-import Scroll from '@/components/scroll'
+import MescrollVue from 'mescroll.js/mescroll.vue'
 
 export default {
   components: {
-    Scroll
+    MescrollVue
   },
   data() {
     return {
@@ -227,23 +225,23 @@ export default {
       }],
       tsList: ['朝南', '独卫', '带阳台'],
       houseList: [],
-      pageindex: 0,
-      pagesize: 3,
-      scrollbar: true,
-      scrollbarFade: true,
-      pullDownRefresh: true,
-      pullDownRefreshThreshold: 90,
-      pullDownRefreshStop: 40,
-      pullUpLoad: true,
-      pullUpLoadThreshold: 0,
-      startY: 0,
-      scrollToX: 0,
-      scrollToY: -200,
-      scrollToTime: 700,
-      scrollToEasing: 'bounce',
-      scrollToEasingOptions: ['bounce', 'swipe', 'swipeBounce'],
-      pullUpLoadMoreTxt: '加载更多',
-      pullUpLoadNoMoreTxt: '没有更多数据了'
+      mescroll: null, // mescroll实例对象
+      mescrollUp: {
+        callback: this.upCallback, // 上拉回调,此处可简写; 相当于 callback: function (page, mescroll) { getListData(page); }
+        page: {
+          num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
+          size: 20 // 每页数据的数量
+        },
+        noMoreSize: 3, // 如果列表已无数据,可设置列表的总数量要大于等于5条才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看
+        empty: {
+          // 列表第一页无任何数据时,显示的空提示布局; 需配置warpId才生效;
+          warpId: 'dataList', // 父布局的id;
+          tip: '暂无房源~', // 提示
+        },
+        lazyLoad: {
+          use: true // 是否开启懒加载,默认false
+        }
+      }
     }
   },
   computed: {
@@ -256,78 +254,59 @@ export default {
     },
     indicatorRight() {
       return this.range[1] === 8050 ? '不限' : '￥' + this.range[1]
-    },
-    scrollbarObj: function() {
-      return this.scrollbar ? {
-        fade: this.scrollbarFade
-      } : false
-    },
-    pullDownRefreshObj: function() {
-      return this.pullDownRefresh ? {
-        threshold: parseInt(this.pullDownRefreshThreshold),
-        stop: parseInt(this.pullDownRefreshStop)
-      } : false
-    },
-    pullUpLoadObj: function() {
-      return this.pullUpLoad ? {
-        threshold: parseInt(this.pullUpLoadThreshold),
-        txt: {
-          more: this.pullUpLoadMoreTxt,
-          noMore: this.pullUpLoadNoMoreTxt
-        }
-      } : false
     }
   },
   created() {
-    this.initData();
-    this.queryHouseList()
+    this.initData()
   },
   watch: {
     '$route'(to, from) {
       // 对路由变化作出响应...
       if (to.path === '/zhaofang') {
         this.Type = this.$route.query.Type
-        this.queryHouseList()
+        this.mescroll.triggerDownScroll()
       }
     },
     search: {
       handler(newVal, oldVal) {
         // this.getSearchTips()
       }
-    },
-    scrollbarObj: {
-      handler() {
-        this.rebuildScroll()
-      },
-      deep: true
-    },
-    pullDownRefreshObj: {
-      handler(val) {
-        const scroll = this.$refs.scroll.scroll
-        if (val) {
-          scroll.openPullDown()
-        } else {
-          scroll.closePullDown()
-        }
-      },
-      deep: true
-    },
-    pullUpLoadObj: {
-      handler(val) {
-        const scroll = this.$refs.scroll.scroll
-        if (val) {
-          scroll.openPullUp()
-        } else {
-          scroll.closePullUp()
-        }
-      },
-      deep: true
-    },
-    startY() {
-      this.rebuildScroll()
     }
   },
   methods: {
+    // mescroll组件初始化的回调,可获取到mescroll对象
+    mescrollInit(mescroll) {
+      this.mescroll = mescroll
+    },
+    upCallback(page, mescroll) {
+      api.searchHouse({
+          pageindex: page.num,
+          pagesize: page.size,
+          city: this.city,
+          area: this.area,
+          MinPrice: this.range[0],
+          MaxPrice: this.range[1] === 8055 ? 999999 : this.range[1],
+          businessarea: this.businessarea,
+          Distance: this.Distance,
+          ParaXian: this.ParaXian,
+          ParaZhan: this.ParaZhan,
+          Type: this.Type,
+          Shi: this.Shi,
+          ParaTs: this.ParaTs,
+          CompanyId: window.g.CompanyId
+        })
+        .then(res => {
+          if (page.num === 1) this.houseList = []
+          this.houseList = this.houseList.concat(res.numberData)
+          this.$nextTick(() => {
+            mescroll.endSuccess(res.numberData.length)
+          })
+        })
+        .catch(error => {
+          // 联网异常,隐藏上拉和下拉的加载进度
+          mescroll.endErr()
+        })
+    },
     async initData() {
       const a = await api.queryArea(this.city)
       this.areas = a.numberData.districts[0].districts[1].districts
@@ -411,73 +390,7 @@ export default {
     },
     submit() {
       this.sortBy = ''
-      this.queryHouseList('down')
-    },
-    queryHouseList(type) {
-      if (type === 'down') {
-        this.pageindex = 1
-      } else {
-        this.pageindex++
-      }
-      api.searchHouse({
-          pageindex: this.pageindex,
-          pagesize: this.pagesize,
-          city: this.city,
-          area: this.area,
-          MinPrice: this.range[0],
-          MaxPrice: this.range[1] === 8055 ? 999999 : this.range[1],
-          businessarea: this.businessarea,
-          Distance: this.Distance,
-          ParaXian: this.ParaXian,
-          ParaZhan: this.ParaZhan,
-          Type: this.Type,
-          Shi: this.Shi,
-          ParaTs: this.ParaTs,
-          CompanyId: window.g.CompanyId
-        })
-        .then(res => {
-          if (type === 'down') {
-            this.houseList = res.numberData
-          } else {
-            this.houseList = this.houseList.concat(res.numberData)
-          }
-        })
-        .catch(error => {
-
-        })
-    },
-    scrollTo() {
-      // expect a number, not string
-      const scrollToTime = Number(this.scrollToTime)
-      const scrollToY = Number(this.scrollToY)
-      const scrollToX = Number(this.scrollToX)
-      this.$refs.scroll.scrollTo(scrollToX, scrollToY, scrollToTime, ease[this.scrollToEasing])
-    },
-    autoPullDownRefresh() {
-      this.$refs.scroll.autoPullDownRefresh()
-    },
-    onPullingDown() {
-      setTimeout(() => {
-        if (this._isDestroyed) {
-          return
-        }
-        this.queryHouseList('down')
-      }, 2000)
-    },
-    onPullingUp() {
-      // 更新数据
-      setTimeout(() => {
-        if (this._isDestroyed) {
-          return
-        }
-        this.queryHouseList('up')
-      }, 1500)
-    },
-    rebuildScroll() {
-      Vue.nextTick(() => {
-        this.$refs.scroll.destroy()
-        this.$refs.scroll.initScroll()
-      })
+      this.mescroll.triggerDownScroll()
     }
   }
 }
@@ -723,61 +636,62 @@ export default {
     z-index: 10;
     background-color: rgba(0, 0, 0, 0.3);
   }
-  .house_list_container {
-    .list-wrapper {
-      top: px2rem(175px);
-      bottom: px2rem(98px);
-      .list-content {
-        .item {
-          padding: px2rem(20px) px2rem(35px);
-          border-bottom: 2px solid #eee;
-          overflow: hidden;
-          display: block;
-          img {
-            float: left;
-            width: px2rem(256px);
-            height: px2rem(200px);
-            margin-right: px2rem(26px);
+  .mescroll {
+    position: fixed;
+    top: px2rem(175px);
+    bottom: px2rem(98px);
+    height: auto;
+    background-color: #fff;
+    .data-list {
+      .item {
+        padding: px2rem(20px) px2rem(35px);
+        border-bottom: 2px solid #eee;
+        overflow: hidden;
+        display: block;
+        img {
+          float: left;
+          width: px2rem(256px);
+          height: px2rem(200px);
+          margin-right: px2rem(26px);
+        }
+        .info {
+          float: left;
+          p {
+            margin-bottom: 0;
+            &.addr {
+              color: #333;
+              font-size: px2rem(28px);
+            }
           }
-          .info {
-            float: left;
-            p {
-              margin-bottom: 0;
-              &.addr {
-                color: #333;
-                font-size: px2rem(28px);
-              }
+          .characters {
+            font-size: 12px;
+            .character~.character {
+              border-left: 1px solid #ccc;
+              padding-left: 5px;
             }
-            .characters {
-              font-size: 12px;
-              .character~.character {
-                border-left: 1px solid #ccc;
-                padding-left: 5px;
-              }
+          }
+          .transport {
+            font-size: 12px;
+          }
+          .fors {
+            overflow: hidden;
+            .for {
+              padding: px2rem(6px) px2rem(16px);
+              color: #EC6B66;
+              font-size: px2rem(24px);
+              text-align: center;
+              border: 1px solid rgba(240, 121, 121, 1);
+              box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.18);
+              border-radius: 6px;
+              float: left;
+              height: px2rem(24px);
+              line-height: px2rem(24px);
+              box-sizing: content-box;
+              margin-right: px2rem(6px);
             }
-            .transport {
-              font-size: 12px;
-            }
-            .fors {
-              overflow: hidden;
-              .for {
-                padding: px2rem(6px) px2rem(16px);
-                color: #EC6B66;
-                font-size: px2rem(24px);
-                text-align: center;
-                border: 1px solid rgba(240, 121, 121, 1);
-                box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.18);
-                border-radius: 6px;
-                float: left;
-                height: px2rem(24px);
-                line-height: px2rem(24px);
-                box-sizing: content-box;
-                margin-right: px2rem(6px);
-              }
-            }
-            .money {
-              color: #ff5252;
-            }
+          }
+          .money {
+            color: #ff5252;
           }
         }
       }

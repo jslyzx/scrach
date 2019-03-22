@@ -89,18 +89,13 @@ export default {
         callback: this.upCallback, // 上拉回调,此处可简写; 相当于 callback: function (page, mescroll) { getListData(page); }
         page: {
           num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
-          size: 3 // 每页数据的数量
+          size: 10 // 每页数据的数量
         },
         noMoreSize: 3, // 如果列表已无数据,可设置列表的总数量要大于等于5条才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看
         empty: {
           // 列表第一页无任何数据时,显示的空提示布局; 需配置warpId才生效;
           warpId: 'dataList', // 父布局的id;
-          icon: '../assets/mescroll-empty.png', // 图标,支持网络图
-          tip: '暂无相关数据~', // 提示
-          btntext: '去逛逛 >', // 按钮,默认""
-          btnClick() { // 点击按钮的回调,默认null
-            alert('点击了按钮,具体逻辑自行实现')
-          }
+          tip: '暂无房源~'
         },
         lazyLoad: {
           use: true // 是否开启懒加载,默认false
@@ -130,7 +125,7 @@ export default {
   watch: {
     city: {
       handler() {
-        this.getHomeData()
+        this.mescroll.triggerDownScroll()
       }
     }
   },
@@ -152,30 +147,6 @@ export default {
     // mescroll组件初始化的回调,可获取到mescroll对象
     mescrollInit(mescroll) {
       this.mescroll = mescroll
-    },
-    getHomeData(type) {
-      if (type === 'down') {
-        this.pageindex = 1
-      } else {
-        this.pageindex++
-      }
-      api.queryHomeData({
-          pageindex: this.pageindex,
-          pagesize: this.pagesize,
-          city: this.city,
-          CompanyId: window.g.CompanyId
-        })
-        .then(res => {
-          const data = res.numberData
-          if (this.lunbo.length === 0) {
-            this.lunbo = data.lunbo
-          }
-          if (type === 'down') {
-            this.houseList = data.HouseZK
-          } else {
-            this.houseList = this.houseList.concat(data.HouseZK)
-          }
-        })
     },
     todo() {
       mui.toast('待开发')
