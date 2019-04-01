@@ -7,9 +7,6 @@
 </template>
 <script>
 import api from '../fetch/api'
-import {
-  mapGetters
-} from 'vuex'
 import marked from 'marked'
 import '../assets/css/markdown.css'
 let Base64 = require('js-base64').Base64
@@ -21,9 +18,6 @@ export default {
       domain: ''
     }
   },
-  computed: {
-    ...mapGetters(['userInfo'])
-  },
   created() {
     this.initData()
   },
@@ -34,7 +28,6 @@ export default {
       const currUrl = location.origin
       if (this.domain === currUrl || this.domain.indexOf(currUrl) > -1) {
         api.getContractTemplate({
-            access_token: this.userInfo.token,
             Id: this.contractId
           })
           .then((res) => {

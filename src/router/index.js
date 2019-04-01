@@ -261,7 +261,7 @@ const router = new Router({
       name: 'ContractSign',
       component: ContractSign,
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         keepAlive: false,
         other: true
       }
@@ -270,7 +270,7 @@ const router = new Router({
       path: '/contract/sign/success',
       component: ContractSignSuccess,
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         keepAlive: false,
         other: true
       }
