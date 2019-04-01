@@ -73,7 +73,10 @@ export default {
           location.href = url
         } else {
           const code = urlSearch.get('code')
-          api.queryOpenId(code)
+          api.queryOpenId({
+            code: code,
+            CompanyId: window.g.CompanyId
+          })
             .then(res => {
               this.setOpenId(res.numberData)
             })
