@@ -119,7 +119,8 @@ export default {
           value: this.degree,
           CompanyId: this.CompanyId,
           ContractId: this.ContractId,
-          access_token: this.userInfo.token
+          access_token: this.userInfo.token,
+          pCompanyId: window.g.pCompanyId
         },
         query: {
           type: 'elec'

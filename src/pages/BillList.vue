@@ -232,7 +232,7 @@ export default {
                 params: {
                     Amount: this.totalAmount,
                     list: this.list,
-                    CompanyId: this.CompanyId
+                    CompanyId: window.g.CompanyId
                 },
                 query: {
                     type: 'bill'

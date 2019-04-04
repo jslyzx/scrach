@@ -108,7 +108,7 @@ export default {
         params: {
           Amount: this.billDetail.Amount,
           list: [{ Id: this.billDetail.Id, Amount: this.billDetail.Amount }],
-          CompanyId: this.billDetail.CompanyId
+          CompanyId: window.g.CompanyId
         },
         query: {
           type: 'bill'
