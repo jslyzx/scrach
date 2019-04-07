@@ -40,7 +40,7 @@
           <span>{{billDetail.Amount}}</span>
         </div>
       </div>
-      <button type="button" class="mui-btn mui-btn-danger mui-btn-block" @click="submit">支付账单</button>
+      <button type="button" class="mui-btn mui-btn-danger mui-btn-block" @click="submit" v-if="billDetail.PayStatus === 0">支付账单</button>
     </div>
   </mescroll-vue>
 </template>

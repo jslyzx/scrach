@@ -50,7 +50,7 @@ export default {
           this.$store.dispatch('setLoadingState', false)
           if (res.Code === 1) {
             mui.alert(res.Message)
-          } else if (this.contract.onlinesign === 1) {
+          } else if (res.numberData.onlinesign === 1) {
             const div = document.createElement('div');
             div.innerHTML = res.numberData.form; // html code
             document.body.appendChild(div);
