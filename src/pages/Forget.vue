@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="forget">
     <div class="title"></div>
     <div class="coordinates-icon">
       <div class="coordinates topAct">
@@ -9,62 +9,106 @@
         <div class="circle-2-2 circle-show-1"></div>
         <div class="circle-3-3 circle-show"></div>
       </div>
-      <div class="login-form">
+      <div class="form">
         <form action="#">
           <div class="user-name common-div">
             <span class="eamil-icon common-icon">
                         <i class="icon">&#xe601;</i>
                     </span>
-            <input type="text" name="username" v-model="username" placeholder="手机号" />
+            <input type="text" v-model="username" placeholder="手机号" />
           </div>
           <div class="user-pasw common-div">
             <span class="pasw-icon common-icon">
                         <i class="icon">&#xe687;</i>
                     </span>
-            <input type="password" name="password" v-model="password" placeholder="密码" />
+            <input type="password" v-model="password" placeholder="新密码" />
           </div>
-          <div class="login-btn" @click="_login">登录</div>
+          <div class="user-code common-div">
+            <span class="pasw-icon common-icon">
+                        <i class="icon">&#xe687;</i>
+                    </span>
+            <input type="text" style="width: 50%;" v-model="verificode" placeholder="验证码" />
+            <span class="verifi-code" @click="getVerifiCode" v-show="!sendCode">
+                        获取验证码
+                    </span>
+            <span class="verifi-code readonly" v-show="sendCode">
+                        {{timeOut}}秒重新获取
+                    </span>
+          </div>
+          <div class="confirm-btn" @click="confirm">确认</div>
         </form>
-      </div>
-      <div class="forgets">
-        <router-link to="forget">忘记密码?</router-link>
-        <router-link to="regist">新来的?注册</router-link>
       </div>
     </div>
 </template>
 <script>
-import {
-  mapActions
-} from 'vuex'
+import { mapActions } from 'vuex'
+
+const REG_PHONE = /^1[34578]\d{9}$/
+
 import api from '../fetch/api'
 import * as _ from '../util/tool'
 
 export default {
-
   data() {
     return {
       username: '',
-      password: ''
+      password: '',
+      verificode: '',
+      sendCode: false,
+      timeOut: 60
     }
   },
   methods: {
     ...mapActions({
       setUserInfo: 'setUserInfo'
     }),
+    getVerifiCode() {
+      if (!this.username) {
+        _.alert('请输入手机号')
+        return
+      }
+      if (!REG_PHONE.test(this.username)) {
+        _.alert('请输入有效手机号')
+        return
+      }
+      api.RegistVerifiCode({
+          Phone: this.username,
+          Type: 3
+        })
+        .then(res => {
+          this.sendCode = true
+          this.setTimeOut()
+        })
+        .catch(err => {
+          _.alert('短信发送失败')
+        })
 
-    // 用户登录
-    _login() {
-      if (!this.username || !this.password) {
+    },
+    setTimeOut() {
+      let timer = setTimeout(() => {
+        this.setTimeOut()
+        if (this.timeOut > 0) {
+          this.timeOut--
+        }
+      }, 1000)
+      if (this.timeOut <= 0) {
+        this.sendCode = false
+        this.timeOut = 60
+        clearTimeout(timer)
+      }
+    },
+    confirm() {
+      if (!this.username || !this.password || !this.verificode) {
         _.alert('请填写完整')
         return
       }
       let data = {
         username: this.username,
-        password: this.password
+        newpassword: this.password,
+        yzm: this.verificode
       }
-      //loading效果
       this.$store.dispatch('setLoadingState', true)
-      api.Login(data)
+      api.updatePassword(data)
         .then(res => {
           this.$store.dispatch('setLoadingState', false)
           if (res.Code === 0) { //成功
@@ -84,20 +128,22 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../assets/css/function';
-.login {
+
+
+.forget {
   width: 100%;
   height: 100%;
   overflow: hidden;
   background-color: #323542;
   padding-bottom: px2rem(260px);
-
+  padding-top: px2rem(60px);
   .title {
     width: 100%;
     height: auto;
     overflow: hidden;
     font-size: 18px;
     text-align: center;
-    height: px2rem(200px);
+    line-height: px2rem(200px);
     color: #fff;
   }
   .coordinates-icon {
@@ -157,7 +203,7 @@ export default {
       opacity: 0;
     }
   }
-  .login-form {
+  .form {
     width: px2rem(600px);
     height: auto;
     margin: 0 auto;
@@ -191,12 +237,27 @@ export default {
         width: auto;
         margin-bottom: 0;
       }
+      .verifi-code {
+        display: inline-block;
+        width: px2rem(200px);
+        height: px2rem(80px);
+        line-height: px2rem(80px);
+        background: #0bd38a;
+        color: #fff;
+        text-align: center;
+        padding-left: px2rem(20px);
+      }
+      .readonly {
+        background: #eee;
+        color: #555;
+      }
     }
     .user-name,
-    .user-pasw {
+    .user-pasw,
+    .user-code {
       background-color: rgba(255, 255, 255, 0.1);
     }
-    .login-btn {
+    .confirm-btn {
       background-color: #0bd38a;
       color: #fff;
       font-size: 20px;
@@ -205,19 +266,6 @@ export default {
       line-height: px2rem(100px);
       margin-bottom: px2rem(50px);
       border-radius: 4px;
-    }
-  }
-  .forgets {
-    width: px2rem(600px);
-    height: auto;
-    margin: 0 auto;
-    >a {
-      color: #fff;
-      opacity: 0.2;
-      font-size: 16px;
-      +a {
-        float: right;
-      }
     }
   }
 }
@@ -229,7 +277,6 @@ export default {
   -o-animation: topAct 3s ease-in-out infinite;
   -ms-animation: topAct 3s ease-in-out infinite;
 }
-
 @keyframes topAct {
   0% {
     top: px2rem(-100px);
@@ -241,7 +288,6 @@ export default {
     top: px2rem(-100px);
   }
 }
-
 @-webkit-keyframes topAct {
   0% {
     top: px2rem(-100px);
@@ -253,7 +299,6 @@ export default {
     top: px2rem(-100px);
   }
 }
-
 @-moz-keyframes topAct {
   0% {
     top: px2rem(-100px);
@@ -273,7 +318,6 @@ export default {
   -ms-animation: circleShow 3s ease-in-out infinite 1s;
   -o-animation: circleShow 3s ease-in-out infinite 1s;
 }
-
 @keyframes circleShow {
   0% {
     opacity: 0;
@@ -285,7 +329,6 @@ export default {
     opacity: 0;
   }
 }
-
 @-webkit-keyframes circleShow {
   0% {
     opacity: 0;
@@ -297,7 +340,6 @@ export default {
     opacity: 0;
   }
 }
-
 @-moz-keyframes circleShow {
   0% {
     opacity: 0;
@@ -317,7 +359,6 @@ export default {
   -ms-animation: circleShow1 3s ease-in-out infinite 1.2s;
   -o-animation: circleShow1 3s ease-in-out infinite 1.2s;
 }
-
 @keyframes circleShow1 {
   0% {
     opacity: 0;
@@ -329,7 +370,6 @@ export default {
     opacity: 0;
   }
 }
-
 @-webkit-keyframes circleShow1 {
   0% {
     opacity: 0;
@@ -341,7 +381,6 @@ export default {
     opacity: 0;
   }
 }
-
 @-moz-keyframes circleShow1 {
   0% {
     opacity: 0;
@@ -361,7 +400,6 @@ export default {
   -ms-animation: circleShow2 3s ease-in-out infinite 1.4s;
   -o-animation: circleShow2 3s ease-in-out infinite 1.4s;
 }
-
 @keyframes circleShow2 {
   0% {
     opacity: 0;
@@ -373,7 +411,6 @@ export default {
     opacity: 0;
   }
 }
-
 @-webkit-keyframes circleShow2 {
   0% {
     opacity: 0;
@@ -385,7 +422,6 @@ export default {
     opacity: 0;
   }
 }
-
 @-moz-keyframes circleShow2 {
   0% {
     opacity: 0;

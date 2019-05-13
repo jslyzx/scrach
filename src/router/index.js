@@ -52,6 +52,7 @@ import TuoGuan from '../pages/TuoGuan'
 import ZhaoFang from '../pages/ZhaoFang'
 import Search from '../pages/Search'
 import WorkNearby from '../pages/WorkNearby'
+import Forget from '../pages/Forget'
 
 Vue.use(Router)
 
@@ -397,6 +398,15 @@ const router = new Router({
       path: '/work/nearby',
       name: 'WorkNearby',
       component: WorkNearby,
+      meta: {
+        requiresAuth: false,
+        keepAlive: false
+      }
+    },
+    {
+      name: 'forget',
+      path: '/user/forget',
+      component: Forget,
       meta: {
         requiresAuth: false,
         keepAlive: false

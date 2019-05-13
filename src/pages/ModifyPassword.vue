@@ -2,12 +2,6 @@
   <div class="login">
     <div class="login-form">
       <form action="#">
-        <div class="user-name common-div">
-          <span class="pasw-icon common-icon">
-      <i class="icon">&#xe687;</i>
-          </span>
-          <input type="password" v-model="password" placeholder="原密码" />
-        </div>
         <div class="user-pasw common-div">
           <span class="pasw-icon common-icon">
                         <i class="icon">&#xe687;</i>
@@ -19,6 +13,18 @@
                         <i class="icon">&#xe687;</i>
                     </span>
           <input type="password" v-model="repeatpassword" placeholder="确认密码" />
+        </div>
+        <div class="user-code common-div">
+          <span class="pasw-icon common-icon">
+                        <i class="icon">&#xe687;</i>
+                    </span>
+          <input type="text" style="width: 50%;" v-model="verificode" placeholder="验证码" />
+          <span class="verifi-code" @click="getVerifiCode" v-show="!sendCode">
+                        获取验证码
+                    </span>
+          <span class="verifi-code readonly" v-show="sendCode">
+                        {{timeOut}}秒重新获取
+                    </span>
         </div>
         <div class="login-btn" @click="submit" :class="{active: active}">确定</div>
       </form>
@@ -34,8 +40,10 @@ export default {
   data() {
     return {
       newpassword: '',
-      password: '',
-      repeatpassword: ''
+      repeatpassword: '',
+      verificode: '',
+      sendCode: false,
+      timeOut: 60
     }
   },
   computed: {
@@ -43,21 +51,48 @@ export default {
       'userInfo'
     ]),
     active() {
-      return this.newpassword !== '' && this.password !== '' && this.repeatpassword !== ''
+      return this.newpassword !== '' && this.verificode !== '' && this.repeatpassword !== ''
     }
   },
   methods: {
+    getVerifiCode() {
+      api.RegistVerifiCode({
+          Phone: this.userInfo.username,
+          Type: 3
+        })
+        .then(res => {
+          this.sendCode = true
+          this.setTimeOut()
+        })
+        .catch(err => {
+          _.alert('短信发送失败')
+        })
+
+    },
+    setTimeOut() {
+      let timer = setTimeout(() => {
+        this.setTimeOut()
+        if (this.timeOut > 0) {
+          this.timeOut--
+        }
+      }, 1000)
+      if (this.timeOut <= 0) {
+        this.sendCode = false
+        this.timeOut = 60
+        clearTimeout(timer)
+      }
+    },
     submit() {
-      if (!this.newpassword || !this.password || !this.repeatpassword) {
+      if (!this.newpassword || !this.repeatpassword) {
         return
       }
-      if(this.password !== this.repeatpassword){
+      if (this.newpassword !== this.repeatpassword) {
         mui.alert('两次输入密码不一致')
         return
       }
       let data = {
         access_token: this.userInfo.token,
-        password: this.password,
+        yzm: this.verificode,
         newpassword: this.newpassword
       }
       this.$store.dispatch('setLoadingState', true)
@@ -65,6 +100,7 @@ export default {
         .then(res => {
           this.$store.dispatch('setLoadingState', false)
           if (res.Code === 0) { //成功
+            mui.toast('密码修改成功')
             this.$router.replace('/home') //登录成功跳转首页
           } else {
             mui.toast(res.Message)
